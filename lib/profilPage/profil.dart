@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 
 Widget nama(nama) {
@@ -90,7 +91,12 @@ Widget dataUsername() {
   );
 }
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
@@ -123,24 +129,26 @@ class ProfilePage extends StatelessWidget {
     Widget buttonKeluar() {
 
       Widget buttonbatal() {
-        return Center(
-          child: Container(
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/profil');
-              },
-              padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: colorMainOrange,
-              child: Text(
-                'BATAL',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+        return WillPopScope(
+          child: Center(
+            child: Container(
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color: colorMainOrange,
+                child: Text(
+                  'BATAL',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
+                  ),
                 ),
               ),
             ),
@@ -153,7 +161,7 @@ class ProfilePage extends StatelessWidget {
             // width: 160,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/profil');
+                Navigator.pushNamed(context, '/login');
               },
               padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
               shape: RoundedRectangleBorder(
@@ -233,95 +241,21 @@ class ProfilePage extends StatelessWidget {
       );
     }
 
-    Widget buttonbatal() {
-      return Center(
-        child: Container(
-          child: RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/profil');
-            },
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainOrange,
-            child: Text(
-              'BATAL',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-    Widget buttonYakin() {
-      return Center(
-        child: Container(
-          // width: 160,
-          child: RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/profil');
-            },
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Text(
-              'YAKIN',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-    Widget contModal() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
-        child: Container(
+    return Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Center(
           child: Column(
             children: <Widget>[
-              Text(
-                  'Apakah Anda Yakin?'
-              ),
-              buttonYakin(),
-              buttonbatal(),
+              dataNama(),
+              dataUsername(),
+              spasiBaris(40.0),
+              spasiBaris(20.0),
+              buttonUbahPassword(),
+              spasiBaris(20.0),
+              buttonKeluar(),
             ],
           ),
         ),
       );
-    }
-
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar(),
-        body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                dataNama(),
-                dataUsername(),
-                spasiBaris(40.0),
-                spasiBaris(20.0),
-                buttonUbahPassword(),
-                spasiBaris(20.0),
-                buttonKeluar(),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: navBar(),
-      ),
-    );
   }
 }

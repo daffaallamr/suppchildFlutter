@@ -11,7 +11,7 @@ Widget titleList(title) {
           '$title',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 24,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
           ),
@@ -21,11 +21,11 @@ Widget titleList(title) {
   );
 }
 
-class ListSemuaKegiatan extends StatelessWidget {
+class ListAnakPercabang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Widget listKegiatanDiajukan(pengajuan) {
+    Widget listAnak(anak) {
       return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -46,7 +46,7 @@ class ListSemuaKegiatan extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/approveKegiatan');
+            Navigator.pushNamed(context, '/detailKondisiAnak');
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,
@@ -55,51 +55,7 @@ class ListSemuaKegiatan extends StatelessWidget {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Text(
-                '1. $pengajuan',
-                style: TextStyle(
-
-                  color: colorMainPurple,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-    Widget listKegiatanDiterima(ongoing) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-          ),
-        ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/laporanKegiatan');
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                '1. $ongoing',
+                '1. $anak',
                 style: TextStyle(
 
                   color: colorMainPurple,
@@ -116,7 +72,7 @@ class ListSemuaKegiatan extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: appBarTitle('Daftar Kegiatan'),
+        appBar: appBarTitle('Daftar Anak Binaan'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -125,16 +81,10 @@ class ListSemuaKegiatan extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: Column(
                   children: <Widget>[
-                    titleList('Yang Diajukan'),
-                    listKegiatanDiajukan('Hari Raya Tumpengan'),
-                    listKegiatanDiajukan('Hari Kesaktian Pancasila'),
-                    listKegiatanDiajukan('Bersih Desa'),
-                    spasiBaris(40.0),
-                    titleList('Yang Diterima'),
-                    listKegiatanDiterima('Hari Raya Makmur'),
-                    listKegiatanDiterima('17 Agustusan'),
-                    listKegiatanDiterima('Nyepi'),
-                    listKegiatanDiterima('Salam Satu'),
+                    titleList('Lamongan'),
+                    listAnak('Ananda Rifqi'),
+                    listAnak('Hilmi Syahputra'),
+                    listAnak('Ilham Fikri'),
                   ],
                 ),
               ),

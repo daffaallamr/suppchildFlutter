@@ -83,7 +83,7 @@ class ListAnak extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: appBar(),
+        appBar: appBarTitle("Daftar Anak Binaan"),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -121,7 +121,6 @@ class ListAnak extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: navBar(),
       ),
     );
   }

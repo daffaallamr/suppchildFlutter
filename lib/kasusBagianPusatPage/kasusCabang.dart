@@ -13,13 +13,13 @@ class KasusCabang extends StatelessWidget {
           height: 55,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/search');
+              Navigator.pushNamed(context, '/listKasusPercabang');
             },
             padding: EdgeInsets.all(12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            color: colorMainPurple,
+            color: colorMainOrange,
             child: Text(
               '$kota',
               style: TextStyle(
@@ -34,65 +34,57 @@ class KasusCabang extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
+    return Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
+            child: Center(
+              child: Container(
+                width: 380,
                 child: Center(
-                  child: Container(
-                    width: 380,
-                    child: Center(
-                      child: Text(
-                        'Data Kasus',
-                        style: TextStyle(
-                          color: colorMainPurple,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
+                  child: Text(
+                    'Data Kasus',
+                    style: TextStyle(
+                      color: colorMainPurple,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
                     ),
                   ),
                 ),
               ),
-              Container(
-                height: 250,
-                child: Column(
+            ),
+          ),
+          Container(
+            height: 250,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        buttonDaerah('GRESIK'),
-                        buttonDaerah('BANGKALAN'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        buttonDaerah('MOJOKERTO'),
-                        buttonDaerah('SURABAYA'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        buttonDaerah('SIDOARJO'),
-                        buttonDaerah('LAMONGAN'),
-                      ],
-                    ),
+                    buttonDaerah('GRESIK'),
+                    buttonDaerah('BANGKALAN'),
                   ],
                 ),
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonDaerah('MOJOKERTO'),
+                    buttonDaerah('SURABAYA'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonDaerah('SIDOARJO'),
+                    buttonDaerah('LAMONGAN'),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        bottomNavigationBar: navBar(),
-      ),
-    );
+        ],
+      );
   }
 }

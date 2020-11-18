@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/homePage/cabang_chart.dart';
 import 'package:suppchild_ver_1/homePage/total_chart.dart';
@@ -74,66 +75,58 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar(),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                spasiBaris(20.0),
-                SlideShow(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: map<Widget>(cardList, (index, url) {
-                    return Container(
-                      width: 10.0,
-                      height: 10.0,
-                      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _currentIndex == index ? Colors.blueAccent : Colors.grey,
-                      ),
-                    );
-                  }),
-                ),
-                spasiBaris(20.0),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 25, 12, 0),
-                  child: titleChart('Anak Binaan Cabang'),
-                ),
-                spasiBaris(20.0),
-                Container(
-                  height: 400,
-                  width: 350,
-                  margin: const EdgeInsets.all(10.0),
-                  // decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.redAccent)
-                  // ),
-                  child: GroupedBarChart.withSampleData(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
-                  child: titleChart('Total Anak Binaan'),
-                ),
-                spasiBaris(20.0),
-                Container(
-                  height: 400,
-                  width: 350,
-                  margin: const EdgeInsets.all(10.0),
-                  // decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.redAccent)
-                  // ),
-                  child: EndPointsAxisTimeSeriesChart.withSampleData(
+    return Center(
+        child: Column(
+          children: <Widget>[
+            spasiBaris(20.0),
+            SlideShow(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: map<Widget>(cardList, (index, url) {
+                return Container(
+                  width: 10.0,
+                  height: 10.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentIndex == index ? Colors.blueAccent : Colors.grey,
                   ),
-                ),
-                spasiBaris(20.0),
-              ],
+                );
+              }),
             ),
-          ),
+            spasiBaris(20.0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 25, 12, 0),
+              child: titleChart('Anak Binaan Cabang'),
+            ),
+            spasiBaris(20.0),
+            Container(
+              height: 400,
+              width: 350,
+              margin: const EdgeInsets.all(10.0),
+              // decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.redAccent)
+              // ),
+              child: GroupedBarChart.withSampleData(),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+              child: titleChart('Total Anak Binaan'),
+            ),
+            spasiBaris(20.0),
+            Container(
+              height: 400,
+              width: 350,
+              margin: const EdgeInsets.all(10.0),
+              // decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.redAccent)
+              // ),
+              child: EndPointsAxisTimeSeriesChart.withSampleData(
+              ),
+            ),
+            spasiBaris(20.0),
+          ],
         ),
-        bottomNavigationBar: navBar(),
-      ),
-    );
+      );
   }
 }

@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
           width: 120,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/search');
+              Navigator.pushNamed(context, '/rootPage');
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(

@@ -86,7 +86,7 @@ class ListKasus extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: appBar(),
+        appBar: appBarTitle("Daftar Kasus"),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -124,7 +124,6 @@ class ListKasus extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: navBar(),
       ),
     );
   }

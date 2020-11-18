@@ -58,7 +58,7 @@ class ListKegiatan extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/login');
+            Navigator.pushNamed(context, '/listSemuaKegiatan');
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,
@@ -84,7 +84,7 @@ class ListKegiatan extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: appBar(),
+        appBar: appBarTitle("Daftar Kegiatan"),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -121,7 +121,6 @@ class ListKegiatan extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: navBar(),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 
-class KegiatanCabang extends StatelessWidget {
+class DataAnakCabang extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class KegiatanCabang extends StatelessWidget {
           height: 55,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/listSemuaKegiatan');
+              Navigator.pushNamed(context, '/listAnakPercabang');
             },
             padding: EdgeInsets.all(12),
             shape: RoundedRectangleBorder(
@@ -43,7 +43,7 @@ class KegiatanCabang extends StatelessWidget {
                 width: 380,
                 child: Center(
                   child: Text(
-                    'Data Kegiatan',
+                    'Data Anak Binaan',
                     style: TextStyle(
                       color: colorMainPurple,
                       fontSize: 32,

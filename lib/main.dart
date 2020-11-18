@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:suppchild_ver_1/constant.dart';
+
+import 'package:suppchild_ver_1/rootPage.dart';
+
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/loginPage.dart';
 import 'package:suppchild_ver_1/searchPage.dart';
 
+import 'package:suppchild_ver_1/chatPage/listChat.dart';
+
 import 'package:suppchild_ver_1/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/dataAnakPage/tambahAnak.dart';
+import 'package:suppchild_ver_1/dataAnakPage/ubahDataAnak.dart';
+
+import 'package:suppchild_ver_1/dataAnakBagianPusatPage/dataAnakCabang.dart';
+import 'package:suppchild_ver_1/dataAnakBagianPusatPage/listAnakPercabang.dart';
+import 'package:suppchild_ver_1/dataAnakBagianPusatPage/detailKondisiAnak.dart';
 
 import 'package:suppchild_ver_1/kasusPage/listKasus.dart';
 import 'package:suppchild_ver_1/kasusPage/unggahKasus.dart';
@@ -38,14 +49,26 @@ class MyApp extends StatelessWidget {
       title: 'Flutter SuppChild',
       theme: ThemeData(
       ),
-      initialRoute: '/ubahPassword',
+      initialRoute: '/rootPage',
       routes: {
+        '/rootPage': (context) => RootPage(),
+
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
         '/search': (context) => SearchPage(),
 
+        //Pesan
+        '/listChat': (context) => ListChat(),
+
+        //Data Anak bagian cabang
         '/listAnak': (context) => ListAnak(),
         '/tambahAnak': (context) => TambahAnak(),
+        '/ubahDataAnak': (context) => UbahDataAnak(),
+
+        //Data Anak bagian pusat
+        '/dataAnakCabang': (context) => DataAnakCabang(),
+        '/listAnakPercabang': (context) => ListAnakPercabang(), //List Anak percabang
+        '/detailKondisiAnak': (context) => DetaiKondisiAnak(), //List Anak percabang
 
         //Kasus bagian cabang
         '/listKasus': (context) => ListKasus(),
@@ -77,6 +100,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 
 

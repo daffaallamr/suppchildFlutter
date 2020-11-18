@@ -46,7 +46,7 @@ class ListKasusPercabang extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/login');
+            Navigator.pushNamed(context, '/pemilihanStatusKasus');
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,

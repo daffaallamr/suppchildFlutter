@@ -3,95 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 
-Widget nama(nama) {
-  return Text(
-    '$nama',
-    style: TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-      letterSpacing: 1.2,
-      color: colorMainOrange,
-    ),
-  );
-}
-Widget dataNama() {
-  return Container(
-    height: 100,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Nama:',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
-            ),
-          ),
-          spasiBaris(5.0),
-          nama('Staff Daerah Lamongan'),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget username(username) {
-  return Text(
-    '$username',
-    style: TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-      letterSpacing: 1.2,
-      color: colorMainOrange,
-    ),
-  );
-}
-Widget dataUsername() {
-  return Container(
-    height: 100,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Username:',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
-            ),
-          ),
-          spasiBaris(5.0),
-          nama('daerahlamongan'),
-        ],
-      ),
-    ),
-  );
-}
-
 class ProfilePage extends StatefulWidget {
+
+  ProfilePage({this.username, this.nama});
+  
+  final String username;
+  final String nama;
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -99,6 +17,87 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+
+    Widget dataNama() {
+      return Container(
+        height: 100,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          // borderRadius: BorderRadius.circular(12),
+          // border: Border.all(
+          //     width: 2.0,
+          //     color: Color(0xFF7B417B)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Nama:',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+              spasiBaris(5.0),
+              Text(
+                '$nama',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.2,
+                  color: colorMainOrange,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    Widget dataUsername() {
+      return Container(
+        height: 100,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          // borderRadius: BorderRadius.circular(12),
+          // border: Border.all(
+          //     width: 2.0,
+          //     color: Color(0xFF7B417B)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Username:',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+              spasiBaris(5.0),
+            Text(
+              '$username',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.2,
+                color: colorMainOrange,
+              ),
+            ),
+            ],
+          ),
+        ),
+      );
+    }
 
     Widget buttonUbahPassword() {
       return Center(

@@ -82,46 +82,39 @@ class ListKegiatan extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBarTitle("Daftar Kegiatan"),
-        body: SingleChildScrollView(
-          child: Column(
+    return Column(
+      children: <Widget>[
+        buttonTambah(),
+        Container(
+          width: 380,
+          child: Wrap(
             children: <Widget>[
-              buttonTambah(),
               Container(
                 width: 380,
-                child: Wrap(
-                  children: <Widget>[
-                    Container(
-                      width: 380,
-                      child: Container(
-                        color: colorMainPurple,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Center(
-                            child: Text(
-                              'Surabaya',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
-                          ),
+                child: Container(
+                  color: colorMainPurple,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Center(
+                      child: Text(
+                        'Surabaya',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
                         ),
                       ),
                     ),
-                    listKegiatan('Upacara 17-an'),
-                    listKegiatan('Bersih Desa'),
-                  ],
+                  ),
                 ),
               ),
+              listKegiatan('Upacara 17-an'),
+              listKegiatan('Bersih Desa'),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

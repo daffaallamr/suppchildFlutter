@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/constant.dart';
-
-import 'package:suppchild_ver_1/rootPage.dart';
+import 'package:suppchild_ver_1/pusat/rootPusat.dart';
+import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/loginPage.dart';
@@ -9,30 +8,30 @@ import 'package:suppchild_ver_1/searchPage.dart';
 
 import 'package:suppchild_ver_1/chatPage/listChat.dart';
 
-import 'package:suppchild_ver_1/dataAnakPage/listAnak.dart';
-import 'package:suppchild_ver_1/dataAnakPage/tambahAnak.dart';
-import 'package:suppchild_ver_1/dataAnakPage/ubahDataAnak.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/tambahAnak.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 
-import 'package:suppchild_ver_1/dataAnakBagianPusatPage/dataAnakCabang.dart';
-import 'package:suppchild_ver_1/dataAnakBagianPusatPage/listAnakPercabang.dart';
-import 'package:suppchild_ver_1/dataAnakBagianPusatPage/detailKondisiAnak.dart';
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/listAnakPercabang.dart';
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.dart';
 
-import 'package:suppchild_ver_1/kasusPage/listKasus.dart';
-import 'package:suppchild_ver_1/kasusPage/unggahKasus.dart';
-import 'package:suppchild_ver_1/kasusPage/statusKasus.dart';
+import 'package:suppchild_ver_1/daerah/kasusPage/listKasus.dart';
+import 'package:suppchild_ver_1/daerah/kasusPage/unggahKasus.dart';
+import 'package:suppchild_ver_1/daerah/kasusPage/statusKasus.dart';
 
-import 'package:suppchild_ver_1/kasusBagianPusatPage/kasusCabang.dart';
-import 'package:suppchild_ver_1/kasusBagianPusatPage/listKasusPercabang.dart';
-import 'package:suppchild_ver_1/kasusBagianPusatPage/pemilihanStatusKasus.dart';
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/listKasusPercabang.dart';
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/pemilihanStatusKasus.dart';
 
-import 'package:suppchild_ver_1/kegiatanPage/listKegiatan.dart';
-import 'package:suppchild_ver_1/kegiatanPage/buatKegiatan.dart';
-import 'package:suppchild_ver_1/kegiatanPage/uploadLaporanKegiatan.dart';
+import 'package:suppchild_ver_1/daerah/kegiatanPage/listKegiatan.dart';
+import 'package:suppchild_ver_1/daerah/kegiatanPage/buatKegiatan.dart';
+import 'package:suppchild_ver_1/daerah/kegiatanPage/uploadLaporanKegiatan.dart';
 
-import 'package:suppchild_ver_1/kegiatanBagianPusatPage/kegiatanCabang.dart';
-import 'package:suppchild_ver_1/kegiatanBagianPusatPage/listSemuaKegiatan.dart';
-import 'package:suppchild_ver_1/kegiatanBagianPusatPage/approveKegiatan.dart';
-import 'package:suppchild_ver_1/kegiatanBagianPusatPage/laporanKegiatan.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/listSemuaKegiatan.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/approveKegiatan.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.dart';
 
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
@@ -40,6 +39,10 @@ import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
 import 'package:suppchild_ver_1/profilPage/cobaRadio.dart';
 
 void main() => runApp(MyApp());
+
+String username = '';
+String nama = '';
+String daerahuser = '';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -49,9 +52,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter SuppChild',
       theme: ThemeData(
       ),
-      initialRoute: '/rootPage',
-      routes: {
-        '/rootPage': (context) => RootPage(),
+      initialRoute: '/login',
+
+      routes: <String, WidgetBuilder>{
+        '/rootPusat': (BuildContext context) => RootPusat(username: username, nama: nama,),
+        '/rootDaerah': (BuildContext context) => RootDaerah(),
+
+        //Profil
+        '/profil': (context) => ProfilePage(),
+        '/ubahPassword': (context) => UbahPassword(),
 
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
@@ -90,10 +99,6 @@ class MyApp extends StatelessWidget {
         '/listSemuaKegiatan': (context) => ListSemuaKegiatan(), //List semua kegiatan acc atau belum
         '/approveKegiatan': (context) => ApproveKegiatan(), //Approve pengajuan kegiatan
         '/laporanKegiatan': (context) => LaporanKegiatan(), //Melihat hasil(laporan) kegiatan yang sudah di approve
-
-        //Profil
-        '/profil': (context) => ProfilePage(),
-        '/ubahPassword': (context) => UbahPassword(),
 
         '/coba': (context) => GroupedButton(),
       },

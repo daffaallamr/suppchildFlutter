@@ -1,62 +1,50 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/main.dart';
 
-Widget buildUsername() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(
-        width: 2.5,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-      ),
-    ),
-  );
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
 }
 
-Widget buildPassword() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(
-          width: 2.5,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      obscureText: true,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-      ),
-    ),
-  );
-}
+class _LoginPageState extends State<LoginPage> {
+  //Controller
+  TextEditingController user = new TextEditingController();
+  TextEditingController pass = new TextEditingController();
 
-class LoginPage extends StatelessWidget {
+  //Mesaage gagal login
+  String msg = '';
+
+  //Method login
+  Future<List> _login() async {
+    final response = await http.post("http://10.0.2.2/suppChild_db/login.php", body: {
+      "username": user.text,
+      "password": pass.text,
+    });
+
+    var datauser = json.decode(response.body);
+
+    if(datauser.length == 0) {
+      setState(() {
+        msg = "Login gagal!";
+      });
+    } else {
+      if(datauser[0]['level'] == 'pusat') {
+        Navigator.pushReplacementNamed(context, '/rootPusat');
+      } else {
+        Navigator.pushReplacementNamed(context, '/rootDaerah');
+      }
+      setState(() {
+        username = datauser[0]['username'];
+        nama = datauser[0]['nama'];
+        daerahuser = datauser[0]['daerahuser'];
+      });
+    }
+    return datauser;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget buttonMasuk() {
@@ -65,7 +53,7 @@ class LoginPage extends StatelessWidget {
           width: 120,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/rootPage');
+              _login();
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -81,6 +69,61 @@ class LoginPage extends StatelessWidget {
                 letterSpacing: 1.5,
               ),
             ),
+          ),
+        ),
+      );
+    }
+    Widget buildUsername() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+              width: 2.5,
+              color: Color(0xFF7B417B)),
+        ),
+        child: TextFormField(
+          controller: user,
+          autofocus: false,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+          ),
+        ),
+      );
+    }
+    Widget buildPassword() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+              width: 2.5,
+              color: Color(0xFF7B417B)),
+        ),
+        child: TextFormField(
+          controller: pass,
+          autofocus: false,
+          obscureText: true,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
           ),
         ),
       );
@@ -151,6 +194,9 @@ class LoginPage extends StatelessWidget {
                           height: 30,
                         ),
                         buttonMasuk(),
+                        Text(
+                          msg,
+                        ),
                       ],
                     ),
                   ),

@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/dataAnakBagianPusatPage/dataAnakCabang.dart';
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
-import 'package:suppchild_ver_1/kasusBagianPusatPage/kasusCabang.dart';
-import 'package:suppchild_ver_1/kegiatanBagianPusatPage/kegiatanCabang.dart';
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 
-class RootPage extends StatefulWidget {
+class RootPusat extends StatefulWidget {
+
+  RootPusat({this.username, this.nama});
+  final String username;
+  final String nama;
+
   @override
   _RootPageState createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends State<RootPusat> {
 
   int currentTab = 0;
   final List<Widget> screens = [

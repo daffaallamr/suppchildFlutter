@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 import 'package:suppchild_ver_1/main.dart';
 
 class ListAnak extends StatefulWidget {
-
 
   @override
   _ListAnakState createState() => _ListAnakState();
@@ -16,7 +16,7 @@ class _ListAnakState extends State<ListAnak> {
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
-    final response = await http.get("http://10.0.2.2/suppChild_db/getDataAnak_daerah.php");
+    final response = await http.get("http://10.0.2.2/suppChild_db/getAnak_daerah.php");
     return json.decode(response.body);
   }
 
@@ -125,7 +125,12 @@ class ItemList extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/ubahDataAnak');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UbahDataAnak(selectedList: selectedList, index: i-1,),
+                )
+            );
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,

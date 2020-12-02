@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if(datauser.length == 0) {
       setState(() {
-        msg = "Login gagal!";
+        msg = "Username atau Password anda salah!";
       });
     } else {
       if(datauser[0]['level'] == 'pusat') {
@@ -129,13 +129,24 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
+    Widget alertGagal() {
+      return Text(
+        msg,
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1,
+        ),
+      );
+    }
+
     final size = MediaQuery.of(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
           child: Container(
             width: size.size.width / 1.1,
-            height: size.size.height / 1,
             // decoration: BoxDecoration(
             //     // border: Border.all(color: colorMainPurple),
             // ),
@@ -148,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                     radius: 130,
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 25,
                   ),
                   Container(
                     width: double.infinity,
@@ -190,13 +201,12 @@ class _LoginPageState extends State<LoginPage> {
                           height: 15,
                         ),
                         buildPassword(),
+                        spasiBaris(15.0),
+                        alertGagal(),
                         SizedBox(
-                          height: 30,
+                          height: 25,
                         ),
                         buttonMasuk(),
-                        Text(
-                          msg,
-                        ),
                       ],
                     ),
                   ),

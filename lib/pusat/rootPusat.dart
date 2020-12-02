@@ -9,10 +9,6 @@ import 'package:bmnav/bmnav.dart' as bmnav;
 
 class RootPusat extends StatefulWidget {
 
-  RootPusat({this.username, this.nama});
-  final String username;
-  final String nama;
-
   @override
   _RootPageState createState() => _RootPageState();
 }
@@ -27,7 +23,7 @@ class _RootPageState extends State<RootPusat> {
     KasusCabang(),
     ProfilePage()
   ];
-  Widget currentScreen = HomeScreen();
+  Widget currentScreen = DataAnakCabang();
 
   final PageStorageBucket bucket = PageStorageBucket();
 

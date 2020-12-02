@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'listAnakPercabang.dart';
 
 class DataAnakCabang extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
 
-    Widget buttonDaerah(kota) {
+    Widget buttonDaerah(kota, daerah) {
       return Center(
         child: Container(
           width: 170,
           height: 55,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/listAnakPercabang');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListAnakPercabang(daerah: daerah),
+                  )
+              );
             },
             padding: EdgeInsets.all(12),
             shape: RoundedRectangleBorder(
@@ -63,22 +69,22 @@ class DataAnakCabang extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    buttonDaerah('GRESIK'),
-                    buttonDaerah('BANGKALAN'),
+                    buttonDaerah('GRESIK', 'Gresik'),
+                    buttonDaerah('BANGKALAN', 'Bangkalan'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    buttonDaerah('MOJOKERTO'),
-                    buttonDaerah('SURABAYA'),
+                    buttonDaerah('MOJOKERTO', 'Mojokerto'),
+                    buttonDaerah('SURABAYA', 'Surabaya'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    buttonDaerah('SIDOARJO'),
-                    buttonDaerah('LAMONGAN'),
+                    buttonDaerah('SIDOARJO', 'Sidoarjo'),
+                    buttonDaerah('LAMONGAN', 'Lamongan'),
                   ],
                 ),
               ],

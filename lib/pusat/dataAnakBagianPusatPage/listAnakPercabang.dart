@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.dart';
 
 Widget titleList(title) {
   return Container(
@@ -21,11 +24,66 @@ Widget titleList(title) {
   );
 }
 
-class ListAnakPercabang extends StatelessWidget {
+class ListAnakPercabang extends StatefulWidget {
+  final String daerah;
+  ListAnakPercabang({this.daerah});
+
+  @override
+  _ListAnakPercabangState createState() => _ListAnakPercabangState(daerah: daerah);
+}
+
+class _ListAnakPercabangState extends State<ListAnakPercabang> {
+  final String daerah;
+  _ListAnakPercabangState({this.daerah});
+
+  //Mengambil data anak dari db
+  Future<List> getDataAnak() async {
+    final response = await http.get("http://10.0.2.2/suppChild_db/pusat/getAnak_$daerah.php");
+    return json.decode(response.body);
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    Widget listAnak(anak) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: appBarTitle('Daftar Anak Binaan'),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: Column(
+                  children: <Widget>[
+                    titleList(daerah),
+                    FutureBuilder<List>(
+                      future: getDataAnak(),
+                      builder: (context, snapshot){
+                        if(snapshot.hasError) print("Error");
+
+                        return snapshot.hasData ? new ItemList(allList: snapshot.data) : new Center();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemList extends StatelessWidget {
+  ItemList({this.allList});
+  final List allList;
+
+  @override
+  Widget build(BuildContext context) {
+
+    Widget listAnak(i, nama) {
       return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -46,7 +104,12 @@ class ListAnakPercabang extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/detailKondisiAnak');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailKondisiAnak(allList: allList, index: i-1,),
+                )
+            );
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,
@@ -55,9 +118,8 @@ class ListAnakPercabang extends StatelessWidget {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Text(
-                '1. $anak',
+                '$i. $nama',
                 style: TextStyle(
-
                   color: colorMainPurple,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -70,28 +132,13 @@ class ListAnakPercabang extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBarTitle('Daftar Anak Binaan'),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
-                  children: <Widget>[
-                    titleList('Lamongan'),
-                    listAnak('Ananda Rifqi'),
-                    listAnak('Hilmi Syahputra'),
-                    listAnak('Ilham Fikri'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    return new ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: allList == null ? 0 : allList.length,
+      itemBuilder: (context, i){
+        return listAnak(i+1, allList[i]['nama']);
+      },
     );
   }
 }

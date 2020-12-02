@@ -8,12 +8,16 @@ import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 
 class RootDaerah extends StatefulWidget {
+  final String selectedScreen;
+  RootDaerah({this.selectedScreen});
 
   @override
-  _RootPageState createState() => _RootPageState();
+  _RootPageState createState() => _RootPageState(selectedScreen: selectedScreen);
 }
 
 class _RootPageState extends State<RootDaerah> {
+  final String selectedScreen;
+  _RootPageState({this.selectedScreen});
 
   int currentTab = 0;
   final List<Widget> screens = [
@@ -23,7 +27,13 @@ class _RootPageState extends State<RootDaerah> {
     ListKasus(),
     ProfilePage()
   ];
-  Widget currentScreen = HomeScreen();
+
+  Widget currentScreen;
+  @override
+  void initState() {
+    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
+    super.initState();
+  }
 
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -113,3 +123,31 @@ class _RootPageState extends State<RootDaerah> {
     );
   }
 }
+
+class SelectedScreen extends StatelessWidget {
+  final String selectedScreen;
+  SelectedScreen({this.selectedScreen});
+
+  @override
+  Widget build(BuildContext context) {
+
+      switch(this.selectedScreen) {
+        case 'kegiatan': {
+          return ListKegiatan();
+        } break;
+        case 'anak': {
+          return ListAnak();
+        } break;
+        case 'kasus': {
+          return ListKasus();
+        } break;
+        case 'profil': {
+          return ProfilePage();
+        } break;
+        default : {
+          return HomeScreen();
+        } break;
+      }
+    }
+  }
+

@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
 
       routes: <String, WidgetBuilder>{
-        '/rootPusat': (BuildContext context) => RootPusat(username: username, nama: nama,),
+        '/rootPusat': (BuildContext context) => RootPusat(),
         '/rootDaerah': (BuildContext context) => RootDaerah(),
 
         //Profil
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
         //Data Anak bagian pusat
         '/dataAnakCabang': (context) => DataAnakCabang(),
         '/listAnakPercabang': (context) => ListAnakPercabang(), //List Anak percabang
-        '/detailKondisiAnak': (context) => DetaiKondisiAnak(), //List Anak percabang
+        '/detailKondisiAnak': (context) => DetailKondisiAnak(), //List Anak percabang
 
         //Kasus bagian cabang
         '/listKasus': (context) => ListKasus(),

@@ -21,6 +21,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   bool isLoadingPath = false;
   bool isMultiPick = false;
   FileType fileType;
+  TextEditingController namafile=new TextEditingController();
 
   void _openFileExplorer() async {
     setState(() => isLoadingPath = true);
@@ -41,6 +42,8 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
           : paths != null
           ? paths.keys.toString()
           : '...';
+      namafile.text=fileName;
+
     });
   }
 
@@ -206,6 +209,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
         ),
         child: TextField(
           // controller: controllerFile,
+          controller: namafile,
           readOnly: true,
           autofocus: false,
           cursorColor: colorMainPurple,
@@ -266,10 +270,12 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                           formNama(),
                           spasiBaris(20.0),
                           formPengaju(),
-                          spasiBaris(20.0),
+                          spasiBaris(10.0),
+                          fileName==null?
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
+                              
                               buttonUpload(),
                               Text(
                                 '*.doc / .pdf',
@@ -281,8 +287,8 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                                 ),
                               ),
                             ],
-                          ),
-                          spasiBaris(20.0),
+                          ):Container(),
+                          spasiBaris(10.0),
                           formFile(),
                           spasiBaris(20.0),
                           Row(

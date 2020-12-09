@@ -16,7 +16,7 @@ class _ListAnakState extends State<ListAnak> {
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
-    final response = await http.get("http://10.0.2.2/suppChild_db/getAnak_daerah.php");
+    final response = await http.get("http://10.0.2.2/suppChild_db/daerah/getAnak_daerah.php");
     return json.decode(response.body);
   }
 

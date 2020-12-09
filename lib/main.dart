@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter SuppChild',
       theme: ThemeData(
       ),
-      initialRoute: '/login',
+      initialRoute: '/buatKegiatan',
 
       routes: <String, WidgetBuilder>{
         '/rootPusat': (BuildContext context) => RootPusat(),

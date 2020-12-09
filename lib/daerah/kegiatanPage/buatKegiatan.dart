@@ -1,108 +1,50 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:flutter/services.dart';
 
-Widget formNama() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-          width: 2.0,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-        hintText: 'Nama Kegiatan',
-        hintStyle: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 1.2,
-          color: colorMainPurple,
-        ),
-      ),
-    ),
-  );
-}
-Widget formPengaju() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-          width: 2.0,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-        hintText: 'Daerah Pengaju',
-        hintStyle: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 1.2,
-          color: colorMainPurple,
-        ),
-      ),
-    ),
-  );
-}
-Widget formFile() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(
-          width: 2.0,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      readOnly: true,
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-        hintText: 'Nama File',
-        hintStyle: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 1.2,
-          color: colorMainPurple,
-        ),
-      ),
-    ),
-  );
+
+class BuatKegiatan extends StatefulWidget {
+  @override
+  _BuatKegiatanState createState() => _BuatKegiatanState();
 }
 
-class BuatKegiatan extends StatelessWidget {
+class _BuatKegiatanState extends State<BuatKegiatan> {
+  String fileName;
+  String path;
+  Map<String, String> paths;
+  List<String> extensions;
+  bool isLoadingPath = false;
+  bool isMultiPick = false;
+  FileType fileType;
+
+  void _openFileExplorer() async {
+    setState(() => isLoadingPath = true);
+    try {
+      path = await FilePicker.getFilePath( 
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc'],
+      );
+      paths = null;
+    } on PlatformException catch (e) {
+      print("Unsupported operation" + e.toString());
+    }
+    if (!mounted) return;
+    setState(() {
+      isLoadingPath = false;
+      fileName = path != null
+          ? path.split('/').last
+          : paths != null
+          ? paths.keys.toString()
+          : '...';
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -112,7 +54,7 @@ class BuatKegiatan extends StatelessWidget {
           width: 120,
           child: RaisedButton(
             onPressed: () {
-              //Proses
+              _openFileExplorer();
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -179,6 +121,108 @@ class BuatKegiatan extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget formNama() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+              width: 2.0,
+              color: Color(0xFF7B417B)),
+        ),
+        child: TextFormField(
+          autofocus: false,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+            hintText: 'Nama Kegiatan',
+            hintStyle: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 1.2,
+              color: colorMainPurple,
+            ),
+          ),
+        ),
+      );
+    }
+    Widget formPengaju() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+              width: 2.0,
+              color: Color(0xFF7B417B)),
+        ),
+        child: TextFormField(
+          autofocus: false,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+            hintText: 'Daerah Pengaju',
+            hintStyle: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 1.2,
+              color: colorMainPurple,
+            ),
+          ),
+        ),
+      );
+    }
+    Widget formFile() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+              width: 2.0,
+              color: Color(0xFF7B417B)),
+        ),
+        child: TextField(
+          // controller: controllerFile,
+          readOnly: true,
+          autofocus: false,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+            hintText: 'Nama File',
+            hintStyle: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 1.2,
+              color: colorMainPurple,
             ),
           ),
         ),

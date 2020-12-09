@@ -43,7 +43,7 @@ class _TambahAnakState extends State<TambahAnak> {
   TextEditingController controllerEkonomi = new TextEditingController();
 
   void addDataAnak() {
-    var url = "http://10.0.2.2/suppChild_db/addAnak.php";
+    var url = "http://10.0.2.2/suppChild_db/daerah/addAnak.php";
 
     http.post(url, body: {
       "nama": controllerNama.text,

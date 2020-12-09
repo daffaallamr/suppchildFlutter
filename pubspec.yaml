@@ -31,6 +31,9 @@ dependencies:
   group_radio_button: ^1.0.1
   custom_radio_grouped_button: ^1.0.6+1
   http: ^0.12.2
+  file_picker:
+  dio: ^3.0.10
+  path: ^1.6.4
 
 dev_dependencies:
   flutter_test:

@@ -4,39 +4,39 @@ import 'package:bmnav/bmnav.dart' as bmnav;
 
 class ListKegiatan extends StatelessWidget {
 
-  Widget buttonTambah() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 22, 10, 22),
-      child: Center(
-        child: Container(
-          width: 380,
-          child: RaisedButton(
-            onPressed: () {
-              //Proses
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Text(
-              'Tambah Kegiatan',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
 
+    Widget buttonTambah() {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 22, 10, 22),
+        child: Center(
+          child: Container(
+            width: 380,
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/buatKegiatan');
+              },
+              padding: EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Tambah Kegiatan',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     Widget listKegiatan(kegiatan) {
       return Container(
         decoration: BoxDecoration(

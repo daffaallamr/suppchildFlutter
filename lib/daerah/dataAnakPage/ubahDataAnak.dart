@@ -42,7 +42,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
   TextEditingController controllerEkonomi;
 
   void editDataAnak() {
-    var url = "http://10.0.2.2/suppChild_db/ubahAnak.php";
+    var url = "http://10.0.2.2/suppChild_db/daerah/ubahAnak.php";
 
     http.post(url, body: {
       "id": widget.selectedList[widget.index]['id'],

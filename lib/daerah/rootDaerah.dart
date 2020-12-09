@@ -52,21 +52,59 @@ class _RootPageState extends State<RootDaerah> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.white,
-                ),
-                height: 45,
-                width: 270,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Icon(
-                    Icons.search,
-                    size: 30,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(6.0),
+                          bottomLeft: Radius.circular(6.0)),
+                      color: Colors.white,
+                    ),
+                    height: 45,
+                    width: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Icon(
+                        Icons.search,
+                        size: 30,
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(6.0),
+                          bottomRight: Radius.circular(6.0)),
+                      color: Colors.white,
+                    ),
+                    height: 45,
+                    width: 230,
+                    child: TextField(
+                      autofocus: false,
+                      cursorColor: colorMainPurple,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 22,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+                        border: InputBorder.none,
+                        hintText: 'Cari',
+                        hintStyle: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1.2,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               IconButton(
                 icon: Icon(
@@ -145,7 +183,7 @@ class SelectedScreen extends StatelessWidget {
           return ProfilePage();
         } break;
         default : {
-          return HomeScreen();
+          return ListKegiatan();
         } break;
       }
     }

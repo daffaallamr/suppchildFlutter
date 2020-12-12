@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/approveKegiatan.dart';
 
 Widget titleList(title) {
   return Container(
@@ -21,11 +25,83 @@ Widget titleList(title) {
   );
 }
 
-class ListSemuaKegiatan extends StatelessWidget {
+class ListSemuaKegiatan extends StatefulWidget {
+  @override
+  _ListSemuaKegiatanState createState() => _ListSemuaKegiatanState();
+}
+
+class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
+  //Mengambil data kegiatan dari db
+  Future<List> getDataKegiatan() async {
+    final response =
+        await http.get("http://10.0.2.2/suppChild_db/pusat/getKegiatan.php");
+    return json.decode(response.body);
+  }
+
   @override
   Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: appBarTitle('Daftar Kegiatan'),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: Column(
+                  children: <Widget>[
+                    titleList('Yang Diajukan'),
+                    FutureBuilder<List>(
+                      future: getDataKegiatan(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) print("Error");
 
-    Widget listKegiatanDiajukan(pengajuan) {
+                        return snapshot.hasData
+                            ? new ListDiajukan(
+                                allList: snapshot.data,
+                              )
+                            : new Center();
+                      },
+                    ),
+                    spasiBaris(40.0),
+                    titleList('Yang Diterima'),
+                    FutureBuilder<List>(
+                      future: getDataKegiatan(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) print("Error");
+
+                        return snapshot.hasData
+                            ? new ListDiterima(
+                                allList: snapshot.data,
+                              )
+                            : new Center();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ListDiajukan extends StatelessWidget {
+  ListDiajukan({this.allList});
+  final List allList;
+
+  @override
+  Widget build(BuildContext context) {
+    List selectedList =
+        allList.where((data) => data['pengaju'] == 'Gresik').toList();
+
+    List selectedStatus =
+        selectedList.where((data) => data['status'] == null).toList();
+
+    Widget listKegiatanDiajukan(i, pengajuan) {
       return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -46,7 +122,14 @@ class ListSemuaKegiatan extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/approveKegiatan');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ApproveKegiatan(
+                    list: selectedStatus,
+                    index: i - 1,
+                  ),
+                ));
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,
@@ -55,9 +138,8 @@ class ListSemuaKegiatan extends StatelessWidget {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Text(
-                '1. $pengajuan',
+                '$i. $pengajuan',
                 style: TextStyle(
-
                   color: colorMainPurple,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -69,7 +151,31 @@ class ListSemuaKegiatan extends StatelessWidget {
         ),
       );
     }
-    Widget listKegiatanDiterima(ongoing) {
+
+    return new ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: selectedStatus == null ? 0 : selectedStatus.length,
+      itemBuilder: (context, i) {
+        return listKegiatanDiajukan(i + 1, selectedStatus[i]['nama']);
+      },
+    );
+  }
+}
+
+class ListDiterima extends StatelessWidget {
+  ListDiterima({this.allList});
+  final List allList;
+
+  @override
+  Widget build(BuildContext context) {
+    List selectedList =
+        allList.where((data) => data['pengaju'] == 'Gresik').toList();
+
+    List selectedStatus =
+        selectedList.where((data) => data['status'] == 'diterima').toList();
+
+    Widget listKegiatanDiterima(i, ongoing) {
       return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -99,9 +205,8 @@ class ListSemuaKegiatan extends StatelessWidget {
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Text(
-                '1. $ongoing',
+                '$i. $ongoing',
                 style: TextStyle(
-
                   color: colorMainPurple,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -114,34 +219,13 @@ class ListSemuaKegiatan extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBarTitle('Daftar Kegiatan'),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
-                  children: <Widget>[
-                    titleList('Yang Diajukan'),
-                    listKegiatanDiajukan('Hari Raya Tumpengan'),
-                    listKegiatanDiajukan('Hari Kesaktian Pancasila'),
-                    listKegiatanDiajukan('Bersih Desa'),
-                    spasiBaris(40.0),
-                    titleList('Yang Diterima'),
-                    listKegiatanDiterima('Hari Raya Makmur'),
-                    listKegiatanDiterima('17 Agustusan'),
-                    listKegiatanDiterima('Nyepi'),
-                    listKegiatanDiterima('Salam Satu'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    return new ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: selectedStatus == null ? 0 : selectedStatus.length,
+      itemBuilder: (context, i) {
+        return listKegiatanDiterima(i + 1, selectedStatus[i]['nama']);
+      },
     );
   }
 }

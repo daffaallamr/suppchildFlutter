@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 Widget dataKegiatan(judul, data) {
   return Container(
@@ -42,16 +44,39 @@ Widget dataKegiatan(judul, data) {
 }
 
 class ApproveKegiatan extends StatelessWidget {
+  final List list;
+  final int index;
+  ApproveKegiatan({this.list, this.index});
+
+  void statusDiterima() {
+    var url = "http://10.0.2.2/suppChild_db/pusat/approveKegiatan.php";
+
+    http.post(url, body: {
+      "id": list[index]['id'],
+      "status": 'diterima',
+    });
+    print('berhasil!');
+  }
+
+  void statusDitolak() {
+    var url = "http://10.0.2.2/suppChild_db/pusat/approveKegiatan.php";
+
+    http.post(url, body: {
+      "id": list[index]['id'],
+      "status": 'ditolak',
+    });
+    print('berhasil!');
+  }
+
   @override
   Widget build(BuildContext context) {
-
     Widget buttonTolak() {
       return Center(
         child: Container(
           width: 160,
           child: RaisedButton(
             onPressed: () {
-              //Proses
+              statusDitolak();
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -71,13 +96,14 @@ class ApproveKegiatan extends StatelessWidget {
         ),
       );
     }
+
     Widget buttonTerima() {
       return Center(
         child: Container(
           width: 160,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/search');
+              statusDiterima();
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -97,13 +123,24 @@ class ApproveKegiatan extends StatelessWidget {
         ),
       );
     }
+
+    _launchURL() async {
+      final namaFile = list[index]['file_ajuan'];
+      final url = 'http://10.0.2.2/suppChild_db/file_kegiatan/$namaFile';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
     Widget buttonDownloadFile() {
       return Center(
         child: Container(
           width: double.infinity,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/search');
+              _launchURL();
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -152,14 +189,15 @@ class ApproveKegiatan extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.redAccent)
-                      ),
+                          // border: Border.all(color: Colors.redAccent)
+                          ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           spasiBaris(20.0),
-                          dataKegiatan('Nama Kegiatan:', 'Agustusan di desa'),
-                          dataKegiatan('Daerah Pengaju:', 'Daerah Lamongan'),
+                          dataKegiatan('Nama Kegiatan:', list[index]['nama']),
+                          dataKegiatan(
+                              'Daerah Pengaju:', list[index]['pengaju']),
                           spasiBaris(10.0),
                           buttonDownloadFile(),
                           spasiBaris(50.0),

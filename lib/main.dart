@@ -50,10 +50,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter SuppChild',
-      theme: ThemeData(
-      ),
-      initialRoute: '/buatKegiatan',
-
+      theme: ThemeData(),
+      initialRoute: '/listKegiatan',
       routes: <String, WidgetBuilder>{
         '/rootPusat': (BuildContext context) => RootPusat(),
         '/rootDaerah': (BuildContext context) => RootDaerah(),
@@ -76,8 +74,10 @@ class MyApp extends StatelessWidget {
 
         //Data Anak bagian pusat
         '/dataAnakCabang': (context) => DataAnakCabang(),
-        '/listAnakPercabang': (context) => ListAnakPercabang(), //List Anak percabang
-        '/detailKondisiAnak': (context) => DetailKondisiAnak(), //List Anak percabang
+        '/listAnakPercabang': (context) =>
+            ListAnakPercabang(), //List Anak percabang
+        '/detailKondisiAnak': (context) =>
+            DetailKondisiAnak(), //List Anak percabang
 
         //Kasus bagian cabang
         '/listKasus': (context) => ListKasus(),
@@ -86,8 +86,10 @@ class MyApp extends StatelessWidget {
 
         //Kasus Bagian Pusat
         '/kasusCabang': (context) => KasusCabang(), //Daftar Cabang
-        '/listKasusPercabang': (context) => ListKasusPercabang(), //List Kasus percabang
-        '/pemilihanStatusKasus': (context) => PemilihanStatusKasus(), //Mengatur status kasus yang ada
+        '/listKasusPercabang': (context) =>
+            ListKasusPercabang(), //List Kasus percabang
+        '/pemilihanStatusKasus': (context) =>
+            PemilihanStatusKasus(), //Mengatur status kasus yang ada
 
         //Kegiatan Bagian cabang
         '/listKegiatan': (context) => ListKegiatan(),
@@ -96,20 +98,15 @@ class MyApp extends StatelessWidget {
 
         //Kegiatan Bagian pusat
         '/kegiatanCabang': (context) => KegiatanCabang(), //Daftar Cabang
-        '/listSemuaKegiatan': (context) => ListSemuaKegiatan(), //List semua kegiatan acc atau belum
-        '/approveKegiatan': (context) => ApproveKegiatan(), //Approve pengajuan kegiatan
-        '/laporanKegiatan': (context) => LaporanKegiatan(), //Melihat hasil(laporan) kegiatan yang sudah di approve
+        '/listSemuaKegiatan': (context) =>
+            ListSemuaKegiatan(), //List semua kegiatan acc atau belum
+        '/approveKegiatan': (context) =>
+            ApproveKegiatan(), //Approve pengajuan kegiatan
+        '/laporanKegiatan': (context) =>
+            LaporanKegiatan(), //Melihat hasil(laporan) kegiatan yang sudah di approve
 
         '/coba': (context) => GroupedButton(),
       },
     );
   }
 }
-
-
-
-
-
-
-
-

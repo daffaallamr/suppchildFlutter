@@ -14,6 +14,7 @@ Widget judulKegiatan(judul) {
     ),
   );
 }
+
 Widget dataJudul() {
   return Container(
     height: 120,
@@ -46,6 +47,7 @@ Widget dataJudul() {
     ),
   );
 }
+
 Widget formFile() {
   return Padding(
     padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -55,9 +57,7 @@ Widget formFile() {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-            width: 2.0,
-            color: Color(0xFF7B417B)),
+        border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
       ),
       child: TextFormField(
         readOnly: true,
@@ -84,14 +84,16 @@ Widget formFile() {
   );
 }
 
-
 class UploadKegiatan extends StatefulWidget {
+  final List list;
+  final int index;
+  UploadKegiatan({this.list, this.index});
+
   @override
   _UploadKegiatanState createState() => _UploadKegiatanState();
 }
 
 class _UploadKegiatanState extends State<UploadKegiatan> {
-
   File _image;
   Future ambilFoto() async {
     final image = await ImagePicker().getImage(source: ImageSource.camera);
@@ -103,7 +105,6 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
   @override
   Widget build(BuildContext context) {
-
     Widget buttonUpload() {
       return Center(
         child: Container(
@@ -130,6 +131,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
         ),
       );
     }
+
     Widget containerFoto() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
@@ -145,18 +147,20 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
             ),
           ),
           child: Center(
-            child: _image == null? Text(
-              'Belum ada foto',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-                color: colorMainOrange,)
-            ) : Image.file(_image),
+            child: _image == null
+                ? Text('Belum ada foto',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.2,
+                      color: colorMainOrange,
+                    ))
+                : Image.file(_image),
           ),
         ),
       );
     }
+
     Widget buttonKamera() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
@@ -177,6 +181,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
         ),
       );
     }
+
     Widget buttonUnggah() {
       return Center(
         child: Container(
@@ -203,6 +208,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
         ),
       );
     }
+
     Widget buttonBatal() {
       return Center(
         child: Container(
@@ -248,8 +254,8 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.redAccent)
-                      ),
+                          // border: Border.all(color: Colors.redAccent)
+                          ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

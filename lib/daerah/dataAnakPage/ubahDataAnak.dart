@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:suppchild_ver_1/main.dart';
 
 Widget titleForm(title) {
   return Text(
@@ -17,7 +16,6 @@ Widget titleForm(title) {
 }
 
 class UbahDataAnak extends StatefulWidget {
-
   final List selectedList;
   final int index;
   UbahDataAnak({this.selectedList, this.index});
@@ -62,23 +60,32 @@ class _UbahAnakState extends State<UbahDataAnak> {
 
   @override
   void initState() {
-    controllerNama = new TextEditingController(text: widget.selectedList[widget.index]['nama']);
-    controllerNIK = new TextEditingController(text: widget.selectedList[widget.index]['nik']);
-    controllerTempat = new TextEditingController(text: widget.selectedList[widget.index]['tempat_lahir']);
-    controllerTanggal = new TextEditingController(text: widget.selectedList[widget.index]['tgl_lahir']);
-    controllerAgama = new TextEditingController(text: widget.selectedList[widget.index]['agama']);
-    controllerAlamat = new TextEditingController(text: widget.selectedList[widget.index]['alamat']);
-    controllerWali = new TextEditingController(text: widget.selectedList[widget.index]['wali']);
-    controllerKesehatan = new TextEditingController(text: widget.selectedList[widget.index]['kesehatan']);
-    controllerPendidikan = new TextEditingController(text: widget.selectedList[widget.index]['pendidikan']);
-    controllerEkonomi = new TextEditingController(text: widget.selectedList[widget.index]['ekonomi']);
+    controllerNama = new TextEditingController(
+        text: widget.selectedList[widget.index]['nama']);
+    controllerNIK = new TextEditingController(
+        text: widget.selectedList[widget.index]['nik']);
+    controllerTempat = new TextEditingController(
+        text: widget.selectedList[widget.index]['tempat_lahir']);
+    controllerTanggal = new TextEditingController(
+        text: widget.selectedList[widget.index]['tgl_lahir']);
+    controllerAgama = new TextEditingController(
+        text: widget.selectedList[widget.index]['agama']);
+    controllerAlamat = new TextEditingController(
+        text: widget.selectedList[widget.index]['alamat']);
+    controllerWali = new TextEditingController(
+        text: widget.selectedList[widget.index]['wali']);
+    controllerKesehatan = new TextEditingController(
+        text: widget.selectedList[widget.index]['kesehatan']);
+    controllerPendidikan = new TextEditingController(
+        text: widget.selectedList[widget.index]['pendidikan']);
+    controllerEkonomi = new TextEditingController(
+        text: widget.selectedList[widget.index]['ekonomi']);
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     Widget formData(cont, hint) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -88,9 +95,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                width: 2.0,
-                color: Color(0xFF7B417B)),
+            border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
           ),
           child: TextField(
             controller: cont,
@@ -116,6 +121,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         ),
       );
     }
+
     Widget formDataNumber(cont, hint) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -125,9 +131,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                width: 2.0,
-                color: Color(0xFF7B417B)),
+            border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
           ),
           child: TextField(
             controller: cont,
@@ -153,6 +157,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         ),
       );
     }
+
     Widget formDataHalf(cont, hint, option) {
       return Container(
         height: 60,
@@ -161,9 +166,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           controller: cont,
@@ -189,6 +192,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         ),
       );
     }
+
     Widget formRead(hint) {
       return Container(
         height: 60,
@@ -197,9 +201,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           readOnly: true,
@@ -226,7 +228,6 @@ class _UbahAnakState extends State<UbahDataAnak> {
       );
     }
 
-
     Widget dropDownKesehatan() {
       return Container(
         height: 60,
@@ -235,9 +236,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: DropdownButton<String>(
           items: _currencies.map((String dropDownStringItem) {
@@ -254,7 +253,6 @@ class _UbahAnakState extends State<UbahDataAnak> {
               ),
             );
           }).toList(),
-
           onChanged: (String newValueSelected) {
             setState(() {
               controllerKesehatan.text = newValueSelected;
@@ -264,6 +262,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         ),
       );
     }
+
     Widget dropDownPendidikan() {
       return Container(
         height: 60,
@@ -272,9 +271,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: DropdownButton<String>(
           items: _currencies.map((String dropDownStringItem) {
@@ -291,7 +288,6 @@ class _UbahAnakState extends State<UbahDataAnak> {
               ),
             );
           }).toList(),
-
           onChanged: (String newValueSelected) {
             setState(() {
               controllerPendidikan.text = newValueSelected;
@@ -301,6 +297,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         ),
       );
     }
+
     Widget dropDownEkonomi() {
       return Container(
         height: 60,
@@ -309,9 +306,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: DropdownButton<String>(
           items: _currencies.map((String dropDownStringItem) {
@@ -328,7 +323,6 @@ class _UbahAnakState extends State<UbahDataAnak> {
               ),
             );
           }).toList(),
-
           onChanged: (String newValueSelected) {
             setState(() {
               controllerEkonomi.text = newValueSelected;
@@ -366,6 +360,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
         ),
       );
     }
+
     Widget buttonBatal() {
       return Center(
         child: Container(
@@ -400,8 +395,8 @@ class _UbahAnakState extends State<UbahDataAnak> {
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              // border: Border.all(color: colorMainPurple),
-            ),
+                // border: Border.all(color: colorMainPurple),
+                ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(14, 24, 14, 10),
               child: Column(
@@ -415,8 +410,10 @@ class _UbahAnakState extends State<UbahDataAnak> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        formDataHalf(controllerTempat, 'Tempat', TextInputType.text),
-                        formDataHalf(controllerTanggal, 'Tanggal', TextInputType.datetime),
+                        formDataHalf(
+                            controllerTempat, 'Tempat', TextInputType.text),
+                        formDataHalf(controllerTanggal, 'Tanggal',
+                            TextInputType.datetime),
                       ],
                     ),
                   ),

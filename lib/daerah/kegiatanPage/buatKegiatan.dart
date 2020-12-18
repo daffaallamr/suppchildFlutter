@@ -37,7 +37,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   }
 
   _unggahFile() async {
-    String uploadurl = "http://10.0.2.2/suppChild_db/daerah/buatKegiatan.php";
+    String uploadurl = "http://suppchild.xyz/API/daerah/buatKegiatan.php";
 
     FormData formdata = FormData.fromMap({
       "nama": controllerNama.text,
@@ -94,6 +94,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
           child: RaisedButton(
             onPressed: () {
               _unggahFile();
+              Navigator.pop(context);
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(

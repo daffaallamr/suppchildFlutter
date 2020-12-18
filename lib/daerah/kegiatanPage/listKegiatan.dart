@@ -9,7 +9,7 @@ class ListKegiatan extends StatelessWidget {
   //Mengambil data kegiatan dari db
   Future<List> getDataKegiatan() async {
     final response =
-        await http.get("http://10.0.2.2/suppChild_db/daerah/getKegiatan.php");
+        await http.get("http://suppchild.xyz/API/daerah/getKegiatan.php");
     return json.decode(response.body);
   }
 

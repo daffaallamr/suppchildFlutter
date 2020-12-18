@@ -19,19 +19,20 @@ class _LoginPageState extends State<LoginPage> {
 
   //Method login
   Future<List> _login() async {
-    final response = await http.post("http://10.0.2.2/suppChild_db/login.php", body: {
+    final response =
+        await http.post("http://suppchild.xyz/API/login.php", body: {
       "username": user.text,
       "password": pass.text,
     });
 
     var datauser = json.decode(response.body);
 
-    if(datauser.length == 0) {
+    if (datauser.length == 0) {
       setState(() {
         msg = "Username atau Password anda salah!";
       });
     } else {
-      if(datauser[0]['level'] == 'pusat') {
+      if (datauser[0]['level'] == 'pusat') {
         Navigator.pushReplacementNamed(context, '/rootPusat');
       } else {
         Navigator.pushReplacementNamed(context, '/rootDaerah');
@@ -40,6 +41,8 @@ class _LoginPageState extends State<LoginPage> {
         username = datauser[0]['username'];
         nama = datauser[0]['nama'];
         daerahuser = datauser[0]['daerahuser'];
+        passwordUser = datauser[0]['password'];
+        idUser = datauser[0]['id'];
       });
     }
     return datauser;
@@ -73,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     }
+
     Widget buildUsername() {
       return Container(
         height: 60,
@@ -80,9 +84,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-              width: 2.5,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.5, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           controller: user,
@@ -100,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     }
+
     Widget buildPassword() {
       return Container(
         height: 60,
@@ -107,9 +110,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-              width: 2.5,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.5, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           controller: pass,
@@ -166,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: size.size.height / 2,
                     decoration: BoxDecoration(
                         // border: Border.all(color: Colors.redAccent)
-                    ),
+                        ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

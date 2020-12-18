@@ -7,16 +7,15 @@ import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 import 'package:suppchild_ver_1/main.dart';
 
 class ListAnak extends StatefulWidget {
-
   @override
   _ListAnakState createState() => _ListAnakState();
 }
 
 class _ListAnakState extends State<ListAnak> {
-
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
-    final response = await http.get("http://10.0.2.2/suppChild_db/daerah/getAnak_daerah.php");
+    final response =
+        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
     return json.decode(response.body);
   }
 
@@ -81,10 +80,15 @@ class _ListAnakState extends State<ListAnak> {
               ),
               FutureBuilder<List>(
                 future: getDataAnak(),
-                builder: (context, snapshot){
-                  if(snapshot.hasError) print("Error");
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print("Error");
 
-                  return snapshot.hasData ? new ItemList(allList: snapshot.data, daerahuser: daerahuser,) : new Center();
+                  return snapshot.hasData
+                      ? new ItemList(
+                          allList: snapshot.data,
+                          daerahuser: daerahuser,
+                        )
+                      : new Center();
                 },
               ),
             ],
@@ -102,8 +106,8 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    List selectedList = allList.where((data) => data['daerah'] == daerahuser).toList();
+    List selectedList =
+        allList.where((data) => data['daerah'] == daerahuser).toList();
     Widget listAnak(i, nama) {
       return Container(
         decoration: BoxDecoration(
@@ -128,9 +132,11 @@ class ItemList extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => UbahDataAnak(selectedList: selectedList, index: i-1,),
-                )
-            );
+                  builder: (context) => UbahDataAnak(
+                    selectedList: selectedList,
+                    index: i - 1,
+                  ),
+                ));
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,
@@ -157,11 +163,9 @@ class ItemList extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedList == null ? 0 : selectedList.length,
-      itemBuilder: (context, i){
-        return listAnak(i+1, selectedList[i]['nama']);
+      itemBuilder: (context, i) {
+        return listAnak(i + 1, selectedList[i]['nama']);
       },
     );
   }
 }
-
-

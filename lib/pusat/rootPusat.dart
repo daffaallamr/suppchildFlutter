@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
-import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
-import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dart';
 
 class RootPusat extends StatefulWidget {
+  final String selectedScreen;
+  RootPusat({this.selectedScreen});
 
   @override
-  _RootPageState createState() => _RootPageState();
+  _RootPageState createState() =>
+      _RootPageState(selectedScreen: selectedScreen);
 }
 
 class _RootPageState extends State<RootPusat> {
+  final String selectedScreen;
+  _RootPageState({this.selectedScreen});
 
   int currentTab = 0;
   final List<Widget> screens = [
@@ -23,40 +28,81 @@ class _RootPageState extends State<RootPusat> {
     KasusCabang(),
     ProfilePage()
   ];
-  Widget currentScreen = DataAnakCabang();
+
+  Widget currentScreen;
+  @override
+  void initState() {
+    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
+    super.initState();
+  }
 
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
-
     // Appbar
-    Widget appBar () {
+    Widget appBar() {
       return PreferredSize(
-        preferredSize: Size(
-            double.infinity, 70
-        ),
+        preferredSize: Size(double.infinity, 70),
         child: Container(
           height: 70,
           color: colorMainPurple,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Container(
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.white,
-                ),
-                height: 45,
-                width: 270,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Icon(
-                    Icons.search,
-                    size: 30,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(6.0),
+                          bottomLeft: Radius.circular(6.0)),
+                      color: Colors.white,
+                    ),
+                    height: 45,
+                    width: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Icon(
+                        Icons.search,
+                        size: 30,
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(6.0),
+                          bottomRight: Radius.circular(6.0)),
+                      color: Colors.white,
+                    ),
+                    height: 45,
+                    width: 230,
+                    child: TextField(
+                      autofocus: false,
+                      cursorColor: colorMainPurple,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 22,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+                        border: InputBorder.none,
+                        hintText: 'Cari',
+                        hintStyle: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1.2,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               IconButton(
                 icon: Icon(
@@ -82,8 +128,7 @@ class _RootPageState extends State<RootPusat> {
         child: Scaffold(
           appBar: appBar(),
           body: SingleChildScrollView(
-              child: PageStorage(child: currentScreen, bucket: bucket)
-          ),
+              child: PageStorage(child: currentScreen, bucket: bucket)),
           bottomNavigationBar: bmnav.BottomNav(
             index: currentTab,
             labelStyle: bmnav.LabelStyle(visible: false),
@@ -111,5 +156,41 @@ class _RootPageState extends State<RootPusat> {
         ),
       ),
     );
+  }
+}
+
+class SelectedScreen extends StatelessWidget {
+  final String selectedScreen;
+  SelectedScreen({this.selectedScreen});
+
+  @override
+  Widget build(BuildContext context) {
+    switch (this.selectedScreen) {
+      case 'kegiatan':
+        {
+          return KegiatanCabang();
+        }
+        break;
+      case 'anak':
+        {
+          return DataAnakCabang();
+        }
+        break;
+      case 'kasus':
+        {
+          return KasusCabang();
+        }
+        break;
+      case 'profil':
+        {
+          return ProfilePage();
+        }
+        break;
+      default:
+        {
+          return HomeScreen();
+        }
+        break;
+    }
   }
 }

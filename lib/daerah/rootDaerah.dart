@@ -12,7 +12,8 @@ class RootDaerah extends StatefulWidget {
   RootDaerah({this.selectedScreen});
 
   @override
-  _RootPageState createState() => _RootPageState(selectedScreen: selectedScreen);
+  _RootPageState createState() =>
+      _RootPageState(selectedScreen: selectedScreen);
 }
 
 class _RootPageState extends State<RootDaerah> {
@@ -39,13 +40,10 @@ class _RootPageState extends State<RootDaerah> {
 
   @override
   Widget build(BuildContext context) {
-
     // Appbar
-    Widget appBar () {
+    Widget appBar() {
       return PreferredSize(
-        preferredSize: Size(
-            double.infinity, 70
-        ),
+        preferredSize: Size(double.infinity, 70),
         child: Container(
           height: 70,
           color: colorMainPurple,
@@ -130,8 +128,7 @@ class _RootPageState extends State<RootDaerah> {
         child: Scaffold(
           appBar: appBar(),
           body: SingleChildScrollView(
-              child: PageStorage(child: currentScreen, bucket: bucket)
-          ),
+              child: PageStorage(child: currentScreen, bucket: bucket)),
           bottomNavigationBar: bmnav.BottomNav(
             index: currentTab,
             labelStyle: bmnav.LabelStyle(visible: false),
@@ -168,24 +165,32 @@ class SelectedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-      switch(this.selectedScreen) {
-        case 'kegiatan': {
+    switch (this.selectedScreen) {
+      case 'kegiatan':
+        {
           return ListKegiatan();
-        } break;
-        case 'anak': {
+        }
+        break;
+      case 'anak':
+        {
           return ListAnak();
-        } break;
-        case 'kasus': {
+        }
+        break;
+      case 'kasus':
+        {
           return ListKasus();
-        } break;
-        case 'profil': {
+        }
+        break;
+      case 'profil':
+        {
           return ProfilePage();
-        } break;
-        default : {
-          return ListKegiatan();
-        } break;
-      }
+        }
+        break;
+      default:
+        {
+          return HomeScreen();
+        }
+        break;
     }
   }
-
+}

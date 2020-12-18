@@ -49,7 +49,7 @@ class ApproveKegiatan extends StatelessWidget {
   ApproveKegiatan({this.list, this.index});
 
   void statusDiterima() {
-    var url = "http://10.0.2.2/suppChild_db/pusat/approveKegiatan.php";
+    var url = "http://suppchild.xyz/API/pusat/approveKegiatan.php";
 
     http.post(url, body: {
       "id": list[index]['id'],
@@ -59,7 +59,7 @@ class ApproveKegiatan extends StatelessWidget {
   }
 
   void statusDitolak() {
-    var url = "http://10.0.2.2/suppChild_db/pusat/approveKegiatan.php";
+    var url = "http://suppchild.xyz/API/pusat/approveKegiatan.php";
 
     http.post(url, body: {
       "id": list[index]['id'],
@@ -126,7 +126,7 @@ class ApproveKegiatan extends StatelessWidget {
 
     _launchURL() async {
       final namaFile = list[index]['file_ajuan'];
-      final url = 'http://10.0.2.2/suppChild_db/file_kegiatan/$namaFile';
+      final url = 'http://suppchild.xyz/API/file_kegiatan/$namaFile';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

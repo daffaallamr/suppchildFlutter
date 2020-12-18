@@ -43,6 +43,8 @@ void main() => runApp(MyApp());
 String username = '';
 String nama = '';
 String daerahuser = '';
+String passwordUser = '';
+var idUser = '';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -51,7 +53,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter SuppChild',
       theme: ThemeData(),
-      initialRoute: '/listKegiatan',
+      initialRoute: '/login',
       routes: <String, WidgetBuilder>{
         '/rootPusat': (BuildContext context) => RootPusat(),
         '/rootDaerah': (BuildContext context) => RootDaerah(),

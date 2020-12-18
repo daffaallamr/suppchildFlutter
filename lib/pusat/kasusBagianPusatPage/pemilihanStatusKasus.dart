@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+import 'package:http/http.dart' as http;
 
 Widget dataKegiatan(judul, data) {
   return Container(
@@ -42,11 +43,30 @@ Widget dataKegiatan(judul, data) {
   );
 }
 
-class PemilihanStatusKasus extends StatelessWidget {
+class PemilihanStatusKasus extends StatefulWidget {
+  final List list;
+  final int index;
+  PemilihanStatusKasus({this.list, this.index});
+
+  @override
+  _PemilihanStatusKasusState createState() => _PemilihanStatusKasusState();
+}
+
+class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
+  TextEditingController controllerStatus;
+
+  void updateStatus() {
+    var url = "http://suppchild.xyz/API/pusat/updateStatusKasus.php";
+
+    http.post(url, body: {
+      "id": widget.list[widget.index]['id'],
+      "status": controllerStatus.text,
+    });
+    print('berhasil!');
+  }
+
   @override
   Widget build(BuildContext context) {
-
-
     Widget radioButton() {
       return CustomRadioButton(
         buttonTextStyle: ButtonTextStyle(
@@ -71,14 +91,17 @@ class PemilihanStatusKasus extends StatelessWidget {
           "PANTAU",
         ],
         buttonValues: [
-          "TERIMA",
-          "SELESAI",
-          "PROSES",
-          "PANTAU",
+          "Terima",
+          "Selesai",
+          "Proses",
+          "Pantau",
         ],
         radioButtonValue: (values) {
-          print(values);
+          controllerStatus = new TextEditingController(text: values);
         },
+        defaultSelected: widget.list[widget.index]['status'] == null
+            ? ["Terima"]
+            : widget.list[widget.index]['status'],
         horizontal: false,
         height: 50,
         selectedColor: colorMainPurple,
@@ -101,7 +124,8 @@ class PemilihanStatusKasus extends StatelessWidget {
             width: double.infinity,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/search');
+                updateStatus();
+                Navigator.pop(context);
               },
               padding: EdgeInsets.all(10),
               shape: RoundedRectangleBorder(
@@ -151,14 +175,17 @@ class PemilihanStatusKasus extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.redAccent)
-                      ),
+                          // border: Border.all(color: Colors.redAccent)
+                          ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          dataKegiatan('Nama Anak:', 'Ananda Agustinus'),
-                          dataKegiatan('Tempat:', 'Daerah Lamongan'),
-                          dataKegiatan('Kasus:', 'Pelecehan seksual yang dilakukan oleh warga Kota Lamongan kepada anak dibawah umur.'),
+                          dataKegiatan(
+                              'Nama Anak:', widget.list[widget.index]['nama']),
+                          dataKegiatan(
+                              'Tempat:', widget.list[widget.index]['tempat']),
+                          dataKegiatan(
+                              'Kasus:', widget.list[widget.index]['detail']),
                           spasiBaris(20.0),
                           radioButton(),
                           spasiBaris(40.0),

@@ -29,7 +29,8 @@ class ListAnakPercabang extends StatefulWidget {
   ListAnakPercabang({this.daerah});
 
   @override
-  _ListAnakPercabangState createState() => _ListAnakPercabangState(daerah: daerah);
+  _ListAnakPercabangState createState() =>
+      _ListAnakPercabangState(daerah: daerah);
 }
 
 class _ListAnakPercabangState extends State<ListAnakPercabang> {
@@ -38,13 +39,13 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
-    final response = await http.get("http://10.0.2.2/suppChild_db/pusat/getAnak_$daerah.php");
+    final response =
+        await http.get("http://suppchild.xyz/API/pusat/getAnak_$daerah.php");
     return json.decode(response.body);
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Daftar Anak Binaan'),
@@ -59,10 +60,12 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
                     titleList(daerah),
                     FutureBuilder<List>(
                       future: getDataAnak(),
-                      builder: (context, snapshot){
-                        if(snapshot.hasError) print("Error");
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) print("Error");
 
-                        return snapshot.hasData ? new ItemList(allList: snapshot.data) : new Center();
+                        return snapshot.hasData
+                            ? new ItemList(allList: snapshot.data)
+                            : new Center();
                       },
                     ),
                   ],
@@ -82,7 +85,6 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Widget listAnak(i, nama) {
       return Container(
         decoration: BoxDecoration(
@@ -107,9 +109,11 @@ class ItemList extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailKondisiAnak(allList: allList, index: i-1,),
-                )
-            );
+                  builder: (context) => DetailKondisiAnak(
+                    allList: allList,
+                    index: i - 1,
+                  ),
+                ));
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,
@@ -136,8 +140,8 @@ class ItemList extends StatelessWidget {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: allList == null ? 0 : allList.length,
-      itemBuilder: (context, i){
-        return listAnak(i+1, allList[i]['nama']);
+      itemBuilder: (context, i) {
+        return listAnak(i + 1, allList[i]['nama']);
       },
     );
   }

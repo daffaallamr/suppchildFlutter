@@ -42,6 +42,10 @@ Widget dataKasus(judul, data) {
 }
 
 class StatusKasus extends StatelessWidget {
+  final List list;
+  final int index;
+  StatusKasus({this.list, this.index});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,10 +69,14 @@ class StatusKasus extends StatelessWidget {
                     ),
                   ),
                   spasiBaris(40.0),
-                  dataKasus('Nama Anak:', 'Ananda Agustinus'),
-                  dataKasus('Tempat Kasus:', 'Lamongan Keluarahan Bandar Kidul Rt 08 Rw 05'),
-                  dataKasus('Detail Kasus:', 'Pelecehan seksual yang dilakukan oleh warga Kota Lamongan kepada anak dibawah umur.'),
-                  dataKasus('Status:', 'Selesai'),
+                  dataKasus('Nama Anak:', list[index]['nama']),
+                  dataKasus('Tempat Kasus:', list[index]['tempat']),
+                  dataKasus('Detail Kasus:', list[index]['detail']),
+                  dataKasus(
+                      'Status:',
+                      list[index]['status'] == null
+                          ? 'Belum ada status'
+                          : list[index]['status']),
                 ],
               ),
             ),

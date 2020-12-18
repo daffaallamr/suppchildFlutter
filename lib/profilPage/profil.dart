@@ -4,9 +4,8 @@ import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 
 class ProfilePage extends StatefulWidget {
-
   ProfilePage({this.username, this.nama});
-  
+
   final String username;
   final String nama;
 
@@ -17,7 +16,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-
     Widget dataNama() {
       return Container(
         height: 100,
@@ -58,6 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     }
+
     Widget dataUsername() {
       return Container(
         height: 100,
@@ -84,15 +83,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               spasiBaris(5.0),
-            Text(
-              '$username',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-                color: colorMainOrange,
+              Text(
+                '$username',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.2,
+                  color: colorMainOrange,
+                ),
               ),
-            ),
             ],
           ),
         ),
@@ -125,8 +124,8 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     }
-    Widget buttonKeluar() {
 
+    Widget buttonKeluar() {
       Widget buttonbatal() {
         return WillPopScope(
           child: Center(
@@ -154,13 +153,14 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         );
       }
+
       Widget buttonYakin() {
         return Center(
           child: Container(
             // width: 160,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushReplacementNamed(context, '/login');
               },
               padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
               shape: RoundedRectangleBorder(
@@ -180,6 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         );
       }
+
       Widget contModal() {
         return AlertDialog(
           content: Container(
@@ -189,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 spasiBaris(15.0),
                 Text(
-                    'Apakah Anda Ingin Keluar?',
+                  'Apakah Anda Ingin Keluar?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black87,
@@ -241,20 +242,20 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              dataNama(),
-              dataUsername(),
-              spasiBaris(40.0),
-              spasiBaris(20.0),
-              buttonUbahPassword(),
-              spasiBaris(20.0),
-              buttonKeluar(),
-            ],
-          ),
+      padding: const EdgeInsets.all(15.0),
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            dataNama(),
+            dataUsername(),
+            spasiBaris(40.0),
+            spasiBaris(20.0),
+            buttonUbahPassword(),
+            spasiBaris(20.0),
+            buttonKeluar(),
+          ],
         ),
-      );
+      ),
+    );
   }
 }

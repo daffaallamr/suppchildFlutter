@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/approveKegiatan.dart';
+import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.dart';
 
 Widget titleList(title) {
   return Container(
@@ -34,7 +35,7 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
   //Mengambil data kegiatan dari db
   Future<List> getDataKegiatan() async {
     final response =
-        await http.get("http://10.0.2.2/suppChild_db/pusat/getKegiatan.php");
+        await http.get("http://suppchild.xyz/API/pusat/getKegiatan.php");
     return json.decode(response.body);
   }
 
@@ -196,7 +197,14 @@ class ListDiterima extends StatelessWidget {
         width: double.infinity,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/laporanKegiatan');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LaporanKegiatan(
+                    list: selectedStatus,
+                    index: i - 1,
+                  ),
+                ));
           },
           padding: EdgeInsets.all(10),
           color: Colors.white,

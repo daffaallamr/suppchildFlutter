@@ -24,7 +24,6 @@ class TambahAnak extends StatefulWidget {
 }
 
 class _TambahAnakState extends State<TambahAnak> {
-
   var _currencies = ['-', '1', '2', '3', '4', '5'];
   var _currentKesehatanSelected = '-';
   var _currentPendidikanSelected = '-';
@@ -43,7 +42,7 @@ class _TambahAnakState extends State<TambahAnak> {
   TextEditingController controllerEkonomi = new TextEditingController();
 
   void addDataAnak() {
-    var url = "http://10.0.2.2/suppChild_db/daerah/addAnak.php";
+    var url = "http://suppchild.xyz/API/daerah/addAnak.php";
 
     http.post(url, body: {
       "nama": controllerNama.text,
@@ -61,10 +60,8 @@ class _TambahAnakState extends State<TambahAnak> {
     print('berhasil!');
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     Widget formData(cont, hint) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -74,9 +71,7 @@ class _TambahAnakState extends State<TambahAnak> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                width: 2.0,
-                color: Color(0xFF7B417B)),
+            border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
           ),
           child: TextField(
             controller: cont,
@@ -102,6 +97,7 @@ class _TambahAnakState extends State<TambahAnak> {
         ),
       );
     }
+
     Widget formDataNumber(cont, hint) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -111,9 +107,7 @@ class _TambahAnakState extends State<TambahAnak> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                width: 2.0,
-                color: Color(0xFF7B417B)),
+            border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
           ),
           child: TextField(
             controller: cont,
@@ -139,6 +133,7 @@ class _TambahAnakState extends State<TambahAnak> {
         ),
       );
     }
+
     Widget formDataHalf(cont, hint, option) {
       return Container(
         height: 60,
@@ -147,9 +142,7 @@ class _TambahAnakState extends State<TambahAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           controller: cont,
@@ -175,6 +168,7 @@ class _TambahAnakState extends State<TambahAnak> {
         ),
       );
     }
+
     Widget formRead(hint) {
       return Container(
         height: 60,
@@ -183,9 +177,7 @@ class _TambahAnakState extends State<TambahAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           readOnly: true,
@@ -212,7 +204,6 @@ class _TambahAnakState extends State<TambahAnak> {
       );
     }
 
-
     Widget dropDownKesehatan() {
       return Container(
         height: 60,
@@ -221,9 +212,7 @@ class _TambahAnakState extends State<TambahAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: DropdownButton<String>(
           items: _currencies.map((String dropDownStringItem) {
@@ -240,7 +229,6 @@ class _TambahAnakState extends State<TambahAnak> {
               ),
             );
           }).toList(),
-
           onChanged: (String newValueSelected) {
             setState(() {
               this._currentKesehatanSelected = newValueSelected;
@@ -251,6 +239,7 @@ class _TambahAnakState extends State<TambahAnak> {
         ),
       );
     }
+
     Widget dropDownPendidikan() {
       return Container(
         height: 60,
@@ -259,9 +248,7 @@ class _TambahAnakState extends State<TambahAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: DropdownButton<String>(
           items: _currencies.map((String dropDownStringItem) {
@@ -278,7 +265,6 @@ class _TambahAnakState extends State<TambahAnak> {
               ),
             );
           }).toList(),
-
           onChanged: (String newValueSelected) {
             setState(() {
               this._currentPendidikanSelected = newValueSelected;
@@ -289,6 +275,7 @@ class _TambahAnakState extends State<TambahAnak> {
         ),
       );
     }
+
     Widget dropDownEkonomi() {
       return Container(
         height: 60,
@@ -297,9 +284,7 @@ class _TambahAnakState extends State<TambahAnak> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              width: 2.0,
-              color: Color(0xFF7B417B)),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
         ),
         child: DropdownButton<String>(
           items: _currencies.map((String dropDownStringItem) {
@@ -316,7 +301,6 @@ class _TambahAnakState extends State<TambahAnak> {
               ),
             );
           }).toList(),
-
           onChanged: (String newValueSelected) {
             setState(() {
               this._currentEkonomiSelected = newValueSelected;
@@ -339,8 +323,7 @@ class _TambahAnakState extends State<TambahAnak> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => RootDaerah(selectedScreen: 'anak'),
-                  )
-              );
+                  ));
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -360,6 +343,7 @@ class _TambahAnakState extends State<TambahAnak> {
         ),
       );
     }
+
     Widget buttonBatal() {
       return Center(
         child: Container(
@@ -387,7 +371,6 @@ class _TambahAnakState extends State<TambahAnak> {
       );
     }
 
-
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Tambah Data'),
@@ -396,7 +379,7 @@ class _TambahAnakState extends State<TambahAnak> {
             width: double.infinity,
             decoration: BoxDecoration(
                 // border: Border.all(color: colorMainPurple),
-            ),
+                ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(14, 24, 14, 10),
               child: Column(
@@ -410,8 +393,10 @@ class _TambahAnakState extends State<TambahAnak> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                      formDataHalf(controllerTempat, 'Tempat', TextInputType.text),
-                      formDataHalf(controllerTanggal, 'Tanggal', TextInputType.datetime),
+                        formDataHalf(
+                            controllerTempat, 'Tempat', TextInputType.text),
+                        formDataHalf(controllerTanggal, 'Tanggal',
+                            TextInputType.datetime),
                       ],
                     ),
                   ),

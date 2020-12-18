@@ -1,187 +1,241 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/main.dart';
 
-Widget formPasswordSekarang() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(
-          width: 2.0,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
+class UbahPassword extends StatefulWidget {
+  @override
+  _UbahPasswordState createState() => _UbahPasswordState();
+}
+
+class _UbahPasswordState extends State<UbahPassword> {
+  //Mesaage gagal login
+  String msg = '';
+  bool berhasil = true;
+
+  //Controller
+  TextEditingController controllerCurrentPass = new TextEditingController();
+  TextEditingController controllerNewPass = new TextEditingController();
+  TextEditingController controllerConfirmPass = new TextEditingController();
+
+  Future _ubahPass() async {
+    var url = "http://suppchild.xyz/API/ubahPassword.php";
+
+    if (controllerCurrentPass.text != passwordUser) {
+      setState(() {
+        msg = "Password sekarang anda salah!";
+        berhasil = false;
+        print('pass salah!');
+      });
+    } else if (controllerNewPass.text != controllerConfirmPass.text) {
+      setState(() {
+        msg = "Konfirmasi password anda salah!";
+        berhasil = false;
+        print('konfirm pass salah!');
+      });
+    } else {
+      berhasil = true;
+      print('Berhasil');
+      http.post(url, body: {
+        "id": idUser,
+        "password": controllerConfirmPass.text,
+      });
+    }
+  }
+
+  Widget alertGagal() {
+    return Text(
+      msg,
       style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
+        color: Colors.redAccent,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1,
       ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-      ),
-    ),
-  );
-}
-Widget contPasswordSekarang() {
-  return Container(
-    // height: 100,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Password Sekarang:',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
-            ),
-          ),
-          spasiBaris(8.0),
-          formPasswordSekarang(),
-        ],
-      ),
-    ),
-  );
-}
+    );
+  }
 
-Widget formPasswordBaru() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(
-          width: 2.0,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-      ),
-    ),
-  );
-}
-Widget contPasswordBaru() {
-  return Container(
-    // height: 100,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Password Baru:',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
-            ),
-          ),
-          spasiBaris(8.0),
-          formPasswordBaru(),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget formKonfirmasiPassword() {
-  return Container(
-    height: 60,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(
-          width: 2.0,
-          color: Color(0xFF7B417B)),
-    ),
-    child: TextFormField(
-      autofocus: false,
-      cursorColor: colorMainPurple,
-      keyboardType: TextInputType.text,
-      style: TextStyle(
-        color: Colors.black87,
-        fontSize: 22,
-      ),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-        border: InputBorder.none,
-      ),
-    ),
-  );
-}
-Widget contKonfirmasiPassword() {
-  return Container(
-    // height: 100,
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Konfirmasi Password Baru:',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
-            ),
-          ),
-          spasiBaris(8.0),
-          formKonfirmasiPassword(),
-        ],
-      ),
-    ),
-  );
-}
-
-class UbahPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Widget formPasswordSekarang() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
+        ),
+        child: TextField(
+          controller: controllerCurrentPass,
+          autofocus: false,
+          obscureText: true,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+          ),
+        ),
+      );
+    }
+
+    Widget contPasswordSekarang() {
+      return Container(
+        // height: 100,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          // borderRadius: BorderRadius.circular(12),
+          // border: Border.all(
+          //     width: 2.0,
+          //     color: Color(0xFF7B417B)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Password Sekarang:',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+              spasiBaris(8.0),
+              formPasswordSekarang(),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget formPasswordBaru() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
+        ),
+        child: TextField(
+          controller: controllerNewPass,
+          autofocus: false,
+          obscureText: true,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+          ),
+        ),
+      );
+    }
+
+    Widget contPasswordBaru() {
+      return Container(
+        // height: 100,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          // borderRadius: BorderRadius.circular(12),
+          // border: Border.all(
+          //     width: 2.0,
+          //     color: Color(0xFF7B417B)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Password Baru:',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+              spasiBaris(8.0),
+              formPasswordBaru(),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget formKonfirmasiPassword() {
+      return Container(
+        height: 60,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
+        ),
+        child: TextField(
+          controller: controllerConfirmPass,
+          autofocus: false,
+          obscureText: true,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 22,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            border: InputBorder.none,
+          ),
+        ),
+      );
+    }
+
+    Widget contKonfirmasiPassword() {
+      return Container(
+        // height: 100,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          // borderRadius: BorderRadius.circular(12),
+          // border: Border.all(
+          //     width: 2.0,
+          //     color: Color(0xFF7B417B)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Konfirmasi Password Baru:',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+              spasiBaris(8.0),
+              formKonfirmasiPassword(),
+            ],
+          ),
+        ),
+      );
+    }
 
     Widget buttonUbah() {
       return Center(
@@ -189,7 +243,8 @@ class UbahPassword extends StatelessWidget {
           // width: 160,
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/profil');
+              _ubahPass();
+              berhasil == true ? Navigator.pop(context) : Text('');
             },
             padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
             shape: RoundedRectangleBorder(
@@ -209,12 +264,13 @@ class UbahPassword extends StatelessWidget {
         ),
       );
     }
+
     Widget buttonbatal() {
       return Center(
         child: Container(
           child: RaisedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/profil');
+              Navigator.pop(context);
             },
             padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
             shape: RoundedRectangleBorder(
@@ -238,25 +294,29 @@ class UbahPassword extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Ubah Password'),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                contPasswordSekarang(),
-                spasiBaris(20.0),
-                contPasswordBaru(),
-                spasiBaris(20.0),
-                contKonfirmasiPassword(),
-                spasiBaris(60.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    buttonUbah(),
-                    buttonbatal(),
-                  ],
-                ),
-              ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  contPasswordSekarang(),
+                  spasiBaris(10.0),
+                  contPasswordBaru(),
+                  spasiBaris(10.0),
+                  contKonfirmasiPassword(),
+                  spasiBaris(10.0),
+                  alertGagal(),
+                  spasiBaris(60.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      buttonUbah(),
+                      buttonbatal(),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

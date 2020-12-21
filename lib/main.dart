@@ -4,7 +4,8 @@ import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/loginPage.dart';
-import 'package:suppchild_ver_1/searchPage.dart';
+import 'package:suppchild_ver_1/searchPageDaerah.dart';
+import 'package:suppchild_ver_1/searchPagePusat.dart';
 
 import 'package:suppchild_ver_1/chatPage/listChat.dart';
 
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
 
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
-        '/search': (context) => SearchPage(),
+        '/searchPusat': (context) => SearchPage(),
+        '/searchDaerah': (context) => SearchPageDaerah(),
 
         //Pesan
         '/listChat': (context) => ListChat(),

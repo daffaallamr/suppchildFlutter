@@ -29,11 +29,15 @@ class _TambahAnakState extends State<TambahAnak> {
   var _currentPendidikanSelected = '-';
   var _currentEkonomiSelected = '-';
 
+  var _jenisKelamin = ['-', 'L', 'P'];
+  var _currentKelaminSelected = '-';
+
   //Controller form
   TextEditingController controllerNama = new TextEditingController();
   TextEditingController controllerNIK = new TextEditingController();
   TextEditingController controllerTempat = new TextEditingController();
   TextEditingController controllerTanggal = new TextEditingController();
+  TextEditingController controllerKelamin = new TextEditingController();
   TextEditingController controllerAgama = new TextEditingController();
   TextEditingController controllerAlamat = new TextEditingController();
   TextEditingController controllerWali = new TextEditingController();
@@ -49,6 +53,7 @@ class _TambahAnakState extends State<TambahAnak> {
       "nik": controllerNIK.text,
       "tempat_lahir": controllerTempat.text,
       "tgl_lahir": controllerTanggal.text,
+      "jenis_kelamin": controllerKelamin.text,
       "agama": controllerAgama.text,
       "alamat": controllerAlamat.text,
       "wali": controllerWali.text,
@@ -149,7 +154,6 @@ class _TambahAnakState extends State<TambahAnak> {
           autofocus: false,
           cursorColor: colorMainPurple,
           keyboardType: option,
-          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black87,
             fontSize: 22,
@@ -200,6 +204,42 @@ class _TambahAnakState extends State<TambahAnak> {
               color: colorMainPurple,
             ),
           ),
+        ),
+      );
+    }
+
+    Widget dropDownJenisKelamin() {
+      return Container(
+        height: 60,
+        width: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
+        ),
+        child: DropdownButton<String>(
+          items: _jenisKelamin.map((String dropDownStringItem) {
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(
+                dropDownStringItem,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (String newValueSelected) {
+            setState(() {
+              this._currentKelaminSelected = newValueSelected;
+              controllerKelamin.text = newValueSelected;
+            });
+          },
+          value: _currentKelaminSelected,
         ),
       );
     }
@@ -389,7 +429,7 @@ class _TambahAnakState extends State<TambahAnak> {
                   formData(controllerNama, 'Nama Lengkap'),
                   formDataNumber(controllerNIK, 'NIK'),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -397,6 +437,16 @@ class _TambahAnakState extends State<TambahAnak> {
                             controllerTempat, 'Tempat', TextInputType.text),
                         formDataHalf(controllerTanggal, 'Tanggal',
                             TextInputType.datetime),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        formRead('Jenis Kelamin'),
+                        dropDownJenisKelamin(),
                       ],
                     ),
                   ),

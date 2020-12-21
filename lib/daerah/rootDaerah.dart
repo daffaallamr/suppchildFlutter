@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/daerah/kasusPage/listKasus.dart';
@@ -6,10 +8,13 @@ import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/searchPageDaerah.dart';
 
 class RootDaerah extends StatefulWidget {
   final String selectedScreen;
-  RootDaerah({this.selectedScreen});
+  final Future<List> dataAnakSearch;
+  RootDaerah({this.selectedScreen, this.dataAnakSearch});
 
   @override
   _RootPageState createState() =>
@@ -17,6 +22,8 @@ class RootDaerah extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootDaerah> {
+  TextEditingController controllerSearch = new TextEditingController();
+
   final String selectedScreen;
   _RootPageState({this.selectedScreen});
 
@@ -34,6 +41,13 @@ class _RootPageState extends State<RootDaerah> {
   void initState() {
     currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
     super.initState();
+  }
+
+  //Mengambil data anak dari db
+  Future<List> getDataAnak() async {
+    final response =
+        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+    return json.decode(response.body);
   }
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -65,9 +79,21 @@ class _RootPageState extends State<RootDaerah> {
                     width: 50,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Icon(
-                        Icons.search,
-                        size: 30,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchPageDaerah(
+                                  dataAnakSearch: getDataAnak(),
+                                  keyword: controllerSearch.text,
+                                ),
+                              ));
+                        },
                       ),
                     ),
                   ),
@@ -82,6 +108,7 @@ class _RootPageState extends State<RootDaerah> {
                     height: 45,
                     width: 230,
                     child: TextField(
+                      controller: controllerSearch,
                       autofocus: false,
                       cursorColor: colorMainPurple,
                       keyboardType: TextInputType.text,

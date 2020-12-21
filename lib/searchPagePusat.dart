@@ -1,47 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/profilPage/profil.dart';
-import 'package:bmnav/bmnav.dart' as bmnav;
-import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
-import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
-import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dart';
 import 'package:http/http.dart' as http;
-import 'package:suppchild_ver_1/searchPagePusat.dart';
+import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.dart';
 
-class RootPusat extends StatefulWidget {
-  final String selectedScreen;
+class SearchPage extends StatefulWidget {
   final Future<List> dataAnakSearch;
-  RootPusat({this.selectedScreen, this.dataAnakSearch});
+  final String keyword;
+  SearchPage({this.dataAnakSearch, this.keyword});
 
   @override
-  _RootPageState createState() =>
-      _RootPageState(selectedScreen: selectedScreen);
+  _SearchPageState createState() => _SearchPageState();
 }
 
-class _RootPageState extends State<RootPusat> {
-  TextEditingController controllerSearch = new TextEditingController();
-
-  final String selectedScreen;
-  _RootPageState({this.selectedScreen});
-
-  int currentTab = 0;
-  final List<Widget> screens = [
-    HomeScreen(),
-    KegiatanCabang(),
-    DataAnakCabang(),
-    KasusCabang(),
-    ProfilePage()
-  ];
-
-  Widget currentScreen;
-  @override
-  void initState() {
-    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
-    super.initState();
-  }
+class _SearchPageState extends State<SearchPage> {
+  //Controller form
+  TextEditingController controllerSearch;
+  String currentKeyword;
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
@@ -50,11 +26,15 @@ class _RootPageState extends State<RootPusat> {
     return json.decode(response.body);
   }
 
-  final PageStorageBucket bucket = PageStorageBucket();
+  @override
+  void initState() {
+    currentKeyword = widget.keyword;
+    controllerSearch = new TextEditingController(text: currentKeyword);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Appbar
     Widget appBar() {
       return PreferredSize(
         preferredSize: Size(double.infinity, 70),
@@ -65,7 +45,6 @@ class _RootPageState extends State<RootPusat> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     alignment: Alignment.centerLeft,
@@ -119,7 +98,6 @@ class _RootPageState extends State<RootPusat> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
                         border: InputBorder.none,
-                        hintText: 'Cari',
                         hintStyle: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w400,
@@ -150,35 +128,29 @@ class _RootPageState extends State<RootPusat> {
     }
 
     return SafeArea(
-      child: WillPopScope(
-        onWillPop: () async => false,
-        child: Scaffold(
-          appBar: appBar(),
-          body: SingleChildScrollView(
-              child: PageStorage(child: currentScreen, bucket: bucket)),
-          bottomNavigationBar: bmnav.BottomNav(
-            index: currentTab,
-            labelStyle: bmnav.LabelStyle(visible: false),
-            onTap: (i) {
-              setState(() {
-                currentTab = i;
-                currentScreen = screens[i];
-              });
-            },
-            color: colorMainPurple,
-            iconStyle: bmnav.IconStyle(
-              size: 30,
-              onSelectSize: 30,
-              color: Colors.white,
-              onSelectColor: Colors.white,
+      child: Scaffold(
+        appBar: appBar(),
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Wrap(
+              children: <Widget>[
+                FutureBuilder<List>(
+                  future: widget.dataAnakSearch,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print("Error");
+
+                    return snapshot.hasData
+                        ? new ItemList(
+                            allList: snapshot.data,
+                            keyword: widget.keyword,
+                          )
+                        : new Center();
+                  },
+                ),
+              ],
             ),
-            items: [
-              bmnav.BottomNavItem(Icons.home),
-              bmnav.BottomNavItem(Icons.event),
-              bmnav.BottomNavItem(Icons.child_care),
-              bmnav.BottomNavItem(Icons.assignment),
-              bmnav.BottomNavItem(Icons.account_circle)
-            ],
           ),
         ),
       ),
@@ -186,38 +158,68 @@ class _RootPageState extends State<RootPusat> {
   }
 }
 
-class SelectedScreen extends StatelessWidget {
-  final String selectedScreen;
-  SelectedScreen({this.selectedScreen});
+class ItemList extends StatelessWidget {
+  ItemList({this.allList, this.keyword});
+  final List allList;
+  final String keyword;
 
   @override
   Widget build(BuildContext context) {
-    switch (this.selectedScreen) {
-      case 'kegiatan':
-        {
-          return KegiatanCabang();
-        }
-        break;
-      case 'anak':
-        {
-          return DataAnakCabang();
-        }
-        break;
-      case 'kasus':
-        {
-          return KasusCabang();
-        }
-        break;
-      case 'profil':
-        {
-          return ProfilePage();
-        }
-        break;
-      default:
-        {
-          return HomeScreen();
-        }
-        break;
+    List selectedList = allList
+        .where((data) =>
+            data['nama'].toLowerCase().contains(keyword.toLowerCase()))
+        .toList();
+
+    Widget listSearch(i, hasil) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: colorMainPurple,
+                width: 3,
+              ),
+            ),
+          ),
+          width: double.infinity,
+          child: RaisedButton(
+            color: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailKondisiAnak(
+                      allList: selectedList,
+                      index: i - 1,
+                    ),
+                  ));
+            },
+            padding: EdgeInsets.all(10),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                '$hasil',
+                style: TextStyle(
+                  color: colorMainPurple,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
     }
+
+    return new ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: selectedList == null ? 0 : selectedList.length,
+      itemBuilder: (context, i) {
+        return listSearch(i + 1, selectedList[i]['nama']);
+      },
+    );
   }
 }

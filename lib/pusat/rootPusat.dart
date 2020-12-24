@@ -9,6 +9,7 @@ import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dar
 import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:suppchild_ver_1/searchPagePusat.dart';
 
 class RootPusat extends StatefulWidget {
@@ -54,12 +55,13 @@ class _RootPageState extends State<RootPusat> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     // Appbar
     Widget appBar() {
       return PreferredSize(
         preferredSize: Size(double.infinity, 70),
         child: Container(
-          height: 70,
+          height: SizeConfig.safeBlockVertical * 11,
           color: colorMainPurple,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,26 +77,22 @@ class _RootPageState extends State<RootPusat> {
                           bottomLeft: Radius.circular(6.0)),
                       color: Colors.white,
                     ),
-                    height: 45,
-                    width: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SearchPage(
-                                  dataAnakSearch: getDataAnak(),
-                                  keyword: controllerSearch.text,
-                                ),
-                              ));
-                        },
+                    height: SizeConfig.safeBlockVertical * 7,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        size: SizeConfig.safeBlockHorizontal * 7,
                       ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchPage(
+                                dataAnakSearch: getDataAnak(),
+                                keyword: controllerSearch.text,
+                              ),
+                            ));
+                      },
                     ),
                   ),
                   Container(
@@ -105,8 +103,8 @@ class _RootPageState extends State<RootPusat> {
                           bottomRight: Radius.circular(6.0)),
                       color: Colors.white,
                     ),
-                    height: 45,
-                    width: 230,
+                    height: SizeConfig.safeBlockVertical * 7,
+                    width: SizeConfig.safeBlockHorizontal * 60,
                     child: TextField(
                       controller: controllerSearch,
                       autofocus: false,
@@ -117,7 +115,6 @@ class _RootPageState extends State<RootPusat> {
                         fontSize: 22,
                       ),
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
                         border: InputBorder.none,
                         hintText: 'Cari',
                         hintStyle: TextStyle(
@@ -135,7 +132,7 @@ class _RootPageState extends State<RootPusat> {
                 icon: Icon(
                   Icons.message,
                   color: Colors.white,
-                  size: 40,
+                  size: SizeConfig.safeBlockVertical * 6,
                 ),
                 onPressed: () {
                   setState(() {
@@ -167,8 +164,8 @@ class _RootPageState extends State<RootPusat> {
             },
             color: colorMainPurple,
             iconStyle: bmnav.IconStyle(
-              size: 30,
-              onSelectSize: 30,
+              size: SizeConfig.safeBlockVertical * 4,
+              onSelectSize: SizeConfig.safeBlockVertical * 4,
               color: Colors.white,
               onSelectColor: Colors.white,
             ),

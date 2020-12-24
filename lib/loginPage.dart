@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -50,10 +51,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget buttonMasuk() {
       return Center(
         child: Container(
-          width: 120,
+          height: SizeConfig.safeBlockVertical * 7,
           child: RaisedButton(
             onPressed: () {
               _login();
@@ -67,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
               'MASUK',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 22,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -79,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget buildUsername() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -105,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget buildPassword() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -176,37 +178,29 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             color: colorMainPurple,
                             letterSpacing: 0.6,
-                            fontSize: 25,
+                            fontSize: SizeConfig.safeBlockHorizontal * 6,
                             fontFamily: "Rubik",
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        spasiBaris(2.0),
                         buildUsername(),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        spasiBaris(2.0),
                         Text(
                           'PASSWORD',
                           style: TextStyle(
                             color: colorMainPurple,
                             letterSpacing: 0.6,
-                            fontSize: 25,
+                            fontSize: SizeConfig.safeBlockHorizontal * 6,
                             fontFamily: "Rubik",
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
+                        spasiBaris(2.0),
                         buildPassword(),
-                        spasiBaris(15.0),
+                        spasiBaris(2.0),
                         alertGagal(),
-                        SizedBox(
-                          height: 25,
-                        ),
+                        spasiBaris(2.0),
                         buttonMasuk(),
                       ],
                     ),

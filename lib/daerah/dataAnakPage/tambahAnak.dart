@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 import '../rootDaerah.dart';
 
@@ -67,11 +68,13 @@ class _TambahAnakState extends State<TambahAnak> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     Widget formData(cont, hint) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Container(
-          height: 60,
+          height: SizeConfig.safeBlockVertical * 8,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -85,14 +88,14 @@ class _TambahAnakState extends State<TambahAnak> {
             keyboardType: TextInputType.text,
             style: TextStyle(
               color: Colors.black87,
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
             ),
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               border: InputBorder.none,
               hintText: '$hint',
               hintStyle: TextStyle(
-                fontSize: 26,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.2,
                 color: colorMainPurple,
@@ -107,7 +110,7 @@ class _TambahAnakState extends State<TambahAnak> {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Container(
-          height: 60,
+          height: SizeConfig.safeBlockVertical * 8,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -121,14 +124,14 @@ class _TambahAnakState extends State<TambahAnak> {
             keyboardType: TextInputType.number,
             style: TextStyle(
               color: Colors.black87,
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
               border: InputBorder.none,
               hintText: '$hint',
               hintStyle: TextStyle(
-                fontSize: 26,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.2,
                 color: colorMainPurple,
@@ -141,8 +144,8 @@ class _TambahAnakState extends State<TambahAnak> {
 
     Widget formDataHalf(cont, hint, option) {
       return Container(
-        height: 60,
-        width: 180,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 43,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -156,14 +159,14 @@ class _TambahAnakState extends State<TambahAnak> {
           keyboardType: option,
           style: TextStyle(
             color: Colors.black87,
-            fontSize: 22,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
           ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
             border: InputBorder.none,
             hintText: '$hint',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -175,8 +178,8 @@ class _TambahAnakState extends State<TambahAnak> {
 
     Widget formRead(hint) {
       return Container(
-        height: 60,
-        width: 260,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 60,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -191,14 +194,14 @@ class _TambahAnakState extends State<TambahAnak> {
           textAlign: TextAlign.left,
           style: TextStyle(
             color: Colors.black87,
-            fontSize: 22,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
           ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
             border: InputBorder.none,
             hintText: '$hint',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -210,8 +213,8 @@ class _TambahAnakState extends State<TambahAnak> {
 
     Widget dropDownJenisKelamin() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -225,7 +228,7 @@ class _TambahAnakState extends State<TambahAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -246,8 +249,8 @@ class _TambahAnakState extends State<TambahAnak> {
 
     Widget dropDownKesehatan() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -261,7 +264,7 @@ class _TambahAnakState extends State<TambahAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: SizeConfig.safeBlockHorizontal * 8,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -282,8 +285,8 @@ class _TambahAnakState extends State<TambahAnak> {
 
     Widget dropDownPendidikan() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -297,7 +300,7 @@ class _TambahAnakState extends State<TambahAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: SizeConfig.safeBlockHorizontal * 8,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -318,8 +321,8 @@ class _TambahAnakState extends State<TambahAnak> {
 
     Widget dropDownEkonomi() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -333,7 +336,7 @@ class _TambahAnakState extends State<TambahAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: SizeConfig.safeBlockHorizontal * 8,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -355,7 +358,7 @@ class _TambahAnakState extends State<TambahAnak> {
     Widget buttonTambah() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 40,
           child: RaisedButton(
             onPressed: () {
               addDataAnak();
@@ -374,7 +377,7 @@ class _TambahAnakState extends State<TambahAnak> {
               'TAMBAH',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 28,
+                fontSize: SizeConfig.safeBlockHorizontal * 7.5,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -387,7 +390,7 @@ class _TambahAnakState extends State<TambahAnak> {
     Widget buttonBatal() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 40,
           child: RaisedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -401,7 +404,7 @@ class _TambahAnakState extends State<TambahAnak> {
               'BATAL',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 28,
+                fontSize: SizeConfig.safeBlockHorizontal * 7.5,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -435,7 +438,7 @@ class _TambahAnakState extends State<TambahAnak> {
                       children: <Widget>[
                         formDataHalf(
                             controllerTempat, 'Tempat', TextInputType.text),
-                        formDataHalf(controllerTanggal, 'Tanggal',
+                        formDataHalf(controllerTanggal, 'Tgl Lahir',
                             TextInputType.datetime),
                       ],
                     ),
@@ -453,7 +456,7 @@ class _TambahAnakState extends State<TambahAnak> {
                   formData(controllerAgama, 'Agama'),
                   formData(controllerAlamat, 'Alamat'),
                   formData(controllerWali, 'Nama Wali'),
-                  spasiBaris(40.0),
+                  spasiBaris(7.0),
                   titleForm('Kondisi Anak'),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -485,7 +488,7 @@ class _TambahAnakState extends State<TambahAnak> {
                       ],
                     ),
                   ),
-                  spasiBaris(40.0),
+                  spasiBaris(7.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -493,7 +496,7 @@ class _TambahAnakState extends State<TambahAnak> {
                       buttonBatal(),
                     ],
                   ),
-                  spasiBaris(20.0),
+                  spasiBaris(8.0),
                 ],
               ),
             ),

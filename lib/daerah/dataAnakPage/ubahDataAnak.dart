@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleForm(title) {
   return Text(
@@ -27,11 +29,14 @@ class UbahDataAnak extends StatefulWidget {
 class _UbahAnakState extends State<UbahDataAnak> {
   var _currencies = ['-', '1', '2', '3', '4', '5'];
 
+  var _jenisKelamin = ['-', 'L', 'P'];
+
   //Controller form
   TextEditingController controllerNama;
   TextEditingController controllerNIK;
   TextEditingController controllerTempat;
   TextEditingController controllerTanggal;
+  TextEditingController controllerKelamin;
   TextEditingController controllerAgama;
   TextEditingController controllerAlamat;
   TextEditingController controllerWali;
@@ -48,6 +53,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
       "nik": controllerNIK.text,
       "tempat_lahir": controllerTempat.text,
       "tgl_lahir": controllerTanggal.text,
+      "jenis_kelamin": controllerKelamin.text,
       "agama": controllerAgama.text,
       "alamat": controllerAlamat.text,
       "wali": controllerWali.text,
@@ -68,6 +74,8 @@ class _UbahAnakState extends State<UbahDataAnak> {
         text: widget.selectedList[widget.index]['tempat_lahir']);
     controllerTanggal = new TextEditingController(
         text: widget.selectedList[widget.index]['tgl_lahir']);
+    controllerKelamin = new TextEditingController(
+        text: widget.selectedList[widget.index]['jenis_kelamin']);
     controllerAgama = new TextEditingController(
         text: widget.selectedList[widget.index]['agama']);
     controllerAlamat = new TextEditingController(
@@ -86,11 +94,12 @@ class _UbahAnakState extends State<UbahDataAnak> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget formData(cont, hint) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Container(
-          height: 60,
+          height: SizeConfig.safeBlockVertical * 8,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -104,14 +113,14 @@ class _UbahAnakState extends State<UbahDataAnak> {
             keyboardType: TextInputType.text,
             style: TextStyle(
               color: Colors.black87,
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
               border: InputBorder.none,
               hintText: '$hint',
               hintStyle: TextStyle(
-                fontSize: 26,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.2,
                 color: colorMainPurple,
@@ -126,7 +135,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
         child: Container(
-          height: 60,
+          height: SizeConfig.safeBlockVertical * 8,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -140,14 +149,14 @@ class _UbahAnakState extends State<UbahDataAnak> {
             keyboardType: TextInputType.number,
             style: TextStyle(
               color: Colors.black87,
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
             ),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
               border: InputBorder.none,
               hintText: '$hint',
               hintStyle: TextStyle(
-                fontSize: 26,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.2,
                 color: colorMainPurple,
@@ -160,8 +169,8 @@ class _UbahAnakState extends State<UbahDataAnak> {
 
     Widget formDataHalf(cont, hint, option) {
       return Container(
-        height: 60,
-        width: 180,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 43,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -176,14 +185,14 @@ class _UbahAnakState extends State<UbahDataAnak> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black87,
-            fontSize: 22,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
           ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
             border: InputBorder.none,
             hintText: '$hint',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -195,8 +204,8 @@ class _UbahAnakState extends State<UbahDataAnak> {
 
     Widget formRead(hint) {
       return Container(
-        height: 60,
-        width: 260,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 60,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -211,14 +220,14 @@ class _UbahAnakState extends State<UbahDataAnak> {
           textAlign: TextAlign.left,
           style: TextStyle(
             color: Colors.black87,
-            fontSize: 22,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
           ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
             border: InputBorder.none,
             hintText: '$hint',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -228,10 +237,45 @@ class _UbahAnakState extends State<UbahDataAnak> {
       );
     }
 
+    Widget dropDownJenisKelamin() {
+      return Container(
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
+        ),
+        child: DropdownButton<String>(
+          items: _jenisKelamin.map((String dropDownStringItem) {
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(
+                dropDownStringItem,
+                style: TextStyle(
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 1.2,
+                  color: colorMainPurple,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (String newValueSelected) {
+            setState(() {
+              controllerKelamin.text = newValueSelected;
+            });
+          },
+          value: controllerKelamin.text,
+        ),
+      );
+    }
+
     Widget dropDownKesehatan() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -245,7 +289,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: SizeConfig.safeBlockHorizontal * 8,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -265,8 +309,8 @@ class _UbahAnakState extends State<UbahDataAnak> {
 
     Widget dropDownPendidikan() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -280,7 +324,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: SizeConfig.safeBlockHorizontal * 8,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -300,8 +344,8 @@ class _UbahAnakState extends State<UbahDataAnak> {
 
     Widget dropDownEkonomi() {
       return Container(
-        height: 60,
-        width: 100,
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 25,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -315,7 +359,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
               child: Text(
                 dropDownStringItem,
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: SizeConfig.safeBlockHorizontal * 8,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
@@ -336,11 +380,15 @@ class _UbahAnakState extends State<UbahDataAnak> {
     Widget buttonUbah() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 40,
           child: RaisedButton(
             onPressed: () {
               editDataAnak();
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RootDaerah(selectedScreen: 'anak'),
+                  ));
             },
             padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
@@ -351,7 +399,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
               'UBAH',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 28,
+                fontSize: SizeConfig.safeBlockHorizontal * 7.5,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -364,7 +412,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
     Widget buttonBatal() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 40,
           child: RaisedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -378,7 +426,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
               'BATAL',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 28,
+                fontSize: SizeConfig.safeBlockHorizontal * 7.5,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -406,7 +454,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
                   formData(controllerNama, 'Nama Lengkap'),
                   formDataNumber(controllerNIK, 'NIK'),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -417,10 +465,20 @@ class _UbahAnakState extends State<UbahDataAnak> {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        formRead('Jenis Kelamin'),
+                        dropDownJenisKelamin(),
+                      ],
+                    ),
+                  ),
                   formData(controllerAgama, 'Agama'),
                   formData(controllerAlamat, 'Alamat'),
                   formData(controllerWali, 'Nama Wali'),
-                  spasiBaris(40.0),
+                  spasiBaris(7.0),
                   titleForm('Kondisi Anak'),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -452,7 +510,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
                       ],
                     ),
                   ),
-                  spasiBaris(40.0),
+                  spasiBaris(7.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -460,7 +518,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
                       buttonBatal(),
                     ],
                   ),
-                  spasiBaris(20.0),
+                  spasiBaris(8.0),
                 ],
               ),
             ),

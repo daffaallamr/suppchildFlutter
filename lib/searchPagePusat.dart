@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class SearchPage extends StatefulWidget {
   final Future<List> dataAnakSearch;
@@ -35,11 +36,12 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget appBar() {
       return PreferredSize(
         preferredSize: Size(double.infinity, 70),
         child: Container(
-          height: 70,
+          height: SizeConfig.safeBlockVertical * 11,
           color: colorMainPurple,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,26 +56,22 @@ class _SearchPageState extends State<SearchPage> {
                           bottomLeft: Radius.circular(6.0)),
                       color: Colors.white,
                     ),
-                    height: 45,
-                    width: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SearchPage(
-                                  dataAnakSearch: getDataAnak(),
-                                  keyword: controllerSearch.text,
-                                ),
-                              ));
-                        },
+                    height: SizeConfig.safeBlockVertical * 7,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        size: SizeConfig.safeBlockHorizontal * 7,
                       ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchPage(
+                                dataAnakSearch: getDataAnak(),
+                                keyword: controllerSearch.text,
+                              ),
+                            ));
+                      },
                     ),
                   ),
                   Container(
@@ -84,8 +82,8 @@ class _SearchPageState extends State<SearchPage> {
                           bottomRight: Radius.circular(6.0)),
                       color: Colors.white,
                     ),
-                    height: 45,
-                    width: 230,
+                    height: SizeConfig.safeBlockVertical * 7,
+                    width: SizeConfig.safeBlockHorizontal * 60,
                     child: TextField(
                       controller: controllerSearch,
                       autofocus: false,
@@ -96,7 +94,6 @@ class _SearchPageState extends State<SearchPage> {
                         fontSize: 22,
                       ),
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
                         border: InputBorder.none,
                         hintStyle: TextStyle(
                           fontSize: 22,
@@ -113,7 +110,7 @@ class _SearchPageState extends State<SearchPage> {
                 icon: Icon(
                   Icons.message,
                   color: Colors.white,
-                  size: 40,
+                  size: SizeConfig.safeBlockVertical * 6,
                 ),
                 onPressed: () {
                   setState(() {

@@ -5,6 +5,7 @@ import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListAnak extends StatefulWidget {
   @override
@@ -21,12 +22,13 @@ class _ListAnakState extends State<ListAnak> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget buttonTambah() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 22, 10, 22),
         child: Center(
           child: Container(
-            width: 380,
+            width: SizeConfig.safeBlockHorizontal * 90,
             child: RaisedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/tambahAnak');
@@ -55,11 +57,10 @@ class _ListAnakState extends State<ListAnak> {
       children: <Widget>[
         buttonTambah(),
         Container(
-          width: 380,
+          width: SizeConfig.safeBlockHorizontal * 90,
           child: Wrap(
             children: <Widget>[
               Container(
-                width: 380,
                 child: Container(
                   color: colorMainPurple,
                   child: Padding(
@@ -94,6 +95,7 @@ class _ListAnakState extends State<ListAnak> {
             ],
           ),
         ),
+        spasiBaris(8.0),
       ],
     );
   }
@@ -160,6 +162,7 @@ class ItemList extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedList == null ? 0 : selectedList.length,

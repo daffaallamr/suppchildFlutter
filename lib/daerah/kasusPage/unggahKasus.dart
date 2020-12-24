@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class UnggahKasus extends StatelessWidget {
   // Controller
@@ -23,9 +24,11 @@ class UnggahKasus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+
     Widget formNama() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 9,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -58,7 +61,7 @@ class UnggahKasus extends StatelessWidget {
 
     Widget formTempat() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 9,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -91,7 +94,7 @@ class UnggahKasus extends StatelessWidget {
 
     Widget formKejadian() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 9,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -125,7 +128,7 @@ class UnggahKasus extends StatelessWidget {
     Widget buttonUnggah() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 40,
           child: RaisedButton(
             onPressed: () {
               addKasus();
@@ -153,7 +156,7 @@ class UnggahKasus extends StatelessWidget {
     Widget buttonBatal() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 30,
           child: RaisedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -201,7 +204,6 @@ class UnggahKasus extends StatelessWidget {
                         color: colorMainPurple,
                       ),
                     ),
-                    spasiBaris(80.0),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -210,13 +212,13 @@ class UnggahKasus extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          spasiBaris(20.0),
+                          spasiBaris(4.0),
                           formNama(),
-                          spasiBaris(20.0),
+                          spasiBaris(3.0),
                           formTempat(),
-                          spasiBaris(20.0),
+                          spasiBaris(3.0),
                           formKejadian(),
-                          spasiBaris(40.0),
+                          spasiBaris(18.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[

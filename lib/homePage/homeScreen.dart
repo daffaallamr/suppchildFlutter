@@ -5,14 +5,15 @@ import 'package:suppchild_ver_1/homePage/cabang_chart.dart';
 import 'package:suppchild_ver_1/homePage/total_chart.dart';
 import 'package:suppchild_ver_1/homePage/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleChart(title) {
   return Text(
     '$title',
     style: TextStyle(
       fontFamily: 'Rubik',
-      fontSize: 20,
-      fontWeight: FontWeight.w900,
+      fontSize: SizeConfig.safeBlockHorizontal * 6,
+      fontWeight: FontWeight.w500,
       letterSpacing: 0.6,
       color: colorMainPurple,
     ),
@@ -26,8 +27,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   //List Foto
-  int _currentIndex=0;
-  List cardList=[
+  int _currentIndex = 0;
+  List cardList = [
     Item1(),
     Item2(),
     Item3(),
@@ -40,10 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return result;
   }
 
-  Widget SlideShow () {
+  Widget slideShow() {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 235.0,
+        height: SizeConfig.safeBlockVertical * 30,
         autoPlay: true,
         autoPlayInterval: Duration(seconds: 12),
         autoPlayAnimationDuration: Duration(milliseconds: 800),
@@ -56,77 +57,65 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
       ),
-      items: cardList.map((card){
-        return Builder(
-            builder:(BuildContext context){
-              return Container(
-                height: MediaQuery.of(context).size.height*0.30,
-                width: MediaQuery.of(context).size.width,
-                child: Card(
-                  color: Colors.blueAccent,
-                  child: card,
-                ),
-              );
-            }
-        );
+      items: cardList.map((card) {
+        return Builder(builder: (BuildContext context) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.30,
+            width: MediaQuery.of(context).size.width,
+            child: Card(
+              color: Colors.blueAccent,
+              child: card,
+            ),
+          );
+        });
       }).toList(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Center(
-        child: Column(
-          children: <Widget>[
-            spasiBaris(20.0),
-            SlideShow(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: map<Widget>(cardList, (index, url) {
-                return Container(
-                  width: 10.0,
-                  height: 10.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentIndex == index ? Colors.blueAccent : Colors.grey,
-                  ),
-                );
-              }),
-            ),
-            spasiBaris(20.0),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 25, 12, 0),
-              child: titleChart('Anak Binaan Cabang'),
-            ),
-            spasiBaris(20.0),
-            Container(
-              height: 400,
-              width: 350,
-              margin: const EdgeInsets.all(10.0),
-              // decoration: BoxDecoration(
-              //     border: Border.all(color: Colors.redAccent)
-              // ),
-              child: GroupedBarChart.withSampleData(),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
-              child: titleChart('Total Anak Binaan'),
-            ),
-            spasiBaris(20.0),
-            Container(
-              height: 400,
-              width: 350,
-              margin: const EdgeInsets.all(10.0),
-              // decoration: BoxDecoration(
-              //     border: Border.all(color: Colors.redAccent)
-              // ),
-              child: EndPointsAxisTimeSeriesChart.withSampleData(
-              ),
-            ),
-            spasiBaris(20.0),
-          ],
-        ),
-      );
+      child: Column(
+        children: <Widget>[
+          spasiBaris(2.0),
+          slideShow(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: map<Widget>(cardList, (index, url) {
+              return Container(
+                height: SizeConfig.safeBlockVertical * 1.25,
+                width: SizeConfig.safeBlockHorizontal * 3.5,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color:
+                      _currentIndex == index ? Colors.blueAccent : Colors.grey,
+                ),
+              );
+            }),
+          ),
+          spasiBaris(4.0),
+          titleChart('Total Anak Binaan'),
+          spasiBaris(2.0),
+          Container(
+            height: SizeConfig.safeBlockVertical * 65,
+            width: SizeConfig.safeBlockHorizontal * 70,
+            margin: const EdgeInsets.all(10.0),
+            child: EndPointsAxisTimeSeriesChart.withSampleData(),
+          ),
+          spasiBaris(8.0),
+          titleChart('Anak Binaan Cabang'),
+          spasiBaris(2.0),
+          Container(
+            height: SizeConfig.safeBlockVertical * 65,
+            width: SizeConfig.safeBlockHorizontal * 70,
+            margin: const EdgeInsets.all(10.0),
+            child: GroupedBarChart.withSampleData(),
+          ),
+          spasiBaris(6.0),
+        ],
+      ),
+    );
   }
 }

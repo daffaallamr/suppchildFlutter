@@ -5,6 +5,7 @@ import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/kasusPage/statusKasus.dart';
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListKasus extends StatefulWidget {
   @override
@@ -21,12 +22,13 @@ class _ListKasusState extends State<ListKasus> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget buttonTambah() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 22, 10, 22),
         child: Center(
           child: Container(
-            width: 380,
+            width: SizeConfig.safeBlockHorizontal * 90,
             child: RaisedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/unggahKasus');
@@ -55,11 +57,10 @@ class _ListKasusState extends State<ListKasus> {
       children: <Widget>[
         buttonTambah(),
         Container(
-          width: 380,
+          width: SizeConfig.safeBlockHorizontal * 90,
           child: Wrap(
             children: <Widget>[
               Container(
-                width: 380,
                 child: Container(
                   color: colorMainPurple,
                   child: Padding(
@@ -93,6 +94,7 @@ class _ListKasusState extends State<ListKasus> {
             ],
           ),
         ),
+        spasiBaris(8.0),
       ],
     );
   }
@@ -105,7 +107,7 @@ class SelectedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List selectedList =
-        allList.where((data) => data['daerah'] == 'Gresik').toList();
+        allList.where((data) => data['daerah'] == daerahuser).toList();
 
     Widget listKasus(i, kasus) {
       return Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget dataKasus(judul, data) {
   return Container(
@@ -19,17 +20,17 @@ Widget dataKasus(judul, data) {
           Text(
             '$judul',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
               color: colorMainPurple,
             ),
           ),
-          spasiBaris(5.0),
+          spasiBaris(1.0),
           Text(
             '$data',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: colorMainOrange,
@@ -48,6 +49,7 @@ class StatusKasus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Status Laporan'),
@@ -57,18 +59,18 @@ class StatusKasus extends StatelessWidget {
             child: Center(
               child: Column(
                 children: <Widget>[
-                  spasiBaris(40.0),
+                  spasiBaris(5.0),
                   Text(
                     'Detail Kasus',
                     style: TextStyle(
                       fontFamily: 'Rubik',
-                      fontSize: 30,
+                      fontSize: SizeConfig.safeBlockHorizontal * 9,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.6,
                       color: colorMainPurple,
                     ),
                   ),
-                  spasiBaris(40.0),
+                  spasiBaris(8.0),
                   dataKasus('Nama Anak:', list[index]['nama']),
                   dataKasus('Tempat Kasus:', list[index]['tempat']),
                   dataKasus('Detail Kasus:', list[index]['detail']),

@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class UploadKegiatan extends StatefulWidget {
   final List list;
@@ -157,11 +158,12 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget judulKegiatan(judul) {
       return Text(
         '$judul',
         style: TextStyle(
-          fontSize: 24,
+          fontSize: SizeConfig.safeBlockHorizontal * 7,
           fontWeight: FontWeight.w600,
           letterSpacing: 1.2,
           color: colorMainOrange,
@@ -171,7 +173,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
     Widget dataJudul() {
       return Container(
-        height: 120,
+        height: SizeConfig.safeBlockVertical * 15,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -188,13 +190,13 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
               Text(
                 'Nama Kegiatan:',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
                 ),
               ),
-              spasiBaris(5.0),
+              spasiBaris(1.0),
               judulKegiatan(list[index]['nama']),
             ],
           ),
@@ -206,7 +208,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Container(
-          height: 60,
+          height: SizeConfig.safeBlockVertical * 8,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -221,14 +223,14 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
             keyboardType: TextInputType.text,
             style: TextStyle(
               color: Colors.black87,
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 7,
             ),
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               border: InputBorder.none,
               hintText: 'Nama File',
               hintStyle: TextStyle(
-                fontSize: 24,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.2,
                 color: colorMainPurple,
@@ -242,7 +244,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     Widget buttonAmbilFile() {
       return Center(
         child: Container(
-          width: 120,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               _openFileExplorer();
@@ -270,7 +272,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
         child: Container(
-          height: 420,
+          height: SizeConfig.safeBlockVertical * 60,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -322,7 +324,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     Widget buttonUnggah() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               _unggahFile();
@@ -351,7 +353,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     Widget buttonBatal() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -412,7 +414,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                             ),
                           ),
                           formFile(),
-                          spasiBaris(20.0),
+                          spasiBaris(3.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -428,8 +430,9 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                               ),
                             ],
                           ),
+                          spasiBaris(5.0),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 60, 12, 12),
+                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                             child: Text(
                               'Foto Kegiatan:',
                               style: TextStyle(
@@ -441,9 +444,9 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                             ),
                           ),
                           containerFoto(),
-                          spasiBaris(5.0),
+                          spasiBaris(3.0),
                           buttonKamera(),
-                          spasiBaris(40.0),
+                          spasiBaris(10.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
@@ -451,7 +454,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                               buttonBatal(),
                             ],
                           ),
-                          spasiBaris(40.0),
+                          spasiBaris(8.0),
                         ],
                       ),
                     ),

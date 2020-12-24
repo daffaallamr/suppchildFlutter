@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/kegiatanPage/uploadLaporanKegiatan.dart';
+import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListKegiatan extends StatelessWidget {
   //Mengambil data kegiatan dari db
@@ -15,12 +17,13 @@ class ListKegiatan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget buttonTambah() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(10, 22, 10, 22),
         child: Center(
           child: Container(
-            width: 380,
+            width: SizeConfig.safeBlockHorizontal * 90,
             child: RaisedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/buatKegiatan');
@@ -49,18 +52,17 @@ class ListKegiatan extends StatelessWidget {
       children: <Widget>[
         buttonTambah(),
         Container(
-          width: 380,
+          width: SizeConfig.safeBlockHorizontal * 90,
           child: Wrap(
             children: <Widget>[
               Container(
-                width: 380,
                 child: Container(
                   color: colorMainPurple,
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Center(
                       child: Text(
-                        'Surabaya',
+                        daerahuser,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
@@ -99,7 +101,7 @@ class ListDiterima extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List selectedList =
-        allList.where((data) => data['pengaju'] == 'Gresik').toList();
+        allList.where((data) => data['pengaju'] == daerahuser).toList();
 
     List selectedStatus =
         selectedList.where((data) => data['status'] == 'diterima').toList();
@@ -156,6 +158,7 @@ class ListDiterima extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,

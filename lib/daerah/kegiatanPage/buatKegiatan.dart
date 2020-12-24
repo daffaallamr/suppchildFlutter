@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:flutter/services.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class BuatKegiatan extends StatefulWidget {
   @override
@@ -60,10 +61,11 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget buttonAmbilFile() {
       return Center(
         child: Container(
-          width: 120,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               _openFileExplorer();
@@ -90,7 +92,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
     Widget buttonUnggah() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               _unggahFile();
@@ -118,7 +120,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
     Widget buttonBatal() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -144,7 +146,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
 
     Widget formNama() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -161,11 +163,11 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
             fontSize: 22,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             border: InputBorder.none,
             hintText: 'Nama Kegiatan',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 8,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -177,7 +179,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
 
     Widget formPengaju() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -198,7 +200,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
             border: InputBorder.none,
             hintText: 'Daerah Pengaju',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 8,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -210,7 +212,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
 
     Widget formFile() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -232,7 +234,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
             border: InputBorder.none,
             hintText: 'Nama File',
             hintStyle: TextStyle(
-              fontSize: 26,
+              fontSize: SizeConfig.safeBlockHorizontal * 8,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.2,
               color: colorMainPurple,
@@ -266,7 +268,6 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                         color: colorMainPurple,
                       ),
                     ),
-                    spasiBaris(50.0),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -275,11 +276,11 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          spasiBaris(20.0),
+                          spasiBaris(5.0),
                           formNama(),
-                          spasiBaris(20.0),
+                          spasiBaris(5.0),
                           formPengaju(),
-                          spasiBaris(20.0),
+                          spasiBaris(3.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
@@ -295,9 +296,9 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                               ),
                             ],
                           ),
-                          spasiBaris(20.0),
+                          spasiBaris(3.0),
                           formFile(),
-                          spasiBaris(20.0),
+                          spasiBaris(8.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[

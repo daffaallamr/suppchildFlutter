@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({this.username, this.nama});
@@ -16,9 +17,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget dataNama() {
       return Container(
-        height: 100,
+        height: SizeConfig.safeBlockVertical * 14,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -33,19 +35,19 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Nama:',
+                'NAMA:',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
                 ),
               ),
-              spasiBaris(5.0),
+              spasiBaris(2.0),
               Text(
                 '$nama',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1.2,
                   color: colorMainOrange,
@@ -59,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     Widget dataUsername() {
       return Container(
-        height: 100,
+        height: SizeConfig.safeBlockVertical * 14,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -74,19 +76,19 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Username:',
+                'USERNAME:',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
                 ),
               ),
-              spasiBaris(5.0),
+              spasiBaris(2.0),
               Text(
                 '$username',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1.2,
                   color: colorMainOrange,
@@ -115,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'UBAH PASSWORD',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -143,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   'BATAL',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: SizeConfig.safeBlockHorizontal * 7,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.5,
                   ),
@@ -171,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 'IYA',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 7,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),
@@ -185,21 +187,21 @@ class _ProfilePageState extends State<ProfilePage> {
         return AlertDialog(
           content: Container(
             width: double.infinity,
-            height: 140,
+            height: SizeConfig.safeBlockHorizontal * 35,
             child: Column(
               children: <Widget>[
-                spasiBaris(15.0),
+                spasiBaris(1.0),
                 Text(
-                  'Apakah Anda Ingin Keluar?',
+                  'APAKAH ANDA YAKIN AKAN KELUAR?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 22,
+                    fontSize: SizeConfig.safeBlockHorizontal * 6,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.8,
                   ),
                 ),
-                spasiBaris(20.0),
+                spasiBaris(3.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -231,7 +233,7 @@ class _ProfilePageState extends State<ProfilePage> {
               'KELUAR APLIKASI',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -248,10 +250,10 @@ class _ProfilePageState extends State<ProfilePage> {
           children: <Widget>[
             dataNama(),
             dataUsername(),
-            spasiBaris(40.0),
-            spasiBaris(20.0),
+            spasiBaris(5.0),
+            spasiBaris(23.0),
             buttonUbahPassword(),
-            spasiBaris(20.0),
+            spasiBaris(1.0),
             buttonKeluar(),
           ],
         ),

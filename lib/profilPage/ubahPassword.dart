@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class UbahPassword extends StatefulWidget {
   @override
@@ -57,9 +58,10 @@ class _UbahPasswordState extends State<UbahPassword> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget formPasswordSekarang() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -101,15 +103,15 @@ class _UbahPasswordState extends State<UbahPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Password Sekarang:',
+                'PASSWORD SEKARANG',
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                  fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
                 ),
               ),
-              spasiBaris(8.0),
+              spasiBaris(2.0),
               formPasswordSekarang(),
             ],
           ),
@@ -119,7 +121,7 @@ class _UbahPasswordState extends State<UbahPassword> {
 
     Widget formPasswordBaru() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -161,15 +163,15 @@ class _UbahPasswordState extends State<UbahPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Password Baru:',
+                'PASSWORD BARU',
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                  fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
                 ),
               ),
-              spasiBaris(8.0),
+              spasiBaris(2.0),
               formPasswordBaru(),
             ],
           ),
@@ -179,7 +181,7 @@ class _UbahPasswordState extends State<UbahPassword> {
 
     Widget formKonfirmasiPassword() {
       return Container(
-        height: 60,
+        height: SizeConfig.safeBlockVertical * 8,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -221,15 +223,15 @@ class _UbahPasswordState extends State<UbahPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Konfirmasi Password Baru:',
+                'KONFIRMASI PASSWORD BARU',
                 style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                  fontWeight: FontWeight.w400,
                   letterSpacing: 1.2,
                   color: colorMainPurple,
                 ),
               ),
-              spasiBaris(8.0),
+              spasiBaris(2.0),
               formKonfirmasiPassword(),
             ],
           ),
@@ -301,13 +303,13 @@ class _UbahPasswordState extends State<UbahPassword> {
               child: Column(
                 children: <Widget>[
                   contPasswordSekarang(),
-                  spasiBaris(10.0),
+                  spasiBaris(1.0),
                   contPasswordBaru(),
-                  spasiBaris(10.0),
+                  spasiBaris(1.0),
                   contKonfirmasiPassword(),
-                  spasiBaris(10.0),
+                  spasiBaris(1.0),
                   alertGagal(),
-                  spasiBaris(60.0),
+                  spasiBaris(2.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[

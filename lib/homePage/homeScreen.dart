@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/homePage/cabang_chart.dart';
 import 'package:suppchild_ver_1/homePage/total_chart.dart';
@@ -13,8 +12,7 @@ Widget titleChart(title) {
     style: TextStyle(
       fontFamily: 'Rubik',
       fontSize: SizeConfig.safeBlockHorizontal * 6,
-      fontWeight: FontWeight.w500,
-      letterSpacing: 0.6,
+      fontWeight: FontWeight.w600,
       color: colorMainPurple,
     ),
   );
@@ -60,10 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
       items: cardList.map((card) {
         return Builder(builder: (BuildContext context) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.30,
-            width: MediaQuery.of(context).size.width,
+            width: SizeConfig.safeBlockHorizontal * 80,
+            margin: EdgeInsets.symmetric(horizontal: 6.0),
             child: Card(
-              color: Colors.blueAccent,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              color: Colors.white,
               child: card,
             ),
           );
@@ -84,34 +86,60 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: map<Widget>(cardList, (index, url) {
               return Container(
-                height: SizeConfig.safeBlockVertical * 1.25,
-                width: SizeConfig.safeBlockHorizontal * 3.5,
+                height: SizeConfig.safeBlockVertical * 1.1,
+                width: SizeConfig.safeBlockHorizontal * 3.25,
                 margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color:
-                      _currentIndex == index ? Colors.blueAccent : Colors.grey,
+                      _currentIndex == index ? colorSecondPurple : Colors.grey,
                 ),
               );
             }),
           ),
-          spasiBaris(4.0),
-          titleChart('Total Anak Binaan'),
-          spasiBaris(2.0),
-          Container(
-            height: SizeConfig.safeBlockVertical * 65,
-            width: SizeConfig.safeBlockHorizontal * 70,
-            margin: const EdgeInsets.all(10.0),
-            child: EndPointsAxisTimeSeriesChart.withSampleData(),
-          ),
           spasiBaris(8.0),
-          titleChart('Anak Binaan Cabang'),
-          spasiBaris(2.0),
-          Container(
-            height: SizeConfig.safeBlockVertical * 65,
-            width: SizeConfig.safeBlockHorizontal * 70,
-            margin: const EdgeInsets.all(10.0),
-            child: GroupedBarChart.withSampleData(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleChart('Total Anak Binaan'),
+              spasiBaris(2.0),
+              Container(
+                height: SizeConfig.safeBlockVertical * 65,
+                width: SizeConfig.safeBlockHorizontal * 85,
+                child: Card(
+                    color: Colors.grey[100],
+                    elevation: 4.5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: EndPointsAxisTimeSeriesChart.withSampleData(),
+                    )),
+              ),
+            ],
+          ),
+          spasiBaris(10.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleChart('Anak Binaan Cabang'),
+              spasiBaris(2.0),
+              Container(
+                height: SizeConfig.safeBlockVertical * 65,
+                width: SizeConfig.safeBlockHorizontal * 85,
+                child: Card(
+                    color: Colors.grey[100],
+                    elevation: 4.5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: GroupedBarChart.withSampleData(),
+                    )),
+              ),
+            ],
           ),
           spasiBaris(6.0),
         ],

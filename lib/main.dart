@@ -39,6 +39,7 @@ import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
 
 import 'package:suppchild_ver_1/profilPage/cobaRadio.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:suppchild_ver_1/spashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,8 +61,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter SuppChild',
       theme: ThemeData(),
-      initialRoute: '/login',
+      initialRoute: '/',
       routes: <String, WidgetBuilder>{
+        '/': (context) => OpeningPage(),
+
         '/rootPusat': (BuildContext context) => RootPusat(),
         '/rootDaerah': (BuildContext context) => RootDaerah(),
 
@@ -69,7 +72,6 @@ class MyApp extends StatelessWidget {
         '/profil': (context) => ProfilePage(),
         '/ubahPassword': (context) => UbahPassword(),
 
-        '/': (context) => HomeScreen(),
         '/login': (context) => LoginPage(),
         '/searchPusat': (context) => SearchPage(),
         '/searchDaerah': (context) => SearchPageDaerah(),

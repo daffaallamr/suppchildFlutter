@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
@@ -77,88 +78,82 @@ class _RootPageState extends State<RootPusat> {
     Widget appBar() {
       return PreferredSize(
         preferredSize: Size(double.infinity, 70),
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 11,
-          color: colorMainPurple,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(6.0),
-                          bottomLeft: Radius.circular(6.0)),
-                      color: Colors.white,
-                    ),
-                    height: SizeConfig.safeBlockVertical * 7,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        size: SizeConfig.safeBlockHorizontal * 7,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SearchPage(
-                                dataAnakSearch: getDataAnak(),
-                                keyword: controllerSearch.text,
-                              ),
-                            ));
-                      },
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: colorSecondPurple),
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.grey[100],
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(6.0),
-                          bottomRight: Radius.circular(6.0)),
-                      color: Colors.white,
-                    ),
-                    height: SizeConfig.safeBlockVertical * 7,
-                    width: SizeConfig.safeBlockHorizontal * 60,
-                    child: TextField(
-                      controller: controllerSearch,
-                      autofocus: false,
-                      cursorColor: colorMainPurple,
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 22,
+                  height: SizeConfig.safeBlockVertical * 7,
+                  width: SizeConfig.safeBlockHorizontal * 75,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          size: SizeConfig.safeBlockHorizontal * 6.5,
+                          color: colorMainPurple,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchPage(
+                                  dataAnakSearch: getDataAnak(),
+                                  keyword: controllerSearch.text,
+                                ),
+                              ));
+                        },
                       ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Cari',
-                        hintStyle: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1.2,
-                          color: Colors.black87,
+                      Flexible(
+                        child: TextField(
+                          controller: controllerSearch,
+                          autofocus: false,
+                          cursorColor: colorMainPurple,
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(
+                            color: colorMainPurple,
+                            fontSize: SizeConfig.safeBlockHorizontal * 5.55,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Cari Data Anak',
+                            hintStyle: TextStyle(
+                              fontSize: SizeConfig.safeBlockHorizontal * 5.55,
+                              fontWeight: FontWeight.w500,
+                              color: colorMainPurple,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.message,
-                  color: Colors.white,
-                  size: SizeConfig.safeBlockVertical * 6,
                 ),
-                onPressed: () {
-                  handleUser();
-                  setState(() {
-                    Navigator.pushNamed(context, '/listChat');
-                  });
-                },
-              ),
-            ],
+                IconButton(
+                  icon: Icon(
+                    MyFlutterApp.chatIcon,
+                    color: colorMainPurple,
+                    size: SizeConfig.safeBlockVertical * 5.25,
+                  ),
+                  onPressed: () {
+                    handleUser();
+                    setState(() {
+                      Navigator.pushNamed(context, '/listChat');
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -168,6 +163,7 @@ class _RootPageState extends State<RootPusat> {
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: appBar(),
           body: SingleChildScrollView(
               child: PageStorage(child: currentScreen, bucket: bucket)),
@@ -182,16 +178,16 @@ class _RootPageState extends State<RootPusat> {
             },
             color: colorMainPurple,
             iconStyle: bmnav.IconStyle(
-              size: SizeConfig.safeBlockVertical * 4,
-              onSelectSize: SizeConfig.safeBlockVertical * 4,
+              size: SizeConfig.safeBlockVertical * 3.75,
+              onSelectSize: SizeConfig.safeBlockVertical * 3.75,
               color: Colors.white,
               onSelectColor: Colors.white,
             ),
             items: [
               bmnav.BottomNavItem(Icons.home),
-              bmnav.BottomNavItem(Icons.event),
+              bmnav.BottomNavItem(Icons.event_available),
               bmnav.BottomNavItem(Icons.child_care),
-              bmnav.BottomNavItem(Icons.assignment),
+              bmnav.BottomNavItem(Icons.report),
               bmnav.BottomNavItem(Icons.account_circle)
             ],
           ),

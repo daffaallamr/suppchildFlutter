@@ -8,7 +8,7 @@ class Item1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(20),
         image: new DecorationImage(
             image: new AssetImage("assets/image/foto1.jpeg"), fit: BoxFit.fill),
       ),
@@ -28,7 +28,7 @@ class Item1 extends StatelessWidget {
                 style: TextStyle(
                   fontSize: SizeConfig.safeBlockHorizontal * 4.5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+                  letterSpacing: 0.8,
                   color: Colors.white,
                 ),
               ),
@@ -47,7 +47,7 @@ class Item2 extends StatelessWidget {
     SizeConfig().init(context);
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(20),
         image: new DecorationImage(
             image: new AssetImage("assets/image/foto2.jpeg"), fit: BoxFit.fill),
       ),
@@ -67,7 +67,7 @@ class Item2 extends StatelessWidget {
                 style: TextStyle(
                   fontSize: SizeConfig.safeBlockHorizontal * 4.5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+                  letterSpacing: 0.8,
                   color: Colors.white,
                 ),
               ),
@@ -85,7 +85,7 @@ class Item3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(20),
         image: new DecorationImage(
             image: new AssetImage("assets/image/foto3.jpeg"), fit: BoxFit.fill),
       ),
@@ -105,7 +105,7 @@ class Item3 extends StatelessWidget {
                 style: TextStyle(
                   fontSize: SizeConfig.safeBlockHorizontal * 4.5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
+                  letterSpacing: 0.8,
                   color: Colors.white,
                 ),
               ),

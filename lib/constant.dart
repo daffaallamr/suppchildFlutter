@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 //Color
-const colorMainPurple = Color(0xFF7B417B);
-const colorSecondPurple = Color(0xFFAE73AB);
+const colorMainPurple = Color(0xFF8366B3);
+const colorSecondPurple = Color(0xFFAA7FC6);
 
 const colorMainOrange = Color(0xFFC7594A);
 const colorSecondOrange = Color(0xFFFE8F57);

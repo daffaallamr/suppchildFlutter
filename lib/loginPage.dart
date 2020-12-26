@@ -69,14 +69,14 @@ class _LoginPageState extends State<LoginPage> {
     Widget buttonMasuk() {
       return Center(
         child: Container(
+          height: SizeConfig.safeBlockVertical * 8,
+          width: SizeConfig.safeBlockHorizontal * 100,
           child: RaisedButton(
             onPressed: () {
               _login();
             },
-            padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 2.5),
             shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(SizeConfig.safeBlockHorizontal * 2),
+              borderRadius: BorderRadius.circular(100),
             ),
             color: colorMainPurple,
             child: Text(
@@ -95,26 +95,40 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget buildUsername() {
       return Container(
-        height: SizeConfig.safeBlockVertical * 8,
+        height: SizeConfig.safeBlockVertical * 8.5,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(SizeConfig.safeBlockHorizontal * 1.5),
-          border: Border.all(width: 1.75, color: Color(0xFF7B417B)),
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(width: 2, color: colorMainPurple),
         ),
-        child: TextFormField(
+        child: TextField(
           controller: user,
           autofocus: false,
           cursorColor: colorMainPurple,
           keyboardType: TextInputType.text,
           style: TextStyle(
-            color: Colors.black87,
-            fontSize: 22,
+            color: colorSecondPurple,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            icon: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Icon(
+                Icons.person,
+                color: colorMainPurple,
+                size: SizeConfig.safeBlockVertical * 4.5,
+              ),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             border: InputBorder.none,
+            hintText: 'Username',
+            hintStyle: TextStyle(
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.w500,
+              color: colorSecondPurple,
+            ),
           ),
         ),
       );
@@ -122,104 +136,123 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget buildPassword() {
       return Container(
-        height: SizeConfig.safeBlockVertical * 8,
+        height: SizeConfig.safeBlockVertical * 8.5,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.circular(SizeConfig.safeBlockHorizontal * 1.5),
-          border: Border.all(width: 1.75, color: Color(0xFF7B417B)),
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(width: 2, color: colorMainPurple),
         ),
-        child: TextFormField(
+        child: TextField(
           controller: pass,
           autofocus: false,
           obscureText: true,
           cursorColor: colorMainPurple,
           keyboardType: TextInputType.text,
           style: TextStyle(
-            color: Colors.black87,
-            fontSize: 22,
+            color: colorSecondPurple,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 4, 10, 4),
+            icon: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Icon(
+                Icons.vpn_key,
+                color: colorMainPurple,
+                size: SizeConfig.safeBlockVertical * 4.5,
+              ),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             border: InputBorder.none,
+            hintText: 'Password',
+            hintStyle: TextStyle(
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.w500,
+              color: colorSecondPurple,
+            ),
           ),
         ),
       );
     }
 
     Widget alertGagal() {
-      return Text(
-        msg,
-        style: TextStyle(
-          color: Colors.redAccent,
-          fontSize: SizeConfig.safeBlockHorizontal * 4,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1,
+      return Center(
+        child: Text(
+          msg,
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: SizeConfig.safeBlockHorizontal * 3.75,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
         ),
       );
     }
 
-    final size = MediaQuery.of(context);
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            width: SizeConfig.safeBlockHorizontal * 88,
-            // decoration: BoxDecoration(
-            //     // border: Border.all(color: colorMainPurple),
-            // ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Column(
-                children: <Widget>[
-                  spasiBaris(4.0),
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/image/logo.jpeg'),
-                    radius: 130,
+    return SafeArea(
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Center(
+              child: Container(
+                width: SizeConfig.safeBlockHorizontal * 88,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Column(
+                    children: <Widget>[
+                      spasiBaris(1.0),
+                      Center(
+                        child: CircleAvatar(
+                          backgroundImage: AssetImage('assets/image/logo.jpeg'),
+                          radius: SizeConfig.safeBlockHorizontal * 27.5,
+                        ),
+                      ),
+                      spasiBaris(4.0),
+                      Text(
+                        'Selamat Datang',
+                        style: TextStyle(
+                          color: colorMainPurple,
+                          letterSpacing: 0.3,
+                          fontSize: SizeConfig.safeBlockHorizontal * 9,
+                          fontFamily: "Rubik",
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      spasiBaris(0.5),
+                      Text(
+                        'Masuk untuk Melanjutkan',
+                        style: TextStyle(
+                          color: colorSecondPurple,
+                          fontSize: SizeConfig.safeBlockHorizontal * 4.25,
+                          fontFamily: "Rubik",
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      spasiBaris(10.0),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            // border: Border.all(color: Colors.redAccent)
+                            ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            buildUsername(),
+                            spasiBaris(2.0),
+                            buildPassword(),
+                            spasiBaris(3.0),
+                            alertGagal(),
+                            spasiBaris(5.0),
+                            buttonMasuk(),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  spasiBaris(4.0),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.redAccent)
-                        ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'USERNAME',
-                          style: TextStyle(
-                            color: colorMainPurple,
-                            letterSpacing: 0.3,
-                            fontSize: SizeConfig.safeBlockHorizontal * 6,
-                            fontFamily: "Rubik",
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        spasiBaris(1.0),
-                        buildUsername(),
-                        spasiBaris(3.0),
-                        Text(
-                          'PASSWORD',
-                          style: TextStyle(
-                            color: colorMainPurple,
-                            letterSpacing: 0.3,
-                            fontSize: SizeConfig.safeBlockHorizontal * 6,
-                            fontFamily: "Rubik",
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        spasiBaris(1.0),
-                        buildPassword(),
-                        spasiBaris(2.0),
-                        alertGagal(),
-                        spasiBaris(5.0),
-                        buttonMasuk(),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

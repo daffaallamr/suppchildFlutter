@@ -38,14 +38,14 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
   // FIle Picker
   _openFileExplorer() async {
-    selectedFile = await FilePicker.getFile(
+    FilePickerResult selectedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc'],
     );
+    PlatformFile file = selectedFile.files.first;
 
     setState(() {
-      fileName =
-          selectedFile.path != null ? selectedFile.path.split('/').last : '';
+      fileName = file.path != null ? file.path.split('/').last : '';
       controllerFileLaporan = new TextEditingController(text: fileName);
     });
   }

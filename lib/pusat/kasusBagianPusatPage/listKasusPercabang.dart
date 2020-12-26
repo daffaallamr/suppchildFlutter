@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/pemilihanStatusKasus.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
   return Container(
@@ -15,7 +16,7 @@ Widget titleList(title) {
           '$title',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 26,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
           ),
@@ -47,6 +48,7 @@ class _ListKasusPercabangState extends State<ListKasusPercabang> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Daftar Kasus'),
@@ -133,7 +135,7 @@ class SelectedList extends StatelessWidget {
                 '$i. $kasus',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),

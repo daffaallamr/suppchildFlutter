@@ -2,36 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget dataKegiatan(judul, data) {
   return Container(
     alignment: Alignment.centerLeft,
     decoration: BoxDecoration(
       color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
     ),
     child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 15, 12, 25),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '$judul',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
               color: colorMainPurple,
             ),
           ),
-          spasiBaris(5.0),
+          spasiBaris(0.5),
           Text(
             '$data',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: colorMainOrange,
@@ -67,6 +64,7 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget radioButton() {
       return CustomRadioButton(
         buttonTextStyle: ButtonTextStyle(
@@ -74,13 +72,13 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
           unSelectedColor: Colors.white,
           textStyle: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: SizeConfig.safeBlockHorizontal * 5.5,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
           ),
         ),
         autoWidth: false,
-        width: 140,
+        width: SizeConfig.safeBlockHorizontal * 35,
         enableButtonWrap: true,
         wrapAlignment: WrapAlignment.center,
         unSelectedColor: colorSecondPurple,
@@ -103,7 +101,7 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
             ? ["Terima"]
             : widget.list[widget.index]['status'],
         horizontal: false,
-        height: 50,
+        height: SizeConfig.safeBlockVertical * 7,
         selectedColor: colorMainPurple,
         spacing: 10,
         enableShape: true,
@@ -136,7 +134,7 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
                 'SIMPAN STATUS',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 26,
+                  fontSize: SizeConfig.safeBlockHorizontal * 6,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),
@@ -159,19 +157,20 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
               //     // border: Border.all(color: colorMainPurple),
               // ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Column(
                   children: <Widget>[
+                    spasiBaris(3.0),
                     Text(
                       'Detail Kasus',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: SizeConfig.safeBlockHorizontal * 8,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,
                         color: colorMainPurple,
                       ),
                     ),
-                    spasiBaris(50.0),
+                    spasiBaris(7.0),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -182,15 +181,16 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
                         children: <Widget>[
                           dataKegiatan(
                               'Nama Anak:', widget.list[widget.index]['nama']),
+                          spasiBaris(3.0),
                           dataKegiatan(
                               'Tempat:', widget.list[widget.index]['tempat']),
+                          spasiBaris(3.0),
                           dataKegiatan(
                               'Kasus:', widget.list[widget.index]['detail']),
-                          spasiBaris(20.0),
+                          spasiBaris(5.0),
                           radioButton(),
-                          spasiBaris(40.0),
+                          spasiBaris(6.5),
                           buttonSimpan(),
-                          spasiBaris(20.0),
                         ],
                       ),
                     ),

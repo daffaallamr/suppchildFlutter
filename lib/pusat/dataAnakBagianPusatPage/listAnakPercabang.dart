@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
   return Container(
@@ -14,7 +15,7 @@ Widget titleList(title) {
           '$title',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 26,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
           ),
@@ -46,6 +47,7 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Daftar Anak Binaan'),
@@ -125,7 +127,7 @@ class ItemList extends StatelessWidget {
                 '$i. $nama',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),
@@ -137,6 +139,7 @@ class ItemList extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: allList == null ? 0 : allList.length,

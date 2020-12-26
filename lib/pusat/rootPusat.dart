@@ -11,11 +11,14 @@ import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/kegiatanCabang.dar
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:suppchild_ver_1/searchPagePusat.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RootPusat extends StatefulWidget {
   final String selectedScreen;
+  final int idPassing;
   final Future<List> dataAnakSearch;
-  RootPusat({this.selectedScreen, this.dataAnakSearch});
+  RootPusat({this.selectedScreen, this.dataAnakSearch, this.idPassing});
 
   @override
   _RootPageState createState() =>
@@ -42,6 +45,20 @@ class _RootPageState extends State<RootPusat> {
   void initState() {
     currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
     super.initState();
+  }
+
+  // Data user firebase
+  Future handleUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final result = (await FirebaseFirestore.instance
+            .collection('users')
+            .where('id', isEqualTo: widget.idPassing)
+            .get())
+        .docs;
+
+    ///Old user
+    sharedPreferences.setInt("id", result[0]["id"]);
+    sharedPreferences.setString("name", result[0]["name"]);
   }
 
   //Mengambil data anak dari db
@@ -135,6 +152,7 @@ class _RootPageState extends State<RootPusat> {
                   size: SizeConfig.safeBlockVertical * 6,
                 ),
                 onPressed: () {
+                  handleUser();
                   setState(() {
                     Navigator.pushNamed(context, '/listChat');
                   });

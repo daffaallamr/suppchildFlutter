@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85526174885",
+    "project_id": "suppchild-chat",
+    "storage_bucket": "suppchild-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85526174885:android:bb29ae700e43139cd1414c",
+        "android_client_info": {
+          "package_name": "com.example.suppchild_ver_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85526174885-t205k2ol22949831v87egm8i7q3qp0s1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSRamlfyor8xZyPwkL_pesjXud7Un0ImM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85526174885-t205k2ol22949831v87egm8i7q3qp0s1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

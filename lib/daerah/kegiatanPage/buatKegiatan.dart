@@ -25,14 +25,14 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   TextEditingController controllerPengaju = new TextEditingController();
 
   _openFileExplorer() async {
-    selectedFile = await FilePicker.getFile(
+    FilePickerResult selectedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc'],
     );
+    PlatformFile file = selectedFile.files.first;
 
     setState(() {
-      fileName =
-          selectedFile.path != null ? selectedFile.path.split('/').last : '';
+      fileName = file.path != null ? file.path.split('/').last : '';
       controllerFile = new TextEditingController(text: fileName);
     });
   }

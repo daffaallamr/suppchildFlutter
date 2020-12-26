@@ -5,6 +5,7 @@ import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/approveKegiatan.dart';
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
   return Container(
@@ -16,7 +17,7 @@ Widget titleList(title) {
           '$title',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 24,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.5,
           ),
@@ -27,6 +28,9 @@ Widget titleList(title) {
 }
 
 class ListSemuaKegiatan extends StatefulWidget {
+  final String daerah;
+  ListSemuaKegiatan({this.daerah});
+
   @override
   _ListSemuaKegiatanState createState() => _ListSemuaKegiatanState();
 }
@@ -41,6 +45,7 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
         appBar: appBarTitle('Daftar Kegiatan'),
@@ -61,11 +66,12 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
                         return snapshot.hasData
                             ? new ListDiajukan(
                                 allList: snapshot.data,
+                                daerah: widget.daerah,
                               )
                             : new Center();
                       },
                     ),
-                    spasiBaris(40.0),
+                    spasiBaris(6.0),
                     titleList('Yang Diterima'),
                     FutureBuilder<List>(
                       future: getDataKegiatan(),
@@ -75,6 +81,7 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
                         return snapshot.hasData
                             ? new ListDiterima(
                                 allList: snapshot.data,
+                                daerah: widget.daerah,
                               )
                             : new Center();
                       },
@@ -91,13 +98,14 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
 }
 
 class ListDiajukan extends StatelessWidget {
-  ListDiajukan({this.allList});
+  ListDiajukan({this.allList, this.daerah});
   final List allList;
+  final String daerah;
 
   @override
   Widget build(BuildContext context) {
     List selectedList =
-        allList.where((data) => data['pengaju'] == 'Gresik').toList();
+        allList.where((data) => data['pengaju'] == daerah).toList();
 
     List selectedStatus =
         selectedList.where((data) => data['status'] == null).toList();
@@ -165,13 +173,14 @@ class ListDiajukan extends StatelessWidget {
 }
 
 class ListDiterima extends StatelessWidget {
-  ListDiterima({this.allList});
+  ListDiterima({this.allList, this.daerah});
   final List allList;
+  final String daerah;
 
   @override
   Widget build(BuildContext context) {
     List selectedList =
-        allList.where((data) => data['pengaju'] == 'Gresik').toList();
+        allList.where((data) => data['pengaju'] == daerah).toList();
 
     List selectedStatus =
         selectedList.where((data) => data['status'] == 'diterima').toList();
@@ -216,7 +225,7 @@ class ListDiterima extends StatelessWidget {
                 '$i. $ongoing',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),

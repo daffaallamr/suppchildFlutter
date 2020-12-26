@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,30 +9,26 @@ Widget dataKegiatan(judul, data) {
     alignment: Alignment.centerLeft,
     decoration: BoxDecoration(
       color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
     ),
     child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 15, 12, 25),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '$judul',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
               color: colorMainPurple,
             ),
           ),
-          spasiBaris(5.0),
+          spasiBaris(0.5),
           Text(
             '$data',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: colorMainOrange,
@@ -70,10 +67,10 @@ class ApproveKegiatan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget buttonTolak() {
       return Center(
         child: Container(
-          width: 160,
           child: RaisedButton(
             onPressed: () {
               statusDitolak();
@@ -83,13 +80,16 @@ class ApproveKegiatan extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             color: colorMainOrange,
-            child: Text(
-              'TOLAK',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: Text(
+                'TOLAK',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 6,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
               ),
             ),
           ),
@@ -100,7 +100,7 @@ class ApproveKegiatan extends StatelessWidget {
     Widget buttonTerima() {
       return Center(
         child: Container(
-          width: 160,
+          width: SizeConfig.safeBlockHorizontal * 35,
           child: RaisedButton(
             onPressed: () {
               statusDiterima();
@@ -114,7 +114,7 @@ class ApproveKegiatan extends StatelessWidget {
               'TERIMA',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 26,
+                fontSize: SizeConfig.safeBlockHorizontal * 6,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -151,7 +151,7 @@ class ApproveKegiatan extends StatelessWidget {
               'FILE',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 26,
+                fontSize: SizeConfig.safeBlockHorizontal * 7,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -173,19 +173,20 @@ class ApproveKegiatan extends StatelessWidget {
               //     // border: Border.all(color: colorMainPurple),
               // ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 20),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Column(
                   children: <Widget>[
+                    spasiBaris(5.0),
                     Text(
                       'Detail Kegiatan',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: SizeConfig.safeBlockHorizontal * 7.5,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,
                         color: colorMainPurple,
                       ),
                     ),
-                    spasiBaris(50.0),
+                    spasiBaris(6.0),
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -194,13 +195,14 @@ class ApproveKegiatan extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          spasiBaris(20.0),
+                          spasiBaris(6.0),
                           dataKegiatan('Nama Kegiatan:', list[index]['nama']),
+                          spasiBaris(4.0),
                           dataKegiatan(
                               'Daerah Pengaju:', list[index]['pengaju']),
-                          spasiBaris(10.0),
+                          spasiBaris(22.0),
                           buttonDownloadFile(),
-                          spasiBaris(50.0),
+                          spasiBaris(6.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[

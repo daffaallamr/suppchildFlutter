@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Widget dataLaporan(judul, data) {
@@ -7,30 +8,26 @@ Widget dataLaporan(judul, data) {
     alignment: Alignment.centerLeft,
     decoration: BoxDecoration(
       color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
     ),
     child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 20, 12, 35),
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '$judul',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
               color: colorMainPurple,
             ),
           ),
-          spasiBaris(5.0),
+          spasiBaris(0.5),
           Text(
             '$data',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: SizeConfig.safeBlockHorizontal * 6,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: colorMainOrange,
@@ -44,34 +41,29 @@ Widget dataLaporan(judul, data) {
 
 Widget lokasiFoto(judul, lokasi) {
   return Container(
-    height: 50,
     alignment: Alignment.centerLeft,
     decoration: BoxDecoration(
       color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
     ),
     child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             '$judul',
             style: TextStyle(
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
               color: colorMainPurple,
             ),
           ),
-          spasiBaris(5.0),
+          spasiBaris(0.5),
           Text(
             '$lokasi',
             style: TextStyle(
-              fontSize: 22,
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               color: colorMainOrange,
@@ -108,7 +100,7 @@ class LaporanKegiatan extends StatelessWidget {
     Widget textFoto() {
       return Text('Belum ada foto',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
             fontWeight: FontWeight.w600,
             letterSpacing: 1.2,
             color: colorMainOrange,
@@ -119,7 +111,7 @@ class LaporanKegiatan extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Container(
-          height: 420,
+          height: SizeConfig.safeBlockVertical * 60,
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -154,7 +146,7 @@ class LaporanKegiatan extends StatelessWidget {
                 'UNDUH FILE LAPORAN',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 6,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5,
                 ),
@@ -175,14 +167,17 @@ class LaporanKegiatan extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  spasiBaris(3.0),
                   dataLaporan('Nama Kegiatan:', list[index]['nama']),
+                  spasiBaris(2.0),
                   dataLaporan('Daerah Pengaju:', list[index]['pengaju']),
+                  spasiBaris(4.0),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
                       'Foto Kegiatan:',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: SizeConfig.safeBlockHorizontal * 6,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,
                         color: colorMainPurple,
@@ -190,10 +185,11 @@ class LaporanKegiatan extends StatelessWidget {
                     ),
                   ),
                   containerFoto(),
+                  spasiBaris(2.0),
                   lokasiFoto('Lokasi Foto:', list[index]['lokasi']),
-                  spasiBaris(40.0),
+                  spasiBaris(6.0),
                   buttonUnduh(),
-                  spasiBaris(20.0),
+                  spasiBaris(3.0),
                 ],
               ),
             ),

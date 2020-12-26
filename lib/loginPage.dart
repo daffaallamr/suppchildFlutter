@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,16 +36,28 @@ class _LoginPageState extends State<LoginPage> {
       });
     } else {
       if (datauser[0]['level'] == 'pusat') {
-        Navigator.pushReplacementNamed(context, '/rootPusat');
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RootPusat(
+                idPassing: int.parse(datauser[0]['id']),
+              ),
+            ));
       } else {
-        Navigator.pushReplacementNamed(context, '/rootDaerah');
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RootDaerah(
+                idPassing: int.parse(datauser[0]['id']),
+              ),
+            ));
       }
       setState(() {
         username = datauser[0]['username'];
         nama = datauser[0]['nama'];
         daerahuser = datauser[0]['daerahuser'];
         passwordUser = datauser[0]['password'];
-        idUser = datauser[0]['id'];
+        idUser = int.parse(datauser[0]['id']);
       });
     }
     return datauser;
@@ -55,23 +69,23 @@ class _LoginPageState extends State<LoginPage> {
     Widget buttonMasuk() {
       return Center(
         child: Container(
-          height: SizeConfig.safeBlockVertical * 7,
           child: RaisedButton(
             onPressed: () {
               _login();
             },
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(SizeConfig.safeBlockHorizontal * 2.5),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
+              borderRadius:
+                  BorderRadius.circular(SizeConfig.safeBlockHorizontal * 2),
             ),
             color: colorMainPurple,
             child: Text(
               'MASUK',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: SizeConfig.safeBlockHorizontal * 7,
+                fontSize: SizeConfig.safeBlockHorizontal * 6.25,
                 fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+                letterSpacing: 1,
               ),
             ),
           ),
@@ -85,8 +99,9 @@ class _LoginPageState extends State<LoginPage> {
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(width: 2.5, color: Color(0xFF7B417B)),
+          borderRadius:
+              BorderRadius.circular(SizeConfig.safeBlockHorizontal * 1.5),
+          border: Border.all(width: 1.75, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           controller: user,
@@ -111,8 +126,9 @@ class _LoginPageState extends State<LoginPage> {
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(width: 2.5, color: Color(0xFF7B417B)),
+          borderRadius:
+              BorderRadius.circular(SizeConfig.safeBlockHorizontal * 1.5),
+          border: Border.all(width: 1.75, color: Color(0xFF7B417B)),
         ),
         child: TextFormField(
           controller: pass,
@@ -137,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
         msg,
         style: TextStyle(
           color: Colors.redAccent,
-          fontSize: 16,
+          fontSize: SizeConfig.safeBlockHorizontal * 4,
           fontWeight: FontWeight.bold,
           letterSpacing: 1,
         ),
@@ -149,24 +165,22 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            width: size.size.width / 1.1,
+            width: SizeConfig.safeBlockHorizontal * 88,
             // decoration: BoxDecoration(
             //     // border: Border.all(color: colorMainPurple),
             // ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Column(
                 children: <Widget>[
+                  spasiBaris(4.0),
                   CircleAvatar(
                     backgroundImage: AssetImage('assets/image/logo.jpeg'),
                     radius: 130,
                   ),
-                  SizedBox(
-                    height: 25,
-                  ),
+                  spasiBaris(4.0),
                   Container(
                     width: double.infinity,
-                    height: size.size.height / 2,
                     decoration: BoxDecoration(
                         // border: Border.all(color: Colors.redAccent)
                         ),
@@ -177,30 +191,30 @@ class _LoginPageState extends State<LoginPage> {
                           'USERNAME',
                           style: TextStyle(
                             color: colorMainPurple,
-                            letterSpacing: 0.6,
+                            letterSpacing: 0.3,
                             fontSize: SizeConfig.safeBlockHorizontal * 6,
                             fontFamily: "Rubik",
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                        spasiBaris(2.0),
+                        spasiBaris(1.0),
                         buildUsername(),
-                        spasiBaris(2.0),
+                        spasiBaris(3.0),
                         Text(
                           'PASSWORD',
                           style: TextStyle(
                             color: colorMainPurple,
-                            letterSpacing: 0.6,
+                            letterSpacing: 0.3,
                             fontSize: SizeConfig.safeBlockHorizontal * 6,
                             fontFamily: "Rubik",
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                        spasiBaris(2.0),
+                        spasiBaris(1.0),
                         buildPassword(),
                         spasiBaris(2.0),
                         alertGagal(),
-                        spasiBaris(2.0),
+                        spasiBaris(5.0),
                         buttonMasuk(),
                       ],
                     ),

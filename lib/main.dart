@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:suppchild_ver_1/chat/listChat.dart';
+import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 
@@ -7,9 +10,6 @@ import 'package:suppchild_ver_1/loginPage.dart';
 import 'package:suppchild_ver_1/searchPageDaerah.dart';
 import 'package:suppchild_ver_1/searchPagePusat.dart';
 
-import 'package:suppchild_ver_1/chatPage/listChat.dart';
-
-import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/tambahAnak.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 
@@ -38,20 +38,26 @@ import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
 
 import 'package:suppchild_ver_1/profilPage/cobaRadio.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 String username = '';
 String nama = '';
 String daerahuser = '';
 String passwordUser = '';
-var idUser = '';
+int idUser;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter SuppChild',
       theme: ThemeData(),
       initialRoute: '/login',
@@ -70,6 +76,7 @@ class MyApp extends StatelessWidget {
 
         //Pesan
         '/listChat': (context) => ListChat(),
+        '/listChatDaerah': (context) => ListChatDaerah(),
 
         //Data Anak bagian cabang
         '/listAnak': (context) => ListAnak(),

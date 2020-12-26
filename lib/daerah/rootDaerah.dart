@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/daerah/kasusPage/listKasus.dart';
 import 'package:suppchild_ver_1/daerah/kegiatanPage/listKegiatan.dart';
@@ -14,8 +16,9 @@ import 'package:suppchild_ver_1/searchPageDaerah.dart';
 
 class RootDaerah extends StatefulWidget {
   final String selectedScreen;
+  final int idPassing;
   final Future<List> dataAnakSearch;
-  RootDaerah({this.selectedScreen, this.dataAnakSearch});
+  RootDaerah({this.selectedScreen, this.dataAnakSearch, this.idPassing});
 
   @override
   _RootPageState createState() =>
@@ -42,6 +45,20 @@ class _RootPageState extends State<RootDaerah> {
   void initState() {
     currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
     super.initState();
+  }
+
+  // Data user firebase
+  Future handleUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final result = (await FirebaseFirestore.instance
+            .collection('users')
+            .where('id', isEqualTo: widget.idPassing)
+            .get())
+        .docs;
+
+    ///Old user
+    sharedPreferences.setInt("id", result[0]["id"]);
+    sharedPreferences.setString("name", result[0]["name"]);
   }
 
   //Mengambil data anak dari db
@@ -135,8 +152,9 @@ class _RootPageState extends State<RootDaerah> {
                   size: SizeConfig.safeBlockVertical * 6,
                 ),
                 onPressed: () {
+                  handleUser();
                   setState(() {
-                    Navigator.pushNamed(context, '/listChat');
+                    Navigator.pushNamed(context, '/listChatDaerah');
                   });
                 },
               ),
@@ -212,7 +230,7 @@ class SelectedScreen extends StatelessWidget {
         break;
       default:
         {
-          return ListKasus();
+          return HomeScreen();
         }
         break;
     }

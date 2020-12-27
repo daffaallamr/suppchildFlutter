@@ -5,90 +5,127 @@ import 'package:url_launcher/url_launcher.dart';
 
 Widget dataLaporan(judul, data) {
   return Container(
-    alignment: Alignment.centerLeft,
+    width: SizeConfig.safeBlockHorizontal * 80,
+    height: SizeConfig.safeBlockVertical * 11,
     decoration: BoxDecoration(
-      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$judul',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 6,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
+    child: Card(
+      elevation: 4.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '$judul',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorMainPurple,
+              ),
             ),
-          ),
-          spasiBaris(0.5),
-          Text(
-            '$data',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 6,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: colorMainOrange,
+            spasiBaris(0.5),
+            Text(
+              '$data',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorSecondPurple,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
 }
 
-Widget lokasiFoto(judul, lokasi) {
-  return Container(
-    alignment: Alignment.centerLeft,
-    decoration: BoxDecoration(
-      color: Colors.transparent,
-    ),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$judul',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 5,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
-            ),
-          ),
-          spasiBaris(0.5),
-          Text(
-            '$lokasi',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 5,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: colorMainOrange,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-class LaporanKegiatan extends StatelessWidget {
+class LaporanKegiatan extends StatefulWidget {
   final List list;
   final int index;
   LaporanKegiatan({this.list, this.index});
 
   @override
-  Widget build(BuildContext context) {
-    var namaFoto = list[index]['foto_laporan'];
-    Image _image = namaFoto != null
-        ? Image.network('http://suppchild.xyz/API/foto_laporan/$namaFoto')
-        : null;
+  _LaporanKegiatanState createState() => _LaporanKegiatanState();
+}
 
+class _LaporanKegiatanState extends State<LaporanKegiatan> {
+  bool adaFoto = true;
+  String namaFoto;
+  String statusLokasiFoto = '-';
+
+  _ambilNamaFoto() async {
+    String namaFotoDB = widget.list[widget.index]['foto_laporan'];
+    String adaLokasiFoto = widget.list[widget.index]['lokasi'];
+    if (namaFotoDB == null) {
+      adaFoto = false;
+    } else if (namaFotoDB != null) {
+      namaFoto = namaFotoDB;
+      statusLokasiFoto = adaLokasiFoto;
+    }
+  }
+
+  Widget lokasiFoto(judul) {
+    return Container(
+      width: SizeConfig.safeBlockHorizontal * 80,
+      height: SizeConfig.safeBlockVertical * 14,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Card(
+        elevation: 4.5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                '$judul',
+                style: TextStyle(
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                  color: colorMainPurple,
+                ),
+              ),
+              spasiBaris(0.5),
+              Text(
+                '$statusLokasiFoto',
+                style: TextStyle(
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                  color: colorSecondPurple,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    _ambilNamaFoto();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     _launchURL() async {
-      final namaFile = list[index]['file_laporan'];
+      final namaFile = widget.list[widget.index]['file_laporan'];
       final url = 'http://suppchild.xyz/API/file_laporanKegiatan/$namaFile';
       if (await canLaunch(url)) {
         await launch(url);
@@ -98,59 +135,54 @@ class LaporanKegiatan extends StatelessWidget {
     }
 
     Widget textFoto() {
-      return Text('Belum ada foto',
+      return Center(
+        child: Text(
+          'Belum ada Foto',
           style: TextStyle(
-            fontSize: SizeConfig.safeBlockHorizontal * 5,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1.2,
-            color: colorMainOrange,
-          ));
-    }
-
-    Widget containerFoto() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 60,
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              width: 2.0,
-              color: colorMainOrange,
-            ),
-          ),
-          child: Center(
-            child: _image == null ? textFoto : _image,
+            color: Colors.redAccent,
+            fontSize: SizeConfig.safeBlockHorizontal * 4,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.5,
           ),
         ),
       );
     }
 
-    Widget buttonUnduh() {
-      return Center(
-        child: Container(
-          child: RaisedButton(
-            onPressed: () {
-              _launchURL();
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: Text(
-                'UNDUH FILE LAPORAN',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 6,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
+    Widget containerFoto() {
+      return adaFoto == true
+          ? Container(
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                image: new DecorationImage(
+                    image: NetworkImage(
+                        'http://suppchild.xyz/API/foto_laporan/$namaFoto'),
+                    fit: BoxFit.fill),
               ),
+            )
+          : textFoto();
+    }
+
+    Widget buttonUnduh() {
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            _launchURL();
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: colorMainPurple,
+          child: Text(
+            'Unduh File Laporan',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
@@ -159,39 +191,70 @@ class LaporanKegiatan extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Laporan Kegiatan'),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  spasiBaris(3.0),
-                  dataLaporan('Nama Kegiatan:', list[index]['nama']),
-                  spasiBaris(2.0),
-                  dataLaporan('Daerah Pengaju:', list[index]['pengaju']),
-                  spasiBaris(4.0),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      'Foto Kegiatan:',
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                spasiBaris(2.0),
+                Container(
+                    decoration: BoxDecoration(
+                      image: new DecorationImage(
+                          image: new AssetImage(
+                              "assets/image/approveKegiatan.png"),
+                          fit: BoxFit.fill),
+                    ),
+                    height: SizeConfig.safeBlockVertical * 25,
+                    width: SizeConfig.safeBlockHorizontal * 60),
+                spasiBaris(2.0),
+                Text(
+                  'Laporan Kegiatan',
+                  style: TextStyle(
+                    color: colorMainPurple,
+                    fontSize: SizeConfig.safeBlockHorizontal * 7,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                spasiBaris(3.0),
+                dataLaporan(
+                    'Nama Kegiatan:', widget.list[widget.index]['nama']),
+                dataLaporan(
+                    'Daerah Pengaju:', widget.list[widget.index]['pengaju']),
+                spasiBaris(8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Foto Kegiatan',
                       style: TextStyle(
-                        fontSize: SizeConfig.safeBlockHorizontal * 6,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
+                        fontFamily: 'Rubik',
+                        fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                        fontWeight: FontWeight.w600,
                         color: colorMainPurple,
                       ),
                     ),
-                  ),
-                  containerFoto(),
-                  spasiBaris(2.0),
-                  lokasiFoto('Lokasi Foto:', list[index]['lokasi']),
-                  spasiBaris(6.0),
-                  buttonUnduh(),
-                  spasiBaris(3.0),
-                ],
-              ),
+                    spasiBaris(1.5),
+                    Container(
+                      height: SizeConfig.safeBlockVertical * 65,
+                      width: SizeConfig.safeBlockHorizontal * 80,
+                      child: Card(
+                          color: Colors.grey[100],
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: containerFoto()),
+                    ),
+                  ],
+                ),
+                spasiBaris(2.0),
+                lokasiFoto('Lokasi Foto:'),
+                spasiBaris(8.0),
+                buttonUnduh(),
+                spasiBaris(4.0),
+              ],
             ),
           ),
         ),

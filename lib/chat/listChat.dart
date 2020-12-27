@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 import 'chatpage.dart';
 
@@ -31,37 +32,62 @@ class _HomeState extends State<ListChat> {
     return SafeArea(
       child: Scaffold(
           appBar: appBarTitle('Pesan'),
-          body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('users').snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data != null) {
-                return ListView.builder(
-                  itemBuilder: (listContext, index) =>
-                      buildItem(snapshot.data.docs[index]),
-                  itemCount: snapshot.data.docs.length,
-                );
-              }
+          body: Center(
+            child: Container(
+              width: SizeConfig.safeBlockHorizontal * 90,
+              child: StreamBuilder<QuerySnapshot>(
+                stream:
+                    FirebaseFirestore.instance.collection('users').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return ListView.builder(
+                      itemBuilder: (listContext, index) =>
+                          buildItem(snapshot.data.docs[index]),
+                      itemCount: snapshot.data.docs.length,
+                    );
+                  }
 
-              return Container();
-            },
+                  return Container();
+                },
+              ),
+            ),
           )),
     );
   }
 
   buildItem(doc) {
     return (doc['id'] != idUser)
-        ? GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ChatPage(docs: doc)));
-            },
-            child: Card(
-              color: Colors.lightBlue,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  child: Center(
-                    child: Text(doc['username']),
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatPage(docs: doc)));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Card(
+                  elevation: 4.5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        doc['username'],
+                        style: TextStyle(
+                          fontSize: SizeConfig.safeBlockHorizontal * 5,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                          color: colorMainPurple,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),

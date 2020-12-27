@@ -6,35 +6,43 @@ import 'package:http/http.dart' as http;
 
 Widget dataKegiatan(judul, data) {
   return Container(
-    alignment: Alignment.centerLeft,
+    width: SizeConfig.safeBlockHorizontal * 80,
+    height: SizeConfig.safeBlockVertical * 10,
     decoration: BoxDecoration(
-      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$judul',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 6,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
+    child: Card(
+      elevation: 4.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '$judul',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorMainPurple,
+              ),
             ),
-          ),
-          spasiBaris(0.5),
-          Text(
-            '$data',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 6,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: colorMainOrange,
+            spasiBaris(0.5),
+            Text(
+              '$data',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorSecondPurple,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
@@ -69,28 +77,24 @@ class ApproveKegiatan extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     Widget buttonTolak() {
-      return Center(
-        child: Container(
-          child: RaisedButton(
-            onPressed: () {
-              statusDitolak();
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainOrange,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Text(
-                'TOLAK',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 6,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 35,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            statusDitolak();
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: Colors.redAccent,
+          child: Text(
+            'Tolak',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
@@ -98,26 +102,24 @@ class ApproveKegiatan extends StatelessWidget {
     }
 
     Widget buttonTerima() {
-      return Center(
-        child: Container(
-          width: SizeConfig.safeBlockHorizontal * 35,
-          child: RaisedButton(
-            onPressed: () {
-              statusDiterima();
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Text(
-              'TERIMA',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: SizeConfig.safeBlockHorizontal * 6,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 35,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            statusDiterima();
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: colorMainPurple,
+          child: Text(
+            'Terima',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
@@ -135,86 +137,73 @@ class ApproveKegiatan extends StatelessWidget {
     }
 
     Widget buttonDownloadFile() {
-      return Center(
-        child: Container(
-          width: double.infinity,
-          child: RaisedButton(
-            onPressed: () {
-              _launchURL();
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Text(
-              'FILE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: SizeConfig.safeBlockHorizontal * 7,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            _launchURL();
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: colorSecondPurple,
+          child: Text(
+            'Unduh File',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
       );
     }
 
-    final size = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
-        appBar: appBarTitle('Info Kegiatan'),
+        backgroundColor: Colors.white,
+        appBar: appBarTitle('Kegiatan Diajukan'),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
-              width: size.size.width / 1.1,
-              // decoration: BoxDecoration(
-              //     // border: Border.all(color: colorMainPurple),
-              // ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Column(
-                  children: <Widget>[
-                    spasiBaris(5.0),
-                    Text(
-                      'Detail Kegiatan',
-                      style: TextStyle(
-                        fontSize: SizeConfig.safeBlockHorizontal * 7.5,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
-                        color: colorMainPurple,
-                      ),
-                    ),
-                    spasiBaris(6.0),
-                    Container(
-                      width: double.infinity,
+              child: Column(
+                children: <Widget>[
+                  spasiBaris(2.0),
+                  Container(
                       decoration: BoxDecoration(
-                          // border: Border.all(color: Colors.redAccent)
-                          ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          spasiBaris(6.0),
-                          dataKegiatan('Nama Kegiatan:', list[index]['nama']),
-                          spasiBaris(4.0),
-                          dataKegiatan(
-                              'Daerah Pengaju:', list[index]['pengaju']),
-                          spasiBaris(22.0),
-                          buttonDownloadFile(),
-                          spasiBaris(6.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              buttonTolak(),
-                              buttonTerima(),
-                            ],
-                          ),
-                        ],
+                        image: new DecorationImage(
+                            image: new AssetImage(
+                                "assets/image/approveKegiatan.png"),
+                            fit: BoxFit.fill),
                       ),
+                      height: SizeConfig.safeBlockVertical * 25,
+                      width: SizeConfig.safeBlockHorizontal * 60),
+                  spasiBaris(2.0),
+                  Text(
+                    'Data Kegiatan',
+                    style: TextStyle(
+                      color: colorMainPurple,
+                      fontSize: SizeConfig.safeBlockHorizontal * 7,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
                     ),
-                  ],
-                ),
+                  ),
+                  spasiBaris(5.0),
+                  dataKegiatan('Nama Kegiatan:', list[index]['nama']),
+                  dataKegiatan('Daerah Pengaju:', list[index]['pengaju']),
+                  spasiBaris(1.0),
+                  buttonDownloadFile(),
+                  spasiBaris(16.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      buttonTolak(),
+                      buttonTerima(),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

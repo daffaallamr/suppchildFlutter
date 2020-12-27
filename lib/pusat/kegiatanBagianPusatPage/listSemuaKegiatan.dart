@@ -8,21 +8,13 @@ import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.da
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
-  return Container(
-    color: colorMainPurple,
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Center(
-        child: Text(
-          '$title',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: SizeConfig.safeBlockHorizontal * 7,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ),
+  return Text(
+    '$title',
+    style: TextStyle(
+      fontFamily: 'Rubik',
+      fontSize: SizeConfig.safeBlockHorizontal * 6,
+      fontWeight: FontWeight.w600,
+      color: colorMainPurple,
     ),
   );
 }
@@ -53,41 +45,81 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
-                  children: <Widget>[
-                    titleList('Yang Diajukan'),
-                    FutureBuilder<List>(
-                      future: getDataKegiatan(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) print("Error");
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  titleList('Kegiatan Diajukan'),
+                  spasiBaris(2.0),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 90,
+                    child: Card(
+                      color: Colors.grey[100],
+                      elevation: 4.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FutureBuilder<List>(
+                          future: getDataKegiatan(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) print("Error");
 
-                        return snapshot.hasData
-                            ? new ListDiajukan(
-                                allList: snapshot.data,
-                                daerah: widget.daerah,
-                              )
-                            : new Center();
-                      },
+                            return snapshot.hasData
+                                ? new ListDiajukan(
+                                    allList: snapshot.data,
+                                    daerah: widget.daerah,
+                                  )
+                                : Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: new CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.redAccent),
+                                    ),
+                                  ));
+                          },
+                        ),
+                      ),
                     ),
-                    spasiBaris(6.0),
-                    titleList('Yang Diterima'),
-                    FutureBuilder<List>(
-                      future: getDataKegiatan(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) print("Error");
+                  ),
+                  spasiBaris(6.0),
+                  titleList('Kegiatan Diterima'),
+                  spasiBaris(2.0),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 90,
+                    child: Card(
+                      color: Colors.grey[100],
+                      elevation: 4.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FutureBuilder<List>(
+                          future: getDataKegiatan(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) print("Error");
 
-                        return snapshot.hasData
-                            ? new ListDiterima(
-                                allList: snapshot.data,
-                                daerah: widget.daerah,
-                              )
-                            : new Center();
-                      },
+                            return snapshot.hasData
+                                ? new ListDiterima(
+                                    allList: snapshot.data,
+                                    daerah: widget.daerah,
+                                  )
+                                : new Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: new CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.redAccent),
+                                    ),
+                                  ));
+                          },
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -110,49 +142,39 @@ class ListDiajukan extends StatelessWidget {
     List selectedStatus =
         selectedList.where((data) => data['status'] == null).toList();
 
-    Widget listKegiatanDiajukan(i, pengajuan) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
+    Widget listData(i, hasil) {
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ApproveKegiatan(
+                  list: selectedStatus,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
+              ),
             ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-          ),
-        ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ApproveKegiatan(
-                    list: selectedStatus,
-                    index: i - 1,
-                  ),
-                ));
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
               child: Text(
-                '$i. $pengajuan',
+                '$hasil',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -162,11 +184,12 @@ class ListDiajukan extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listKegiatanDiajukan(i + 1, selectedStatus[i]['nama']);
+        return listData(i, selectedStatus[i]['nama']);
       },
     );
   }
@@ -185,49 +208,39 @@ class ListDiterima extends StatelessWidget {
     List selectedStatus =
         selectedList.where((data) => data['status'] == 'diterima').toList();
 
-    Widget listKegiatanDiterima(i, ongoing) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
+    Widget listData(i, hasil) {
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LaporanKegiatan(
+                  list: selectedStatus,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
+              ),
             ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-          ),
-        ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LaporanKegiatan(
-                    list: selectedStatus,
-                    index: i - 1,
-                  ),
-                ));
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
               child: Text(
-                '$i. $ongoing',
+                '$hasil',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -237,11 +250,12 @@ class ListDiterima extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listKegiatanDiterima(i + 1, selectedStatus[i]['nama']);
+        return listData(i, selectedStatus[i]['nama']);
       },
     );
   }

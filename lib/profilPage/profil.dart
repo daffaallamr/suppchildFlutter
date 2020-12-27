@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               color: Colors.red,
               child: Text(
-                'Batal',
+                'Tidak',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: SizeConfig.safeBlockHorizontal * 5,
@@ -170,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               color: colorMainPurple,
               child: Text(
-                'Iya',
+                'Ya',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: SizeConfig.safeBlockHorizontal * 5,
@@ -229,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
-            color: colorMainOrange,
+            color: Colors.redAccent,
             child: Text(
               'Keluar Aplikasi',
               style: TextStyle(

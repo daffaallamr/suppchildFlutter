@@ -6,21 +6,13 @@ import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
-  return Container(
-    color: colorMainPurple,
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Center(
-        child: Text(
-          '$title',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: SizeConfig.safeBlockHorizontal * 7,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ),
+  return Text(
+    'Anak Binaan $title',
+    style: TextStyle(
+      fontFamily: 'Rubik',
+      fontSize: SizeConfig.safeBlockHorizontal * 6,
+      fontWeight: FontWeight.w600,
+      color: colorSecondPurple,
     ),
   );
 }
@@ -50,29 +42,49 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Daftar Anak Binaan'),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
-                  children: <Widget>[
-                    titleList(daerah),
-                    FutureBuilder<List>(
-                      future: getDataAnak(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) print("Error");
-
-                        return snapshot.hasData
-                            ? new ItemList(allList: snapshot.data)
-                            : new Center();
-                      },
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(5.0),
+                titleList(daerah),
+                spasiBaris(2.0),
+                Container(
+                  width: SizeConfig.safeBlockHorizontal * 85,
+                  child: Card(
+                    color: Colors.grey[100],
+                    elevation: 4.5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
                     ),
-                  ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: FutureBuilder<List>(
+                        future: getDataAnak(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print("Error");
+
+                          return snapshot.hasData
+                              ? new ItemList(
+                                  allList: snapshot.data,
+                                )
+                              : Center(
+                                  child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation(
+                                        Colors.redAccent),
+                                  ),
+                                ));
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -88,48 +100,38 @@ class ItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget listAnak(i, nama) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailKondisiAnak(
+                  allList: allList,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
+              ),
             ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-          ),
-        ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailKondisiAnak(
-                    allList: allList,
-                    index: i - 1,
-                  ),
-                ));
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
               child: Text(
-                '$i. $nama',
+                '$nama',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -144,7 +146,7 @@ class ItemList extends StatelessWidget {
       shrinkWrap: true,
       itemCount: allList == null ? 0 : allList.length,
       itemBuilder: (context, i) {
-        return listAnak(i + 1, allList[i]['nama']);
+        return listAnak(i, allList[i]['nama']);
       },
     );
   }

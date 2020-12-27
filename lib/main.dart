@@ -5,7 +5,6 @@ import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 
-import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/loginPage.dart';
 import 'package:suppchild_ver_1/searchPageDaerah.dart';
 import 'package:suppchild_ver_1/searchPagePusat.dart';
@@ -37,7 +36,6 @@ import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.da
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
 
-import 'package:suppchild_ver_1/profilPage/cobaRadio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:suppchild_ver_1/spashScreen.dart';
 
@@ -117,8 +115,6 @@ class MyApp extends StatelessWidget {
             ApproveKegiatan(), //Approve pengajuan kegiatan
         '/laporanKegiatan': (context) =>
             LaporanKegiatan(), //Melihat hasil(laporan) kegiatan yang sudah di approve
-
-        '/coba': (context) => GroupedButton(),
       },
     );
   }

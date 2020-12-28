@@ -40,13 +40,13 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Daftar Kegiatan'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   titleList('Kegiatan Diajukan'),
                   spasiBaris(2.0),

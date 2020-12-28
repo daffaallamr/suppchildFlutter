@@ -7,21 +7,13 @@ import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/pemilihanStatusKasus.
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
-  return Container(
-    color: colorMainPurple,
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Center(
-        child: Text(
-          '$title',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: SizeConfig.safeBlockHorizontal * 7,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ),
+  return Text(
+    'Kasus di $title',
+    style: TextStyle(
+      fontFamily: 'Rubik',
+      fontSize: SizeConfig.safeBlockHorizontal * 6,
+      fontWeight: FontWeight.w600,
+      color: colorMainPurple,
     ),
   );
 }
@@ -51,31 +43,50 @@ class _ListKasusPercabangState extends State<ListKasusPercabang> {
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Daftar Kasus'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
-                  children: <Widget>[
-                    titleList('$daerah'),
-                    FutureBuilder<List>(
-                      future: getDataKasus(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) print("Error");
+              child: Column(
+                children: <Widget>[
+                  titleList('$daerah'),
+                  spasiBaris(2.0),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 90,
+                    child: Card(
+                      color: Colors.grey[100],
+                      elevation: 4.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FutureBuilder<List>(
+                          future: getDataKasus(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) print("Error");
 
-                        return snapshot.hasData
-                            ? new SelectedList(
-                                allList: snapshot.data,
-                                daerah: daerah,
-                              )
-                            : new Center();
-                      },
+                            return snapshot.hasData
+                                ? new SelectedList(
+                                    allList: snapshot.data,
+                                    daerah: daerah,
+                                  )
+                                : new Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: new CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.redAccent),
+                                    ),
+                                  ));
+                          },
+                        ),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -95,49 +106,39 @@ class SelectedList extends StatelessWidget {
     List selectedList =
         allList.where((data) => data['daerah'] == daerah).toList();
 
-    Widget listKasus(i, kasus) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
+    Widget listData(i, hasil) {
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PemilihanStatusKasus(
+                  list: selectedList,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
+              ),
             ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-          ),
-        ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PemilihanStatusKasus(
-                    list: selectedList,
-                    index: i - 1,
-                  ),
-                ));
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
               child: Text(
-                '$i. $kasus',
+                '$hasil',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -151,7 +152,7 @@ class SelectedList extends StatelessWidget {
       shrinkWrap: true,
       itemCount: selectedList == null ? 0 : selectedList.length,
       itemBuilder: (context, i) {
-        return listKasus(i + 1, selectedList[i]['nama']);
+        return listData(i, selectedList[i]['nama']);
       },
     );
   }

@@ -58,7 +58,7 @@ class KasusCabang extends StatelessWidget {
             width: SizeConfig.safeBlockHorizontal * 60),
         // spasiBaris(1.0),
         Text(
-          'Data Kegiatan',
+          'Data Kasus',
           style: TextStyle(
             color: colorMainPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 7,

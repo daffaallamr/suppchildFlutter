@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
@@ -77,12 +78,98 @@ class ApproveKegiatan extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     Widget buttonTolak() {
+      Widget buttonbatal() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget buttonYakin() {
+        return Center(
+          child: Container(
+            // width: 160,
+            child: RaisedButton(
+              onPressed: () {
+                statusDitolak();
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Ya',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget contModal() {
+        return AlertDialog(
+          content: Container(
+            height: SizeConfig.safeBlockHorizontal * 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(1.0),
+                Text(
+                  'Apakah Anda Yakin Menolak Kegiatan Ini?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                spasiBaris(2.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonYakin(),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
       return Container(
         width: SizeConfig.safeBlockHorizontal * 35,
         height: SizeConfig.safeBlockVertical * 6.5,
         child: RaisedButton(
           onPressed: () {
-            statusDitolak();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => contModal(),
+            );
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -102,12 +189,103 @@ class ApproveKegiatan extends StatelessWidget {
     }
 
     Widget buttonTerima() {
+      Widget buttonbatal() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget buttonYakin() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                statusDiterima();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RootPusat(selectedScreen: 'kegiatan'),
+                    ));
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Ya',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget contModal() {
+        return AlertDialog(
+          content: Container(
+            height: SizeConfig.safeBlockHorizontal * 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(1.0),
+                Text(
+                  'Apakah Anda Yakin Menerima Kegiatan Ini?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                spasiBaris(2.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonYakin(),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
       return Container(
         width: SizeConfig.safeBlockHorizontal * 35,
         height: SizeConfig.safeBlockVertical * 6.5,
         child: RaisedButton(
           onPressed: () {
-            statusDiterima();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => contModal(),
+            );
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),

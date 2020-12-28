@@ -6,35 +6,42 @@ import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget dataKegiatan(judul, data) {
   return Container(
-    alignment: Alignment.centerLeft,
+    width: SizeConfig.safeBlockHorizontal * 80,
     decoration: BoxDecoration(
-      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$judul',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 6,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
+    child: Card(
+      elevation: 4.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 0, 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '$judul',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorMainPurple,
+              ),
             ),
-          ),
-          spasiBaris(0.5),
-          Text(
-            '$data',
-            style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 6,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: colorMainOrange,
+            spasiBaris(0.5),
+            Text(
+              '$data',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorSecondPurple,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
@@ -68,17 +75,17 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
     Widget radioButton() {
       return CustomRadioButton(
         buttonTextStyle: ButtonTextStyle(
-          selectedColor: Colors.white,
-          unSelectedColor: Colors.white,
-          textStyle: TextStyle(
-            color: Colors.white,
-            fontSize: SizeConfig.safeBlockHorizontal * 5.5,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
-        ),
+            selectedColor: Colors.white,
+            unSelectedColor: Colors.white,
+            textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 4.25,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1,
+            )),
         autoWidth: false,
-        width: SizeConfig.safeBlockHorizontal * 35,
+        width: SizeConfig.safeBlockHorizontal * 37.5,
+        height: SizeConfig.safeBlockVertical * 6.5,
         enableButtonWrap: true,
         wrapAlignment: WrapAlignment.center,
         unSelectedColor: colorSecondPurple,
@@ -101,102 +108,71 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
             ? ["Terima"]
             : widget.list[widget.index]['status'],
         horizontal: false,
-        height: SizeConfig.safeBlockVertical * 7,
         selectedColor: colorMainPurple,
-        spacing: 10,
+        spacing: 5,
         enableShape: true,
         absoluteZeroSpacing: false,
         customShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(20),
           ),
         ),
       );
     }
 
     Widget buttonSimpan() {
-      return Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Center(
-          child: Container(
-            width: double.infinity,
-            child: RaisedButton(
-              onPressed: () {
-                updateStatus();
-                Navigator.pop(context);
-              },
-              padding: EdgeInsets.all(10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: colorMainOrange,
-              child: Text(
-                'SIMPAN STATUS',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 6,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            updateStatus();
+            Navigator.pop(context);
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: colorMainPurple,
+          child: Text(
+            'Simpan Status',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
       );
     }
 
-    final size = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Status Kasus'),
         body: SingleChildScrollView(
           child: Center(
-            child: Container(
-              width: size.size.width / 1.1,
-              // decoration: BoxDecoration(
-              //     // border: Border.all(color: colorMainPurple),
-              // ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Column(
-                  children: <Widget>[
-                    spasiBaris(3.0),
-                    Text(
-                      'Detail Kasus',
-                      style: TextStyle(
-                        fontSize: SizeConfig.safeBlockHorizontal * 8,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
-                        color: colorMainPurple,
-                      ),
-                    ),
-                    spasiBaris(7.0),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          // border: Border.all(color: Colors.redAccent)
-                          ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          dataKegiatan(
-                              'Nama Anak:', widget.list[widget.index]['nama']),
-                          spasiBaris(3.0),
-                          dataKegiatan(
-                              'Tempat:', widget.list[widget.index]['tempat']),
-                          spasiBaris(3.0),
-                          dataKegiatan(
-                              'Kasus:', widget.list[widget.index]['detail']),
-                          spasiBaris(5.0),
-                          radioButton(),
-                          spasiBaris(6.5),
-                          buttonSimpan(),
-                        ],
-                      ),
-                    ),
-                  ],
+            child: Column(
+              children: <Widget>[
+                spasiBaris(3.0),
+                Text(
+                  'Informasi Kasus',
+                  style: TextStyle(
+                    color: colorMainPurple,
+                    fontSize: SizeConfig.safeBlockHorizontal * 7,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-              ),
+                spasiBaris(3.0),
+                dataKegiatan('Nama Anak:', widget.list[widget.index]['nama']),
+                dataKegiatan('Tempat:', widget.list[widget.index]['tempat']),
+                dataKegiatan('Kasus:', widget.list[widget.index]['detail']),
+                spasiBaris(3.0),
+                radioButton(),
+                spasiBaris(15.0),
+                buttonSimpan(),
+              ],
             ),
           ),
         ),

@@ -12,7 +12,7 @@ Widget titleList(title) {
       fontFamily: 'Rubik',
       fontSize: SizeConfig.safeBlockHorizontal * 6,
       fontWeight: FontWeight.w600,
-      color: colorSecondPurple,
+      color: colorMainPurple,
     ),
   );
 }
@@ -45,46 +45,48 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
         backgroundColor: Colors.white,
         appBar: appBarTitle('Daftar Anak Binaan'),
         body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                spasiBaris(5.0),
-                titleList(daerah),
-                spasiBaris(2.0),
-                Container(
-                  width: SizeConfig.safeBlockHorizontal * 85,
-                  child: Card(
-                    color: Colors.grey[100],
-                    elevation: 4.5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: FutureBuilder<List>(
-                        future: getDataAnak(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) print("Error");
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  titleList(daerah),
+                  spasiBaris(2.0),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 85,
+                    child: Card(
+                      color: Colors.grey[100],
+                      elevation: 4.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: FutureBuilder<List>(
+                          future: getDataAnak(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) print("Error");
 
-                          return snapshot.hasData
-                              ? new ItemList(
-                                  allList: snapshot.data,
-                                )
-                              : Center(
-                                  child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: new CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation(
-                                        Colors.redAccent),
-                                  ),
-                                ));
-                        },
+                            return snapshot.hasData
+                                ? new ItemList(
+                                    allList: snapshot.data,
+                                  )
+                                : Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: new CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.redAccent),
+                                    ),
+                                  ));
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

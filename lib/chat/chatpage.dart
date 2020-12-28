@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ChatPage extends StatefulWidget {
   final docs;
@@ -13,6 +15,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   String groupChatId;
+  String anotherUsername;
 
   TextEditingController textEditingController = TextEditingController();
 
@@ -25,21 +28,24 @@ class _ChatPageState extends State<ChatPage> {
 
   getGroupChatId() async {
     int anotherUserId = widget.docs['id'];
+    String _anotherUsername = widget.docs['username'];
 
     if (idUser.compareTo(anotherUserId) > 0) {
       groupChatId = '$idUser - $anotherUserId';
     } else {
       groupChatId = '$anotherUserId - $idUser';
     }
-    setState(() {});
+    setState(() {
+      anotherUsername = _anotherUsername;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    double centerTextField = SizeConfig.safeBlockVertical * 5;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat page!'),
-      ),
+      backgroundColor: Colors.white,
+      appBar: appBarTitle('$anotherUsername'),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('messages')
@@ -59,18 +65,63 @@ class _ChatPageState extends State<ChatPage> {
                   itemCount: snapshot.data.documents.length,
                   reverse: true,
                 )),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        controller: textEditingController,
+                Container(
+                  color: colorSecondPurple,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 0, 10),
+                          child: Container(
+                            height: SizeConfig.safeBlockVertical * 6,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: TextField(
+                              textAlignVertical: TextAlignVertical.center,
+                              controller: textEditingController,
+                              cursorColor: colorSecondPurple,
+                              style: TextStyle(
+                                color: colorSecondPurple,
+                                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                              ),
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                  left: 20.0,
+                                  right: 20.0,
+                                  bottom: centerTextField /
+                                      2, // HERE THE IMPORTANT PART
+                                ),
+                                border: InputBorder.none,
+                                hintText: 'Masukan pesan ...',
+                                hintStyle: TextStyle(
+                                  fontSize: SizeConfig.safeBlockHorizontal * 4,
+                                  letterSpacing: 0.3,
+                                  fontWeight: FontWeight.w400,
+                                  color: colorMainPurple,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.send),
-                      onPressed: () => sendMsg(),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                            size: SizeConfig.safeBlockVertical * 4,
+                          ),
+                          onPressed: () {
+                            sendMsg();
+                            textEditingController.text = "";
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );
@@ -119,22 +170,35 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   buildItem(doc) {
+    int sendByMe = (doc.data()['senderId']);
     return Padding(
-      padding: EdgeInsets.only(
-          top: 8.0,
-          left: ((doc.data()['senderId'] == idUser) ? 64 : 0),
-          right: ((doc.data()['senderId'] == idUser) ? 0 : 64)),
+      padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-            color: ((doc.data()['senderId'] == idUser)
-                ? Colors.grey
-                : Colors.greenAccent),
-            borderRadius: BorderRadius.circular(8.0)),
-        child: (doc.data()['type'] == 'text')
-            ? Text('${doc.data()['content']}')
-            : Image.network(doc.data()['content']),
+        padding: EdgeInsets.only(
+            left: (sendByMe == idUser ? 24 : 0),
+            right: (sendByMe == idUser ? 0 : 24)),
+        alignment:
+            (sendByMe == idUser ? Alignment.centerRight : Alignment.centerLeft),
+        child: Container(
+          margin: sendByMe == idUser
+              ? EdgeInsets.only(left: 30)
+              : EdgeInsets.only(right: 30),
+          padding: EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
+          decoration: BoxDecoration(
+              borderRadius: sendByMe == idUser
+                  ? BorderRadius.only(
+                      topLeft: Radius.circular(23),
+                      topRight: Radius.circular(23),
+                      bottomLeft: Radius.circular(23))
+                  : BorderRadius.only(
+                      bottomLeft: Radius.circular(23),
+                      topRight: Radius.circular(23),
+                      bottomRight: Radius.circular(23)),
+              color: sendByMe == idUser ? Colors.grey[200] : Colors.grey[300]),
+          child: (doc.data()['type'] == 'text')
+              ? Text('${doc.data()['content']}')
+              : Image.network(doc.data()['content']),
+        ),
       ),
     );
   }

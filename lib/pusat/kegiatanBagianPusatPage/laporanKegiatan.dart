@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 Widget dataLaporan(judul, data) {
   return Container(
     width: SizeConfig.safeBlockHorizontal * 80,
-    height: SizeConfig.safeBlockVertical * 11,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
     ),
@@ -16,7 +15,7 @@ Widget dataLaporan(judul, data) {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,7 +6,7 @@ import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'chatpage.dart';
 
-Widget titleList(title) {
+Widget titleList() {
   return Text(
     'Daftar Pesan',
     style: TextStyle(
@@ -43,26 +43,35 @@ class _HomeState extends State<ListChat> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: appBarTitle('Pesan'),
-          body: Center(
-            child: Column(
-              children: [
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('users')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
-                      return ListView.builder(
-                        itemBuilder: (listContext, index) =>
-                            buildItem(snapshot.data.docs[index]),
-                        itemCount: snapshot.data.docs.length,
-                      );
-                    }
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  spasiBaris(3.0),
+                  titleList(),
+                  spasiBaris(3.0),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 85,
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data != null) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (listContext, index) =>
+                                buildItem(snapshot.data.docs[index]),
+                            itemCount: snapshot.data.docs.length,
+                          );
+                        }
 
-                    return Container();
-                  },
-                ),
-              ],
+                        return Container();
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           )),
     );
@@ -71,7 +80,6 @@ class _HomeState extends State<ListChat> {
   buildItem(doc) {
     return (doc['id'] != idUser)
         ? Container(
-            width: SizeConfig.safeBlockHorizontal * 80,
             height: SizeConfig.safeBlockVertical * 9,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

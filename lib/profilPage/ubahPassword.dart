@@ -15,18 +15,38 @@ class _UbahPasswordState extends State<UbahPassword> {
   bool berhasil = true;
 
   //Controller
-  TextEditingController controllerCurrentPass = new TextEditingController();
-  TextEditingController controllerNewPass = new TextEditingController();
-  TextEditingController controllerConfirmPass = new TextEditingController();
+  TextEditingController controllerCurrentPass =
+      new TextEditingController(text: '');
+  TextEditingController controllerNewPass = new TextEditingController(text: '');
+  TextEditingController controllerConfirmPass =
+      new TextEditingController(text: '');
 
   Future _ubahPass() async {
     var url = "http://suppchild.xyz/API/ubahPassword.php";
 
-    if (controllerCurrentPass.text != passwordUser) {
+    if (controllerCurrentPass.text == '') {
       setState(() {
-        msg = "Password lama anda salah!";
+        msg = "Password lama anda kosong!";
         berhasil = false;
-        print('pass salah!');
+        print('pass kosong!');
+      });
+    } else if (controllerCurrentPass.text != passwordUser) {
+      setState(() {
+        msg = "Password baru anda salah!";
+        berhasil = false;
+        print('pass baru salah!');
+      });
+    } else if (controllerNewPass.text == '') {
+      setState(() {
+        msg = "Password baru anda kosong!";
+        berhasil = false;
+        print('konfirm pass salah!');
+      });
+    } else if (controllerConfirmPass.text == '') {
+      setState(() {
+        msg = "Konfirmasi password baru anda kosong!";
+        berhasil = false;
+        print('konfirm pass kosong!');
       });
     } else if (controllerNewPass.text != controllerConfirmPass.text) {
       setState(() {
@@ -36,11 +56,12 @@ class _UbahPasswordState extends State<UbahPassword> {
       });
     } else {
       berhasil = true;
-      print('Berhasil');
+      print(controllerNewPass.text);
       http.post(url, body: {
         "id": idUser,
-        "password": controllerConfirmPass.text,
+        "password": controllerNewPass.text,
       });
+      print('Berhasil');
     }
   }
 
@@ -76,7 +97,6 @@ class _UbahPasswordState extends State<UbahPassword> {
           autofocus: false,
           obscureText: true,
           cursorColor: colorMainPurple,
-          keyboardType: TextInputType.text,
           style: TextStyle(
             color: colorSecondPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 5,
@@ -119,7 +139,6 @@ class _UbahPasswordState extends State<UbahPassword> {
           autofocus: false,
           obscureText: true,
           cursorColor: colorMainPurple,
-          keyboardType: TextInputType.text,
           style: TextStyle(
             color: colorSecondPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 5,
@@ -162,7 +181,6 @@ class _UbahPasswordState extends State<UbahPassword> {
           autofocus: false,
           obscureText: true,
           cursorColor: colorMainPurple,
-          keyboardType: TextInputType.text,
           style: TextStyle(
             color: colorSecondPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 5,
@@ -191,14 +209,102 @@ class _UbahPasswordState extends State<UbahPassword> {
     }
 
     Widget buttonUbah() {
+      Widget buttonbatal() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget buttonYakin() {
+        return Center(
+          child: Container(
+            // width: 160,
+            child: RaisedButton(
+              onPressed: () {
+                _ubahPass();
+                berhasil == true
+                    ? Navigator.pop(context)
+                    : Navigator.pop(context);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Ya',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget contModal() {
+        return AlertDialog(
+          content: Container(
+            height: SizeConfig.safeBlockHorizontal * 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(1.0),
+                Text(
+                  'Yakin Dengan Password Anda?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                spasiBaris(2.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonYakin(),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
       return Center(
         child: Container(
           width: SizeConfig.safeBlockHorizontal * 80,
           height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
-              _ubahPass();
-              berhasil == true ? Navigator.pop(context) : Text('');
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => contModal(),
+              );
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),

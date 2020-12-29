@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
+import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class UbahPassword extends StatefulWidget {
@@ -32,7 +35,7 @@ class _UbahPasswordState extends State<UbahPassword> {
       });
     } else if (controllerCurrentPass.text != passwordUser) {
       setState(() {
-        msg = "Password baru anda salah!";
+        msg = "Password lama anda salah!";
         berhasil = false;
         print('pass baru salah!');
       });
@@ -57,9 +60,12 @@ class _UbahPasswordState extends State<UbahPassword> {
     } else {
       berhasil = true;
       print(controllerNewPass.text);
-      http.post(url, body: {
-        "id": idUser,
+      http.post(url, body: <String, String>{
+        "id": idUser.toString(),
         "password": controllerNewPass.text,
+      });
+      setState(() {
+        passwordUser = controllerNewPass.text;
       });
       print('Berhasil');
     }
@@ -242,7 +248,12 @@ class _UbahPasswordState extends State<UbahPassword> {
               onPressed: () {
                 _ubahPass();
                 berhasil == true
-                    ? Navigator.pop(context)
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RootPusat(selectedScreen: 'profil'),
+                        ))
                     : Navigator.pop(context);
               },
               shape: RoundedRectangleBorder(

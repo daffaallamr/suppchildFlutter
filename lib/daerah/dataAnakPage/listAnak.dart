@@ -24,79 +24,90 @@ class _ListAnakState extends State<ListAnak> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     Widget buttonTambah() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 22, 10, 22),
-        child: Center(
-          child: Container(
-            width: SizeConfig.safeBlockHorizontal * 90,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/tambahAnak');
-              },
-              padding: EdgeInsets.all(10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: colorMainPurple,
-              child: Text(
-                'Tambah Data',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/tambahAnak');
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: colorMainPurple,
+          child: Text(
+            'Tambah Data',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.5,
             ),
           ),
         ),
       );
     }
 
-    return Column(
-      children: <Widget>[
-        buttonTambah(),
-        Container(
-          width: SizeConfig.safeBlockHorizontal * 90,
-          child: Wrap(
-            children: <Widget>[
-              Container(
-                child: Container(
-                  color: colorMainPurple,
-                  child: Padding(
-                    padding: const EdgeInsets.all(14.0),
-                    child: Center(
-                      child: Text(
-                        '$daerahuser',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                    ),
-                  ),
+    return Center(
+      child: Column(
+        children: <Widget>[
+          spasiBaris(2.0),
+          Container(
+              decoration: BoxDecoration(
+                image: new DecorationImage(
+                    image: new AssetImage("assets/image/anak.png"),
+                    fit: BoxFit.fill),
+              ),
+              height: SizeConfig.safeBlockVertical * 25,
+              width: SizeConfig.safeBlockHorizontal * 60),
+          // spasiBaris(1.0),
+          Text(
+            'Anak Binaan $daerahuser',
+            style: TextStyle(
+              color: colorMainPurple,
+              fontSize: SizeConfig.safeBlockHorizontal * 6.5,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          spasiBaris(2.0),
+          buttonTambah(),
+          spasiBaris(2.0),
+          Container(
+            width: SizeConfig.safeBlockHorizontal * 85,
+            child: Card(
+              color: Colors.grey[100],
+              elevation: 4.5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: FutureBuilder<List>(
+                  future: getDataAnak(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) print("Error");
+
+                    return snapshot.hasData
+                        ? new ItemList(
+                            allList: snapshot.data,
+                            daerahuser: daerahuser,
+                          )
+                        : new Center(
+                            child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation(Colors.redAccent),
+                            ),
+                          ));
+                  },
                 ),
               ),
-              FutureBuilder<List>(
-                future: getDataAnak(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) print("Error");
-
-                  return snapshot.hasData
-                      ? new ItemList(
-                          allList: snapshot.data,
-                          daerahuser: daerahuser,
-                        )
-                      : new Center();
-                },
-              ),
-            ],
+            ),
           ),
-        ),
-        spasiBaris(8.0),
-      ],
+          spasiBaris(4.0),
+        ],
+      ),
     );
   }
 }
@@ -111,48 +122,38 @@ class ItemList extends StatelessWidget {
     List selectedList =
         allList.where((data) => data['daerah'] == daerahuser).toList();
     Widget listAnak(i, nama) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UbahDataAnak(
+                  selectedList: selectedList,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
+              ),
             ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-          ),
-        ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UbahDataAnak(
-                    selectedList: selectedList,
-                    index: i - 1,
-                  ),
-                ));
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
               child: Text(
-                '$i. $nama',
+                '$nama',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -167,7 +168,7 @@ class ItemList extends StatelessWidget {
       shrinkWrap: true,
       itemCount: selectedList == null ? 0 : selectedList.length,
       itemBuilder: (context, i) {
-        return listAnak(i + 1, selectedList[i]['nama']);
+        return listAnak(i, selectedList[i]['nama']);
       },
     );
   }

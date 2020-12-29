@@ -5,7 +5,7 @@ import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 import 'package:suppchild_ver_1/main.dart';
-import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/detailKondisiAnak.dart';
+import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class SearchPageDaerah extends StatefulWidget {
@@ -42,85 +42,81 @@ class _SearchPageState extends State<SearchPageDaerah> {
     Widget appBar() {
       return PreferredSize(
         preferredSize: Size(double.infinity, 70),
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 11,
-          color: colorMainPurple,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(6.0),
-                          bottomLeft: Radius.circular(6.0)),
-                      color: Colors.white,
-                    ),
-                    height: SizeConfig.safeBlockVertical * 7,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        size: SizeConfig.safeBlockHorizontal * 7,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SearchPageDaerah(
-                                dataAnakSearch: getDataAnak(),
-                                keyword: controllerSearch.text,
-                              ),
-                            ));
-                      },
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Container(
+            height: SizeConfig.safeBlockVertical * 10,
+            color: Color.fromRGBO(170, 127, 198, 0.8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[100]),
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.grey[100],
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(6.0),
-                          bottomRight: Radius.circular(6.0)),
-                      color: Colors.white,
-                    ),
-                    height: SizeConfig.safeBlockVertical * 7,
-                    width: SizeConfig.safeBlockHorizontal * 60,
-                    child: TextField(
-                      controller: controllerSearch,
-                      autofocus: false,
-                      cursorColor: colorMainPurple,
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 22,
+                  height: SizeConfig.safeBlockVertical * 7,
+                  width: SizeConfig.safeBlockHorizontal * 75,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          size: SizeConfig.safeBlockHorizontal * 6.5,
+                          color: colorMainPurple,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchPageDaerah(
+                                  dataAnakSearch: getDataAnak(),
+                                  keyword: controllerSearch.text,
+                                ),
+                              ));
+                        },
                       ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 1.2,
-                          color: Colors.black87,
+                      Flexible(
+                        child: TextField(
+                          controller: controllerSearch,
+                          autofocus: false,
+                          cursorColor: colorMainPurple,
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(
+                            color: colorMainPurple,
+                            fontSize: SizeConfig.safeBlockHorizontal * 5.55,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Cari Data Anak',
+                            hintStyle: TextStyle(
+                              fontSize: SizeConfig.safeBlockHorizontal * 5.55,
+                              fontWeight: FontWeight.w500,
+                              color: colorMainPurple,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.message,
-                  color: Colors.white,
-                  size: SizeConfig.safeBlockVertical * 6,
                 ),
-                onPressed: () {
-                  setState(() {
-                    Navigator.pushNamed(context, '/listChat');
-                  });
-                },
-              ),
-            ],
+                IconButton(
+                  icon: Icon(
+                    MyFlutterApp.chatIcon,
+                    color: Colors.grey[100],
+                    size: SizeConfig.safeBlockVertical * 5.25,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pushNamed(context, '/listChatDaerah');
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -128,26 +124,44 @@ class _SearchPageState extends State<SearchPageDaerah> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: colorSecondPurple,
         appBar: appBar(),
         body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: Wrap(
-              children: <Widget>[
-                FutureBuilder<List>(
-                  future: widget.dataAnakSearch,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) print("Error");
+          child: Center(
+            child: Column(
+              children: [
+                spasiBaris(1.0),
+                Container(
+                  width: SizeConfig.safeBlockHorizontal * 91,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[100],
+                  ),
+                  child: Column(
+                    children: [
+                      spasiBaris(3.0),
+                      Wrap(
+                        children: <Widget>[
+                          FutureBuilder<List>(
+                            future: widget.dataAnakSearch,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) print("Error");
 
-                    return snapshot.hasData
-                        ? new ItemList(
-                            allList: snapshot.data,
-                            keyword: widget.keyword,
-                          )
-                        : new Center();
-                  },
+                              return snapshot.hasData
+                                  ? new ItemList(
+                                      allList: snapshot.data,
+                                      keyword: widget.keyword,
+                                    )
+                                  : new Center();
+                            },
+                          ),
+                        ],
+                      ),
+                      spasiBaris(3.0),
+                    ],
+                  ),
                 ),
+                spasiBaris(3.0),
               ],
             ),
           ),
@@ -173,40 +187,38 @@ class ItemList extends StatelessWidget {
         selectedList.where((data) => data['daerah'] == daerahuser).toList();
 
     Widget listSearch(i, hasil) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: colorMainPurple,
-                width: 3,
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UbahDataAnak(
+                  selectedList: selectedStatus,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
               ),
             ),
-          ),
-          width: double.infinity,
-          child: RaisedButton(
-            color: Colors.white,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UbahDataAnak(
-                      selectedList: selectedList,
-                      index: i - 1,
-                    ),
-                  ));
-            },
-            padding: EdgeInsets.all(10),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
               child: Text(
                 '$hasil',
                 style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -216,11 +228,12 @@ class ItemList extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listSearch(i + 1, selectedStatus[i]['nama']);
+        return listSearch(i, selectedStatus[i]['nama']);
       },
     );
   }

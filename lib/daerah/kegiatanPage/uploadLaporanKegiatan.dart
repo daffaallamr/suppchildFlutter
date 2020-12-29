@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class UploadKegiatan extends StatefulWidget {
@@ -159,82 +160,77 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    Widget judulKegiatan(judul) {
-      return Text(
-        '$judul',
-        style: TextStyle(
-          fontSize: SizeConfig.safeBlockHorizontal * 7,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1.2,
-          color: colorMainOrange,
-        ),
-      );
-    }
 
-    Widget dataJudul() {
+    Widget dataLaporan(judul, data) {
       return Container(
-        height: SizeConfig.safeBlockVertical * 15,
-        alignment: Alignment.centerLeft,
+        width: SizeConfig.safeBlockHorizontal * 80,
         decoration: BoxDecoration(
-          color: Colors.transparent,
-          // borderRadius: BorderRadius.circular(12),
-          // border: Border.all(
-          //     width: 2.0,
-          //     color: Color(0xFF7B417B)),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Nama Kegiatan:',
-                style: TextStyle(
-                  fontSize: SizeConfig.safeBlockHorizontal * 7,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
-                  color: colorMainPurple,
+        child: Card(
+          elevation: 4.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '$judul',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorMainPurple,
+                  ),
                 ),
-              ),
-              spasiBaris(1.0),
-              judulKegiatan(list[index]['nama']),
-            ],
+                spasiBaris(0.5),
+                Text(
+                  '$data',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorSecondPurple,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
     }
 
     Widget formFile() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 8,
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(width: 2.0, color: Color(0xFF7B417B)),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 8,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(width: 2, color: colorMainPurple),
+        ),
+        child: TextField(
+          controller: controllerFileLaporan,
+          autofocus: false,
+          cursorColor: colorMainPurple,
+          style: TextStyle(
+            color: colorSecondPurple,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
-          child: TextField(
-            controller: controllerFileLaporan,
-            readOnly: true,
-            autofocus: false,
-            cursorColor: colorMainPurple,
-            keyboardType: TextInputType.text,
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: SizeConfig.safeBlockHorizontal * 7,
-            ),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              border: InputBorder.none,
-              hintText: 'Nama File',
-              hintStyle: TextStyle(
-                fontSize: SizeConfig.safeBlockHorizontal * 7,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 1.2,
-                color: colorMainPurple,
-              ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(25, 0, 10, 0),
+            border: InputBorder.none,
+            hintText: 'Nama File',
+            hintStyle: TextStyle(
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.w500,
+              color: colorSecondPurple,
             ),
           ),
         ),
@@ -244,23 +240,23 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     Widget buttonAmbilFile() {
       return Center(
         child: Container(
-          width: SizeConfig.safeBlockHorizontal * 35,
+          width: SizeConfig.safeBlockHorizontal * 45,
+          height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
               _openFileExplorer();
             },
-            padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(25),
             ),
-            color: colorMainPurple,
+            color: colorSecondPurple,
             child: Text(
-              '+ FILE',
+              'Unggah File',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+                fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.5,
               ),
             ),
           ),
@@ -268,81 +264,166 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
       );
     }
 
-    Widget containerFoto() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
-        child: Container(
-          height: SizeConfig.safeBlockVertical * 60,
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              width: 2.0,
-              color: colorMainOrange,
-            ),
-          ),
-          child: Center(
-            child: _image == null
-                ? Text('Belum ada foto',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.2,
-                      color: colorMainOrange,
-                    ))
-                : Image.file(_image),
+    Widget textFoto() {
+      return Center(
+        child: Text(
+          'Belum ada Foto',
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: SizeConfig.safeBlockHorizontal * 4,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.5,
           ),
         ),
       );
     }
 
+    Widget containerFoto() {
+      return _image != null
+          ? Container(
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                image: new DecorationImage(
+                    image: FileImage(_image), fit: BoxFit.fill),
+              ),
+            )
+          : textFoto();
+    }
+
     Widget buttonKamera() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 5),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: colorMainPurple,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            width: double.infinity,
-            child: IconButton(
-              icon: Icon(Icons.camera_alt),
-              color: Colors.white,
-              onPressed: () {
-                ambilFoto();
-                _getCurrentLocation();
-              },
-              iconSize: 30,
-            ),
-          ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        decoration: BoxDecoration(
+          color: colorSecondPurple,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: IconButton(
+          icon: Icon(Icons.camera_alt),
+          color: Colors.white,
+          onPressed: () {
+            ambilFoto();
+            _getCurrentLocation();
+          },
+          iconSize: SizeConfig.safeBlockVertical * 4,
         ),
       );
     }
 
     Widget buttonUnggah() {
+      Widget buttonbatal() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget buttonYakin() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                _unggahFile();
+                uploadImage();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RootDaerah(selectedScreen: 'kegiatan'),
+                    ));
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Ya',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget contModal() {
+        return AlertDialog(
+          content: Container(
+            height: SizeConfig.safeBlockHorizontal * 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(1.0),
+                Text(
+                  'Apakah Anda Yakin?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                spasiBaris(2.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonYakin(),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
       return Center(
         child: Container(
           width: SizeConfig.safeBlockHorizontal * 35,
+          height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
-              _unggahFile();
-              uploadImage();
-              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => contModal(),
+              );
             },
-            padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(25),
             ),
             color: colorMainPurple,
             child: Text(
-              'UNGGAH',
+              'Unggah',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+                fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
               ),
             ),
           ),
@@ -354,22 +435,22 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
       return Center(
         child: Container(
           width: SizeConfig.safeBlockHorizontal * 35,
+          height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            padding: EdgeInsets.all(10),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(25),
             ),
-            color: colorMainOrange,
+            color: Colors.redAccent,
             child: Text(
-              'BATAL',
+              'Batal',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+                fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
               ),
             ),
           ),
@@ -377,90 +458,100 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
       );
     }
 
-    final size = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Upload Laporan'),
         body: SingleChildScrollView(
           child: Center(
-            child: Container(
-              width: size.size.width / 1.1,
-              // decoration: BoxDecoration(
-              //     // border: Border.all(color: colorMainPurple),
-              // ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          // border: Border.all(color: Colors.redAccent)
+            child: Column(
+              children: <Widget>[
+                spasiBaris(2.0),
+                Container(
+                    decoration: BoxDecoration(
+                      image: new DecorationImage(
+                          image: new AssetImage(
+                              "assets/image/approveKegiatan.png"),
+                          fit: BoxFit.fill),
+                    ),
+                    height: SizeConfig.safeBlockVertical * 25,
+                    width: SizeConfig.safeBlockHorizontal * 60),
+                spasiBaris(2.0),
+                Text(
+                  'Laporan Kegiatan',
+                  style: TextStyle(
+                    color: colorMainPurple,
+                    fontSize: SizeConfig.safeBlockHorizontal * 7,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                spasiBaris(3.0),
+                dataLaporan(
+                    'Nama Kegiatan:', widget.list[widget.index]['nama']),
+                spasiBaris(2.0),
+                Container(
+                  width: SizeConfig.safeBlockHorizontal * 80,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      buttonAmbilFile(),
+                      Container(
+                        width: SizeConfig.safeBlockHorizontal * 30,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '*.doc / .pdf',
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                            fontWeight: FontWeight.w500,
                           ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          dataJudul(),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                            child: Text(
-                              'Laporan Kegiatan:',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                                color: colorMainPurple,
-                              ),
-                            ),
-                          ),
-                          formFile(),
-                          spasiBaris(3.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              buttonAmbilFile(),
-                              Text(
-                                '*.doc / .pdf',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.2,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                          spasiBaris(5.0),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                            child: Text(
-                              'Foto Kegiatan:',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                                color: colorMainPurple,
-                              ),
-                            ),
-                          ),
-                          containerFoto(),
-                          spasiBaris(3.0),
-                          buttonKamera(),
-                          spasiBaris(10.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              buttonUnggah(),
-                              buttonBatal(),
-                            ],
-                          ),
-                          spasiBaris(8.0),
-                        ],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                spasiBaris(2.0),
+                formFile(),
+                spasiBaris(8.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Foto Kegiatan',
+                      style: TextStyle(
+                        fontFamily: 'Rubik',
+                        fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                        fontWeight: FontWeight.w600,
+                        color: colorMainPurple,
+                      ),
+                    ),
+                    spasiBaris(1.5),
+                    Container(
+                      height: SizeConfig.safeBlockVertical * 65,
+                      width: SizeConfig.safeBlockHorizontal * 80,
+                      child: Card(
+                          color: Colors.grey[100],
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: containerFoto()),
                     ),
                   ],
                 ),
-              ),
+                spasiBaris(3.0),
+                buttonKamera(),
+                spasiBaris(9.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonUnggah(),
+                    buttonBatal(),
+                  ],
+                ),
+                spasiBaris(4.0),
+              ],
             ),
           ),
         ),

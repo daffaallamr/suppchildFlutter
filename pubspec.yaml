@@ -37,6 +37,7 @@ dependencies:
   url_launcher:
   geolocator: ^5.3.1
   splashscreen:
+  intl: ^0.16.1
 
   # firebase
   cloud_firestore: ^0.14.4

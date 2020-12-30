@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
@@ -56,10 +57,22 @@ class _RootPageState extends State<RootPusat> {
             .where('id', isEqualTo: widget.idPassing)
             .get())
         .docs;
-
-    ///Old user
-    sharedPreferences.setInt("id", result[0]["id"]);
-    sharedPreferences.setString("name", result[0]["name"]);
+    if (result.length == 0) {
+      ///new user
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(idUser.toString())
+          .set({
+        "id": idUser,
+        "level": userLevel,
+        "username": nama,
+        "name": daerahuser,
+      });
+    } else {
+      ///Old user
+      sharedPreferences.setInt("id", result[0]["id"]);
+      sharedPreferences.setString("name", result[0]["name"]);
+    }
   }
 
   //Mengambil data anak dari db

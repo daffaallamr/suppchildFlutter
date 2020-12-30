@@ -9,10 +9,12 @@ import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListKegiatan extends StatelessWidget {
   //Mengambil data kegiatan dari db
-  Future<List> getDataKegiatan() async {
-    final response =
-        await http.get("http://suppchild.xyz/API/daerah/getKegiatan.php");
-    return json.decode(response.body);
+  Stream<List> getDataKegiatan() async* {
+    while (true) {
+      final response =
+          await http.get("http://suppchild.xyz/API/daerah/getKegiatan.php");
+      yield json.decode(response.body);
+    }
   }
 
   @override
@@ -77,8 +79,8 @@ class ListKegiatan extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: FutureBuilder<List>(
-                  future: getDataKegiatan(),
+                child: StreamBuilder<List>(
+                  stream: getDataKegiatan(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print("Error");
 

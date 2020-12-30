@@ -50,6 +50,7 @@ String nama = '';
 String daerahuser = '';
 String passwordUser = '';
 int idUser;
+String userLevel;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter SuppChild',
+      title: 'SuppChild',
       theme: ThemeData(),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{

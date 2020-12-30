@@ -29,10 +29,12 @@ class ListSemuaKegiatan extends StatefulWidget {
 
 class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
   //Mengambil data kegiatan dari db
-  Future<List> getDataKegiatan() async {
-    final response =
-        await http.get("http://suppchild.xyz/API/pusat/getKegiatan.php");
-    return json.decode(response.body);
+  Stream<List> getDataKegiatan() async* {
+    while (true) {
+      final response =
+          await http.get("http://suppchild.xyz/API/pusat/getKegiatan.php");
+      yield json.decode(response.body);
+    }
   }
 
   @override
@@ -60,8 +62,8 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: FutureBuilder<List>(
-                          future: getDataKegiatan(),
+                        child: StreamBuilder<List>(
+                          stream: getDataKegiatan(),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) print("Error");
 
@@ -96,8 +98,8 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: FutureBuilder<List>(
-                          future: getDataKegiatan(),
+                        child: StreamBuilder<List>(
+                          stream: getDataKegiatan(),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) print("Error");
 

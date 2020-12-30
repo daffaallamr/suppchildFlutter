@@ -220,12 +220,8 @@ class ApproveKegiatan extends StatelessWidget {
             child: RaisedButton(
               onPressed: () {
                 statusDiterima();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          RootPusat(selectedScreen: 'kegiatan'),
-                    ));
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

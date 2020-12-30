@@ -14,10 +14,12 @@ class ListKasus extends StatefulWidget {
 
 class _ListKasusState extends State<ListKasus> {
   //Mengambil data kegiatan dari db
-  Future<List> getDataKasus() async {
-    final response =
-        await http.get("http://suppchild.xyz/API/daerah/getKasus.php");
-    return json.decode(response.body);
+  Stream<List> getDataKasus() async* {
+    while (true) {
+      final response =
+          await http.get("http://suppchild.xyz/API/daerah/getKasus.php");
+      yield json.decode(response.body);
+    }
   }
 
   @override
@@ -55,7 +57,7 @@ class _ListKasusState extends State<ListKasus> {
           Container(
               decoration: BoxDecoration(
                 image: new DecorationImage(
-                    image: new AssetImage("assets/image/kasus.png"),
+                    image: new AssetImage("assets/image/laporKasus.png"),
                     fit: BoxFit.fill),
               ),
               height: SizeConfig.safeBlockVertical * 25,
@@ -81,9 +83,9 @@ class _ListKasusState extends State<ListKasus> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: FutureBuilder<List>(
-                  future: getDataKasus(),
+                padding: const EdgeInsets.all(20.0),
+                child: StreamBuilder<List>(
+                  stream: getDataKasus(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print("Error");
 
@@ -104,6 +106,7 @@ class _ListKasusState extends State<ListKasus> {
               ),
             ),
           ),
+          spasiBaris(4.0),
         ],
       ),
     );
@@ -161,6 +164,7 @@ class SelectedList extends StatelessWidget {
     }
 
     return new ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: selectedList == null ? 0 : selectedList.length,

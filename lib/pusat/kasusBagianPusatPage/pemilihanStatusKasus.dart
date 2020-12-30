@@ -4,7 +4,7 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-Widget dataKegiatan(judul, data) {
+Widget dataKasus(judul, data) {
   return Container(
     width: SizeConfig.safeBlockHorizontal * 80,
     decoration: BoxDecoration(
@@ -165,9 +165,9 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
                   ),
                 ),
                 spasiBaris(3.0),
-                dataKegiatan('Nama Anak:', widget.list[widget.index]['nama']),
-                dataKegiatan('Tempat:', widget.list[widget.index]['tempat']),
-                dataKegiatan('Kasus:', widget.list[widget.index]['detail']),
+                dataKasus('Nama Anak:', widget.list[widget.index]['nama']),
+                dataKasus('Tempat:', widget.list[widget.index]['tempat']),
+                dataKasus('Kasus:', widget.list[widget.index]['detail']),
                 spasiBaris(3.0),
                 radioButton(),
                 spasiBaris(15.0),

@@ -58,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         daerahuser = datauser[0]['daerahuser'];
         passwordUser = datauser[0]['password'];
         idUser = int.parse(datauser[0]['id']);
+        userLevel = datauser[0]['level'];
       });
     }
     return datauser;

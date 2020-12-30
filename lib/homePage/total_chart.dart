@@ -16,7 +16,6 @@ class EndPointsAxisTimeSeriesChart extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return new charts.TimeSeriesChart(

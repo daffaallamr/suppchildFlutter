@@ -14,10 +14,12 @@ class ListAnak extends StatefulWidget {
 
 class _ListAnakState extends State<ListAnak> {
   //Mengambil data anak dari db
-  Future<List> getDataAnak() async {
-    final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
-    return json.decode(response.body);
+  Stream<List> getDataAnak() async* {
+    while (true) {
+      final response =
+          await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+      yield json.decode(response.body);
+    }
   }
 
   @override
@@ -82,8 +84,8 @@ class _ListAnakState extends State<ListAnak> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: FutureBuilder<List>(
-                  future: getDataAnak(),
+                child: StreamBuilder<List>(
+                  stream: getDataAnak(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) print("Error");
 

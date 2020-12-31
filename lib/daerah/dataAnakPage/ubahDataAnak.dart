@@ -189,6 +189,147 @@ class _UbahAnakState extends State<UbahDataAnak> {
   TextEditingController controllerPendidikan;
   TextEditingController controllerEkonomi;
 
+  //RegExp alpha
+  RegExp _alpha = RegExp(r'^[a-zA-Z\s]+$');
+  RegExp _numeric = RegExp(r'^-?[0-9]{16}');
+  RegExp _tglLahir = RegExp(
+      r'^((?:(?:1[6-9]|2[0-9])\d{2})(-)(?:(?:(?:0[13578]|1[02])(-)31)|((0[1,3-9]|1[0-2])(-)(29|30))))$|^(?:(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(-)02(-)29)$|^(?:(?:1[6-9]|2[0-9])\d{2})(-)(?:(?:0[1-9])|(?:1[0-2]))(-)(?:0[1-9]|1\d|2[0-8])$');
+
+  /// check if string matches the pattern.
+  bool isAlpha(String str) {
+    return _alpha.hasMatch(str);
+  }
+
+  /// check if the string contains only numbers
+  bool isNumeric(String str) {
+    return _numeric.hasMatch(str);
+  }
+
+  /// check if the tgl Lahir contains right format
+  bool isTglLahir(String str) {
+    return _tglLahir.hasMatch(str);
+  }
+
+  bool berhasil = true;
+  String msg = '';
+
+  _checkForm() {
+    if (controllerNama.text.isEmpty) {
+      setState(() {
+        msg = "Nama Lengkap Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (isAlpha(controllerNama.text) == false) {
+      setState(() {
+        msg = "Nama Lengkap tidak Boleh Berisi Angka!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerNIK.text.isEmpty) {
+      setState(() {
+        msg = "NIK Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (isNumeric(controllerNIK.text) == false) {
+      setState(() {
+        msg = "NIK Harus Angka dan 16 Dijit!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerTempat.text.isEmpty) {
+      setState(() {
+        msg = "Kota Kelahiran Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerTanggal.text.isEmpty) {
+      setState(() {
+        msg = "Tanggal Lahir Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (isTglLahir(controllerTanggal.text) == false) {
+      setState(() {
+        msg = "Format Tanggal Lahir Salah!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerKelamin.text == '-') {
+      setState(() {
+        msg = "Form Jenis Kelamin masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerAgama.text.isEmpty) {
+      setState(() {
+        msg = "Form Agama Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (isAlpha(controllerAgama.text) == false) {
+      setState(() {
+        msg = "Form Agama tidak Boleh Berisi Angka!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerAlamat.text.isEmpty) {
+      setState(() {
+        msg = "Alamat Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerWali.text.isEmpty) {
+      setState(() {
+        msg = "Nama Wali Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (isAlpha(controllerWali.text) == false) {
+      setState(() {
+        msg = "Nama Wali tidak Boleh Berisi Angka!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerKesehatan.text == '-') {
+      setState(() {
+        msg = "Kondisi Kesehatan masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerPendidikan.text == '-') {
+      setState(() {
+        msg = "Kondisi Pendidikan masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerEkonomi.text == '-') {
+      setState(() {
+        msg = "Kondisi Ekonomi masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else {
+      msg = "";
+      berhasil = true;
+    }
+  }
+
+  Widget alertGagal() {
+    return Center(
+      child: Text(
+        msg,
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: SizeConfig.safeBlockHorizontal * 4,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+
   void editDataAnak() {
     var url = "http://suppchild.xyz/API//daerah/ubahAnak.php";
 
@@ -285,6 +426,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
           border: Border.all(width: 2, color: colorMainPurple),
         ),
         child: TextField(
+          maxLength: 16,
           controller: cont,
           autofocus: false,
           cursorColor: colorMainPurple,
@@ -294,6 +436,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
             fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
           decoration: InputDecoration(
+            counterText: '',
             contentPadding: EdgeInsets.fromLTRB(25, 0, 10, 0),
             border: InputBorder.none,
             hintText: '$hint',
@@ -539,12 +682,18 @@ class _UbahAnakState extends State<UbahDataAnak> {
           child: Container(
             child: RaisedButton(
               onPressed: () {
-                editDataAnak();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RootDaerah(selectedScreen: 'anak'),
-                    ));
+                _checkForm();
+                if (berhasil == false) {
+                  Navigator.pop(context);
+                } else if (berhasil == true) {
+                  editDataAnak();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootDaerah(selectedScreen: 'anak'),
+                      ));
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -655,7 +804,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: appBarTitle('Tambah Data'),
+        appBar: appBarTitle('Ubah Data'),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -751,7 +900,9 @@ class _UbahAnakState extends State<UbahDataAnak> {
                     ],
                   ),
                 ),
-                spasiBaris(8.0),
+                spasiBaris(2.0),
+                alertGagal(),
+                spasiBaris(6.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[

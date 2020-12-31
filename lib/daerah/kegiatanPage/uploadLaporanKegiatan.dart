@@ -27,10 +27,13 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
   _UploadKegiatanState({this.list, this.index});
 
   // File picker
-  File selectedFile;
+  PlatformFile _selectedFile;
   Response response;
   Dio dio = new Dio();
   String fileName;
+  String namaFotoDB;
+  bool berhasil = true;
+  String msg = '';
 
   // Controller
   TextEditingController controllerFileLaporan;
@@ -46,6 +49,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     PlatformFile file = selectedFile.files.first;
 
     setState(() {
+      _selectedFile = file;
       fileName = file.path != null ? file.path.split('/').last : '';
       controllerFileLaporan = new TextEditingController(text: fileName);
     });
@@ -62,6 +66,39 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
       imageName = _image.path.split('/').last;
       controllerFoto = new TextEditingController(text: imageName);
     });
+  }
+
+  _checkForm() {
+    if (fileName == null) {
+      setState(() {
+        msg = "File Laporan Belum Diunggah!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (imageName == null) {
+      setState(() {
+        msg = "Belum Mengunggah Foto!";
+        berhasil = false;
+        print(msg);
+      });
+    } else {
+      msg = "";
+      berhasil = true;
+    }
+  }
+
+  Widget alertGagal() {
+    return Center(
+      child: Text(
+        msg,
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: SizeConfig.safeBlockHorizontal * 4,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
   }
 
   Future<void> uploadImage() async {
@@ -139,8 +176,8 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
     FormData formdata = FormData.fromMap({
       "id": widget.list[widget.index]['id'],
-      "file_laporan": await MultipartFile.fromFile(selectedFile.path,
-          filename: basename(selectedFile.path)
+      "file_laporan": await MultipartFile.fromFile(_selectedFile.path,
+          filename: basename(_selectedFile.path)
           //show only filename from path
           ),
       "nama_foto": controllerFoto.text,
@@ -151,16 +188,28 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
     if (response.statusCode == 200) {
       print(response.toString());
-      //print response from server
+      print("Upload successful");
     } else {
       print("Error during connection to server.");
     }
   }
 
+  _checkUdahUpload() {
+    if (widget.list[widget.index]['file_laporan'] != null) {
+      controllerFileLaporan = new TextEditingController(
+          text: widget.list[widget.index]['file_laporan']);
+      namaFotoDB = widget.list[widget.index]['foto_laporan'];
+    }
+  }
+
+  @override
+  void initState() {
+    _checkUdahUpload();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-
     Widget dataLaporan(judul, data) {
       return Container(
         width: SizeConfig.safeBlockHorizontal * 80,
@@ -217,6 +266,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
         child: TextField(
           controller: controllerFileLaporan,
           autofocus: false,
+          readOnly: true,
           cursorColor: colorMainPurple,
           style: TextStyle(
             color: colorSecondPurple,
@@ -289,7 +339,21 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                     image: FileImage(_image), fit: BoxFit.fill),
               ),
             )
-          : textFoto();
+          : widget.list[widget.index]['foto_laporan'] != null
+              ? Container(
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    image: new DecorationImage(
+                        image: namaFotoDB != null
+                            ? NetworkImage(
+                                'http://suppchild.xyz/API/foto_laporan/$namaFotoDB')
+                            : textFoto(),
+                        fit: BoxFit.fill),
+                  ),
+                )
+              : textFoto();
     }
 
     Widget buttonKamera() {
@@ -343,14 +407,19 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
           child: Container(
             child: RaisedButton(
               onPressed: () {
-                _unggahFile();
-                uploadImage();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          RootDaerah(selectedScreen: 'kegiatan'),
-                    ));
+                _checkForm();
+                if (berhasil == false) {
+                  Navigator.pop(context);
+                } else if (berhasil == true) {
+                  _unggahFile();
+                  uploadImage();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootDaerah(selectedScreen: 'kegiatan'),
+                      ));
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -542,7 +611,9 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                 ),
                 spasiBaris(3.0),
                 buttonKamera(),
-                spasiBaris(9.0),
+                spasiBaris(2.0),
+                alertGagal(),
+                spasiBaris(6.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[

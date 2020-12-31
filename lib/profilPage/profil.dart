@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
@@ -163,7 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
             // width: 160,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/login');
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
+                _prefClear();
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -266,4 +270,9 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
+}
+
+void _prefClear() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs?.clear();
 }

@@ -173,37 +173,34 @@ class _RootPageState extends State<RootPusat> {
     }
 
     return SafeArea(
-      child: WillPopScope(
-        onWillPop: () async => false,
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: appBar(),
-          body: SingleChildScrollView(
-              child: PageStorage(child: currentScreen, bucket: bucket)),
-          bottomNavigationBar: bmnav.BottomNav(
-            index: currentTab,
-            labelStyle: bmnav.LabelStyle(visible: false),
-            onTap: (i) {
-              setState(() {
-                currentTab = i;
-                currentScreen = screens[i];
-              });
-            },
-            color: colorMainPurple,
-            iconStyle: bmnav.IconStyle(
-              size: SizeConfig.safeBlockVertical * 3.75,
-              onSelectSize: SizeConfig.safeBlockVertical * 3.75,
-              color: Colors.white,
-              onSelectColor: Colors.white,
-            ),
-            items: [
-              bmnav.BottomNavItem(Icons.home),
-              bmnav.BottomNavItem(Icons.event_available),
-              bmnav.BottomNavItem(Icons.child_care),
-              bmnav.BottomNavItem(Icons.report),
-              bmnav.BottomNavItem(Icons.account_circle)
-            ],
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBar(),
+        body: SingleChildScrollView(
+            child: PageStorage(child: currentScreen, bucket: bucket)),
+        bottomNavigationBar: bmnav.BottomNav(
+          index: currentTab,
+          labelStyle: bmnav.LabelStyle(visible: false),
+          onTap: (i) {
+            setState(() {
+              currentTab = i;
+              currentScreen = screens[i];
+            });
+          },
+          color: colorMainPurple,
+          iconStyle: bmnav.IconStyle(
+            size: SizeConfig.safeBlockVertical * 3.75,
+            onSelectSize: SizeConfig.safeBlockVertical * 3.75,
+            color: Colors.white,
+            onSelectColor: Colors.white,
           ),
+          items: [
+            bmnav.BottomNavItem(Icons.home),
+            bmnav.BottomNavItem(Icons.event_available),
+            bmnav.BottomNavItem(Icons.child_care),
+            bmnav.BottomNavItem(Icons.report),
+            bmnav.BottomNavItem(Icons.account_circle)
+          ],
         ),
       ),
     );

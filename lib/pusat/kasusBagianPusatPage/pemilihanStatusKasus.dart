@@ -105,7 +105,7 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
           controllerStatus = new TextEditingController(text: values);
         },
         defaultSelected: widget.list[widget.index]['status'] == null
-            ? ["Terima"]
+            ? "Terima"
             : widget.list[widget.index]['status'],
         horizontal: false,
         selectedColor: colorMainPurple,

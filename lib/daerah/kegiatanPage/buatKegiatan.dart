@@ -21,10 +21,45 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   Dio dio = new Dio();
   String fileName;
   PlatformFile fileAkhirBanget;
+  bool berhasil = true;
+  String msg = '';
 
   // Controller
   TextEditingController controllerFile;
   TextEditingController controllerNama = new TextEditingController();
+
+  _checkForm() {
+    if (controllerNama.text.isEmpty) {
+      setState(() {
+        msg = "Nama Kegiatan Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (fileName == null) {
+      setState(() {
+        msg = "File Terkait Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else {
+      msg = "";
+      berhasil = true;
+    }
+  }
+
+  Widget alertGagal() {
+    return Center(
+      child: Text(
+        msg,
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: SizeConfig.safeBlockHorizontal * 4,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
 
   _openFileExplorer() async {
     FilePickerResult selectedFile = await FilePicker.platform.pickFiles(
@@ -126,13 +161,16 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
           child: Container(
             child: RaisedButton(
               onPressed: () {
-                _unggahFile();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          RootDaerah(selectedScreen: 'kegiatan'),
-                    ));
+                _checkForm();
+                berhasil == true ? _unggahFile() : Navigator.pop(context);
+                berhasil == true
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RootDaerah(selectedScreen: 'kegiatan'),
+                        ))
+                    : Text('');
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -285,6 +323,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
         ),
         child: TextField(
           controller: controllerFile,
+          readOnly: true,
           autofocus: false,
           cursorColor: colorMainPurple,
           style: TextStyle(
@@ -359,7 +398,9 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                 ),
                 spasiBaris(2.0),
                 formFile(),
-                spasiBaris(14.0),
+                spasiBaris(2.0),
+                alertGagal(),
+                spasiBaris(12.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/daerah/dataAnakPage/detailAnak.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
@@ -129,8 +130,8 @@ class ItemList extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => UbahDataAnak(
-                  selectedList: selectedList,
+                builder: (context) => DetailAnak(
+                  allList: selectedList,
                   index: i,
                 ),
               ));

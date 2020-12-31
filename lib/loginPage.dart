@@ -6,6 +6,7 @@ import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
 
   //Mesaage gagal login
   String msg = '';
+  int idLogin;
 
   //Method login
   Future<List> _login() async {
@@ -27,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       "username": user.text,
       "password": pass.text,
     });
-
     var datauser = json.decode(response.body);
 
     if (datauser.length == 0) {
@@ -59,7 +60,11 @@ class _LoginPageState extends State<LoginPage> {
         passwordUser = datauser[0]['password'];
         idUser = int.parse(datauser[0]['id']);
         userLevel = datauser[0]['level'];
+        idLogin = int.parse(datauser[0]['id']);
       });
+
+      var session = FlutterSession();
+      await session.set("UserSesion", (datauser[0]['level']));
     }
     return datauser;
   }

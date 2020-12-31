@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/chat/listChat.dart';
 import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => OpeningPage(),
 
         '/rootPusat': (BuildContext context) => RootPusat(),
-        '/rootDaerah': (BuildContext context) => RootDaerah(),
+        '/rootDaerah': (context) => RootDaerah(),
 
         //Profil
         '/profil': (context) => ProfilePage(),

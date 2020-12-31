@@ -6,19 +6,71 @@ import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class UnggahKasus extends StatelessWidget {
+class UnggahKasus extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    // Controller
-    TextEditingController controllerNama = new TextEditingController();
-    TextEditingController controllerTempat = new TextEditingController();
-    TextEditingController controllerDetail = new TextEditingController();
+  _UnggahKasusState createState() => _UnggahKasusState();
+}
 
-    void addKasus() {
-      var url = "http://suppchild.xyz/API/daerah/addKasus.php";
-      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-      String tglUpload = dateFormat.format(DateTime.now());
+class _UnggahKasusState extends State<UnggahKasus> {
+  bool berhasil = true;
+  String msg = '';
 
+  // Controller
+  TextEditingController controllerNama = new TextEditingController();
+  TextEditingController controllerTempat = new TextEditingController();
+  TextEditingController controllerDetail = new TextEditingController();
+
+  //RegExp alpha
+  RegExp _alpha = RegExp(r'^[a-zA-Z\s]+$');
+  RegExp _alphanumeric500 = RegExp(r'^[a-zA-Z0-9]{0,500}');
+
+  /// check if string matches the pattern.
+  bool isAlpha(String str) {
+    return _alpha.hasMatch(str);
+  }
+
+  bool isAlphanumeric500(String str) {
+    return _alphanumeric500.hasMatch(str);
+  }
+
+  Future addKasus() async {
+    var url = "http://suppchild.xyz/API/daerah/addKasus.php";
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    String tglUpload = dateFormat.format(DateTime.now());
+
+    if (controllerNama.text.isEmpty) {
+      setState(() {
+        msg = "Nama Korban Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (isAlpha(controllerNama.text) == false) {
+      setState(() {
+        msg = "Nama tidak boleh berisi Angka!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerTempat.text.isEmpty) {
+      setState(() {
+        msg = "Tempat Kejadian Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerDetail.text.isEmpty) {
+      setState(() {
+        msg = "Detail Singkat Kejadian Masih Kosong!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (controllerDetail.text.length > 501) {
+      setState(() {
+        msg = "Detail maksimal 500 kata!";
+        berhasil = false;
+        print(msg);
+      });
+    } else {
+      msg = '';
+      berhasil = true;
       http.post(url, body: {
         "nama": controllerNama.text,
         "tempat": controllerTempat.text,
@@ -28,7 +80,24 @@ class UnggahKasus extends StatelessWidget {
       });
       print('berhasil!');
     }
+  }
 
+  Widget alertGagal() {
+    return Center(
+      child: Text(
+        msg,
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: SizeConfig.safeBlockHorizontal * 4,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Widget formNama() {
       return Container(
         width: SizeConfig.safeBlockHorizontal * 80,
@@ -164,11 +233,14 @@ class UnggahKasus extends StatelessWidget {
             child: RaisedButton(
               onPressed: () {
                 addKasus();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RootDaerah(selectedScreen: 'kasus'),
-                    ));
+                berhasil == true
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RootDaerah(selectedScreen: 'kasus'),
+                        ))
+                    : Navigator.pop(context);
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -309,7 +381,9 @@ class UnggahKasus extends StatelessWidget {
                   formTempat(),
                   spasiBaris(1.0),
                   formKejadian(),
-                  spasiBaris(8.0),
+                  spasiBaris(1.0),
+                  alertGagal(),
+                  spasiBaris(4.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -317,6 +391,7 @@ class UnggahKasus extends StatelessWidget {
                       buttonBatal(),
                     ],
                   ),
+                  spasiBaris(1.0),
                 ],
               ),
             ),

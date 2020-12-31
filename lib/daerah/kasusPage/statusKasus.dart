@@ -88,6 +88,7 @@ class StatusKasus extends StatelessWidget {
                     list[index]['status'] == null
                         ? 'Belum ada status'
                         : list[index]['status']),
+                spasiBaris(3.0),
               ],
             ),
           ),

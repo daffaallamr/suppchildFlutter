@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
@@ -16,6 +14,8 @@ class _UbahPasswordState extends State<UbahPassword> {
   //Mesaage gagal login
   String msg = '';
   bool berhasil = true;
+  int idUser;
+  String passwordUser;
 
   //Controller
   TextEditingController controllerCurrentPass =
@@ -24,7 +24,21 @@ class _UbahPasswordState extends State<UbahPassword> {
   TextEditingController controllerConfirmPass =
       new TextEditingController(text: '');
 
-  Future _ubahPass() async {
+  @override
+  void initState() {
+    super.initState();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = prefs.getInt('idUser');
+      passwordUser = prefs.getString('passwordUser');
+    });
+  }
+
+  _ubahPass() async {
     var url = "http://suppchild.xyz/API/ubahPassword.php";
 
     if (controllerCurrentPass.text == '') {
@@ -64,11 +78,18 @@ class _UbahPasswordState extends State<UbahPassword> {
         "id": idUser.toString(),
         "password": controllerNewPass.text,
       });
+
       setState(() {
-        passwordUser = controllerNewPass.text;
+        _changeCurrentPass();
+        msg = '';
       });
       print('Berhasil');
     }
+  }
+
+  _changeCurrentPass() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('passwordUser', controllerNewPass.text);
   }
 
   Widget alertGagal() {
@@ -247,14 +268,16 @@ class _UbahPasswordState extends State<UbahPassword> {
             child: RaisedButton(
               onPressed: () {
                 _ubahPass();
-                berhasil == true
-                    ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootPusat(selectedScreen: 'profil'),
-                        ))
-                    : Navigator.pop(context);
+                if (berhasil == true) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootPusat(selectedScreen: 'profil'),
+                      ));
+                } else {
+                  Navigator.pop(context);
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

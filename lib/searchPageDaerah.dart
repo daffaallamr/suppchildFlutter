@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
@@ -21,6 +21,7 @@ class _SearchPageState extends State<SearchPageDaerah> {
   //Controller form
   TextEditingController controllerSearch;
   String currentKeyword;
+  String daerah;
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
@@ -31,9 +32,17 @@ class _SearchPageState extends State<SearchPageDaerah> {
 
   @override
   void initState() {
+    super.initState();
     currentKeyword = widget.keyword;
     controllerSearch = new TextEditingController(text: currentKeyword);
-    super.initState();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      daerah = prefs.getString('daerahuser');
+    });
   }
 
   @override
@@ -151,6 +160,7 @@ class _SearchPageState extends State<SearchPageDaerah> {
                                   ? new ItemList(
                                       allList: snapshot.data,
                                       keyword: widget.keyword,
+                                      daerah: daerah,
                                     )
                                   : new Center();
                             },
@@ -172,9 +182,10 @@ class _SearchPageState extends State<SearchPageDaerah> {
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({this.allList, this.keyword});
+  ItemList({this.allList, this.keyword, this.daerah});
   final List allList;
   final String keyword;
+  final String daerah;
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +195,7 @@ class ItemList extends StatelessWidget {
         .toList();
 
     List selectedStatus =
-        selectedList.where((data) => data['daerah'] == daerahuser).toList();
+        selectedList.where((data) => data['daerah'] == daerah).toList();
 
     Widget listSearch(i, hasil) {
       return InkWell(

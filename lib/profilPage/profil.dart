@@ -1,22 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({this.username, this.nama});
-
-  final String username;
-  final String nama;
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    _takePrefs();
+  }
+
+  String nama;
+  String username;
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nama = prefs.getString('nama');
+      username = prefs.getString('username');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

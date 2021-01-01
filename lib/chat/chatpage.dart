@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ChatPage extends StatefulWidget {
@@ -16,14 +16,23 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   String groupChatId;
   String anotherUsername;
+  int idUser;
 
   TextEditingController textEditingController = TextEditingController();
 
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
-    getGroupChatId();
     super.initState();
+    getGroupChatId();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = prefs.getInt('idUser');
+    });
   }
 
   getGroupChatId() async {

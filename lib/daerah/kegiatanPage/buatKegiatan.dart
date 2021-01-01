@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:intl/intl.dart';
 
@@ -23,10 +23,24 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   PlatformFile fileAkhirBanget;
   bool berhasil = true;
   String msg = '';
+  String daerahuser;
 
   // Controller
   TextEditingController controllerFile;
   TextEditingController controllerNama = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      daerahuser = prefs.getString('daerahuser');
+    });
+  }
 
   _checkForm() {
     if (controllerNama.text.isEmpty) {

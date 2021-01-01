@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/kasusPage/statusKasus.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListKasus extends StatefulWidget {
@@ -13,6 +13,21 @@ class ListKasus extends StatefulWidget {
 }
 
 class _ListKasusState extends State<ListKasus> {
+  String daerahuser;
+
+  @override
+  void initState() {
+    super.initState();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      daerahuser = prefs.getString('daerahuser');
+    });
+  }
+
   //Mengambil data kegiatan dari db
   Stream<List> getDataKasus() async* {
     while (true) {
@@ -92,6 +107,7 @@ class _ListKasusState extends State<ListKasus> {
                     return snapshot.hasData
                         ? new SelectedList(
                             allList: snapshot.data,
+                            daerahuser: daerahuser,
                           )
                         : new Center(
                             child: Padding(
@@ -114,9 +130,9 @@ class _ListKasusState extends State<ListKasus> {
 }
 
 class SelectedList extends StatelessWidget {
-  SelectedList({this.allList});
+  SelectedList({this.allList, this.daerahuser});
   final List allList;
-
+  final String daerahuser;
   @override
   Widget build(BuildContext context) {
     List selectedList =

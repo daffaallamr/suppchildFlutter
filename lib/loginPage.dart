@@ -23,37 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   int idLogin;
   bool isLoggedIn = false;
 
-  @override
-  void initState() {
-    super.initState();
-    autoLogIn();
-  }
-
-  void autoLogIn() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String userLevel = prefs.getString('userLevel');
-
-    if (userLevel == null) {
-      return;
-    } else if (userLevel == 'pusat') {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RootPusat(
-              idPassing: prefs.getInt('idUser'),
-            ),
-          ));
-    } else {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RootDaerah(
-              idPassing: prefs.getInt('idUser'),
-            ),
-          ));
-    }
-  }
-
   //Method login
   Future<List> _login() async {
     final response =
@@ -62,6 +31,22 @@ class _LoginPageState extends State<LoginPage> {
       "password": pass.text,
     });
     var datauser = json.decode(response.body);
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', datauser[0]['username']);
+    prefs.setString('nama', datauser[0]['nama']);
+    prefs.setString('daerahuser', datauser[0]['daerahuser']);
+    prefs.setString('passwordUser', datauser[0]['password']);
+    prefs.setInt('idUser', int.parse(datauser[0]['id']));
+    prefs.setString('userLevel', datauser[0]['level']);
+
+    // String prefsUsername = prefs.getString('username');
+    // String prefsNama = prefs.getString('nama');
+    // String prefsDaerahuser = prefs.getString('daerahuser');
+    // String prefsPasswordUser = prefs.getString('passwordUser');
+    // int prefsIdUser = prefs.getInt('idUser');
+    // String uprefsUserLevel = prefs.getString('userLevel');
+    // int prefsIdLogin = int.parse(datauser[0]['id']);
 
     if (datauser.length == 0) {
       setState(() {
@@ -85,28 +70,19 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ));
       }
-
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('username', datauser[0]['username']);
-      prefs.setString('nama', datauser[0]['nama']);
-      prefs.setString('daerahuser', datauser[0]['daerahuser']);
-      prefs.setString('passwordUser', datauser[0]['password']);
-      prefs.setInt('idUser', int.parse(datauser[0]['id']));
-      prefs.setString('userLevel', datauser[0]['level']);
-
       setState(() {
-        username = prefs.getString('username');
-        nama = prefs.getString('nama');
-        daerahuser = prefs.getString('daerahuser');
-        passwordUser = prefs.getString('passwordUser');
-        idUser = prefs.getInt('idUser');
-        userLevel = prefs.getString('userLevel');
-        idLogin = int.parse(datauser[0]['id']);
+        // username = prefsUsername;
+        // nama = prefsNama;
+        // daerahuser = prefsDaerahuser;
+        // passwordUser = prefsPasswordUser;
+        // idUser = prefsIdUser;
+        // userLevel = uprefsUserLevel;
+        // idLogin = prefsIdLogin;
       });
 
       print(prefs.getString('nama'));
       print(prefs.getString('username'));
-      print(username);
+      // print(username);
     }
     return datauser;
   }

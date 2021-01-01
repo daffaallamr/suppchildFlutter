@@ -29,6 +29,10 @@ class RootPusat extends StatefulWidget {
 
 class _RootPageState extends State<RootPusat> {
   TextEditingController controllerSearch = new TextEditingController();
+  int idUser;
+  String userLevel;
+  String nama;
+  String daerahuser;
 
   final String selectedScreen;
   _RootPageState({this.selectedScreen});
@@ -45,8 +49,19 @@ class _RootPageState extends State<RootPusat> {
   Widget currentScreen;
   @override
   void initState() {
-    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
     super.initState();
+    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = prefs.getInt('idUser');
+      userLevel = prefs.getString('userLevel');
+      nama = prefs.getString('nama');
+      daerahuser = prefs.getString('daerahuser');
+    });
   }
 
   // Data user firebase

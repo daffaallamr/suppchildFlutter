@@ -8,7 +8,6 @@ import 'package:suppchild_ver_1/daerah/kasusPage/listKasus.dart';
 import 'package:suppchild_ver_1/daerah/kegiatanPage/listKegiatan.dart';
 import 'package:suppchild_ver_1/homePage/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
@@ -29,6 +28,10 @@ class RootDaerah extends StatefulWidget {
 
 class _RootPageState extends State<RootDaerah> {
   TextEditingController controllerSearch = new TextEditingController();
+  int idUser;
+  String userLevel;
+  String nama;
+  String daerahuser;
 
   final String selectedScreen;
   _RootPageState({this.selectedScreen});
@@ -45,8 +48,19 @@ class _RootPageState extends State<RootDaerah> {
   Widget currentScreen;
   @override
   void initState() {
-    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
     super.initState();
+    currentScreen = new SelectedScreen(selectedScreen: selectedScreen);
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = prefs.getInt('idUser');
+      userLevel = prefs.getString('userLevel');
+      nama = prefs.getString('nama');
+      daerahuser = prefs.getString('daerahuser');
+    });
   }
 
   // Data user firebase

@@ -45,13 +45,6 @@ void main() async {
   runApp(MyApp());
 }
 
-String username = '';
-String nama = '';
-String daerahuser = '';
-String passwordUser = '';
-int idUser;
-String userLevel;
-
 // data chart total
 int count2018;
 int count2019;

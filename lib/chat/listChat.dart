@@ -25,11 +25,20 @@ class ListChat extends StatefulWidget {
 
 class _HomeState extends State<ListChat> {
   int userIdList;
+  int idUser;
 
   @override
   void initState() {
-    getUserId();
     super.initState();
+    getUserId();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = prefs.getInt('idUser');
+    });
   }
 
   getUserId() async {

@@ -205,8 +205,8 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
 
   @override
   void initState() {
-    _checkUdahUpload();
     super.initState();
+    _checkUdahUpload();
   }
 
   @override

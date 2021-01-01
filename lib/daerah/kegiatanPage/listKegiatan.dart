@@ -1,14 +1,34 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/kegiatanPage/uploadLaporanKegiatan.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class ListKegiatan extends StatelessWidget {
+class ListKegiatan extends StatefulWidget {
   //Mengambil data kegiatan dari db
+  @override
+  _ListKegiatanState createState() => _ListKegiatanState();
+}
+
+class _ListKegiatanState extends State<ListKegiatan> {
+  String daerahuser;
+
+  @override
+  void initState() {
+    super.initState();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      daerahuser = prefs.getString('daerahuser');
+    });
+  }
+
   Stream<List> getDataKegiatan() async* {
     while (true) {
       final response =
@@ -87,6 +107,7 @@ class ListKegiatan extends StatelessWidget {
                     return snapshot.hasData
                         ? new ListDiterima(
                             allList: snapshot.data,
+                            daerahuser: daerahuser,
                           )
                         : new Center(
                             child: Padding(
@@ -109,8 +130,9 @@ class ListKegiatan extends StatelessWidget {
 }
 
 class ListDiterima extends StatelessWidget {
-  ListDiterima({this.allList});
+  ListDiterima({this.allList, this.daerahuser});
   final List allList;
+  final String daerahuser;
 
   @override
   Widget build(BuildContext context) {

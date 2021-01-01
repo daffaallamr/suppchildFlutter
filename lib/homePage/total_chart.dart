@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:suppchild_ver_1/main.dart';
 
 class EndPointsAxisTimeSeriesChart extends StatelessWidget {
   final List<charts.Series> seriesList;
@@ -32,14 +33,10 @@ class EndPointsAxisTimeSeriesChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
     final data = [
-      new TimeSeriesSales(new DateTime(2004), 5),
-      new TimeSeriesSales(new DateTime(2005), 25),
-      new TimeSeriesSales(new DateTime(2006), 28),
-      new TimeSeriesSales(new DateTime(2007), 34),
-      new TimeSeriesSales(new DateTime(2008), 44),
-      new TimeSeriesSales(new DateTime(2009), 52),
-      new TimeSeriesSales(new DateTime(2010), 46),
-      new TimeSeriesSales(new DateTime(2011), 54),
+      new TimeSeriesSales(new DateTime(2018), count2018),
+      new TimeSeriesSales(new DateTime(2019), count2019),
+      new TimeSeriesSales(new DateTime(2020), count2020),
+      new TimeSeriesSales(new DateTime(2021), count2021),
     ];
 
     return [

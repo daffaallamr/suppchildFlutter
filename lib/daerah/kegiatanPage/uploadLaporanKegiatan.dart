@@ -41,7 +41,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
   TextEditingController controllerLokasiFoto;
 
   // FIle Picker
-  _openFileExplorer() async {
+  Future _openFileExplorer() async {
     FilePickerResult selectedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc'],
@@ -84,6 +84,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     } else {
       msg = "";
       berhasil = true;
+      print('berhasil Upload!');
     }
   }
 
@@ -101,7 +102,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     );
   }
 
-  Future<void> uploadImage() async {
+  Future uploadImage() async {
     //show your own loading or progressing code here
 
     String uploadurl = "http://suppchild.xyz/API/daerah/uploadFotoLaporan.php";
@@ -171,7 +172,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     }
   }
 
-  _unggahFile() async {
+  Future _unggahFile() async {
     String uploadurl = "http://suppchild.xyz/API/daerah/uploadLaporan.php";
 
     FormData formdata = FormData.fromMap({
@@ -339,17 +340,15 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                     image: FileImage(_image), fit: BoxFit.fill),
               ),
             )
-          : widget.list[widget.index]['foto_laporan'] != null
+          : namaFotoDB != null
               ? Container(
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     image: new DecorationImage(
-                        image: namaFotoDB != null
-                            ? NetworkImage(
-                                'http://suppchild.xyz/API/foto_laporan/$namaFotoDB')
-                            : textFoto(),
+                        image: NetworkImage(
+                            'http://suppchild.xyz/API/foto_laporan/$namaFotoDB'),
                         fit: BoxFit.fill),
                   ),
                 )

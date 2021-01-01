@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/homePage/cabang_chart.dart';
@@ -5,6 +7,8 @@ import 'package:suppchild_ver_1/homePage/total_chart.dart';
 import 'package:suppchild_ver_1/homePage/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/main.dart';
 
 Widget titleChart(title) {
   return Text(
@@ -72,6 +76,54 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }).toList(),
     );
+  }
+
+  Map<String, dynamic> myMap;
+//Mengambil data anak dari db
+  void getDataTabel() async {
+    final response =
+        await http.get("http://suppchild.xyz/API/getTabelAnak.php");
+    myMap = new Map<String, dynamic>.from(json.decode(response.body));
+    setState(() {
+      gresikL = myMap["GresikL"];
+      gresikP = myMap["GresikP"];
+
+      bangkalanL = myMap["BangkalanL"];
+      bangkalanP = myMap["BangkalanP"];
+
+      mojokertoL = myMap["MojokertoL"];
+      mojokertoP = myMap["MojokertoP"];
+
+      surabayaL = myMap["SurabayaL"];
+      surabayaP = myMap["SurabayaP"];
+
+      sidoarjoL = myMap["SidoarjoL"];
+      sidoarjoP = myMap["SidoarjoP"];
+
+      lamonganL = myMap["LamonganL"];
+      lamonganP = myMap["LamonganP"];
+    });
+  }
+
+  Map<String, dynamic> mapTotal;
+//Mengambil data anak dari db
+  void getTabelTotal() async {
+    final response =
+        await http.get("http://suppchild.xyz/API/getTabelTotal.php");
+    mapTotal = new Map<String, dynamic>.from(json.decode(response.body));
+    setState(() {
+      count2018 = mapTotal["2018"];
+      count2019 = mapTotal["2019"];
+      count2020 = mapTotal["2020"];
+      count2021 = mapTotal["2021"];
+    });
+  }
+
+  @override
+  void initState() {
+    getTabelTotal();
+    getDataTabel();
+    super.initState();
   }
 
   @override

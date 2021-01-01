@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/chat/listChat.dart';
 import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
@@ -52,6 +51,31 @@ String daerahuser = '';
 String passwordUser = '';
 int idUser;
 String userLevel;
+
+// data chart total
+int count2018;
+int count2019;
+int count2020;
+int count2021;
+
+// data chart laki perempuan
+int gresikL;
+int gresikP;
+
+int bangkalanL;
+int bangkalanP;
+
+int mojokertoL;
+int mojokertoP;
+
+int surabayaL;
+int surabayaP;
+
+int sidoarjoL;
+int sidoarjoP;
+
+int lamonganL;
+int lamonganP;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

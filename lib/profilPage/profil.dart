@@ -273,6 +273,6 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 void _prefClear() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs?.clear();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt('userLevel', null);
 }

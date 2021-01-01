@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
-import 'package:flutter_session/flutter_session.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,6 +21,38 @@ class _LoginPageState extends State<LoginPage> {
   //Mesaage gagal login
   String msg = '';
   int idLogin;
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    autoLogIn();
+  }
+
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userLevel = prefs.getString('userLevel');
+
+    if (userLevel == null) {
+      return;
+    } else if (userLevel == 'pusat') {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RootPusat(
+              idPassing: prefs.getInt('idUser'),
+            ),
+          ));
+    } else {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RootDaerah(
+              idPassing: prefs.getInt('idUser'),
+            ),
+          ));
+    }
+  }
 
   //Method login
   Future<List> _login() async {
@@ -53,18 +85,28 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ));
       }
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('username', datauser[0]['username']);
+      prefs.setString('nama', datauser[0]['nama']);
+      prefs.setString('daerahuser', datauser[0]['daerahuser']);
+      prefs.setString('passwordUser', datauser[0]['password']);
+      prefs.setInt('idUser', int.parse(datauser[0]['id']));
+      prefs.setString('userLevel', datauser[0]['level']);
+
       setState(() {
-        username = datauser[0]['username'];
-        nama = datauser[0]['nama'];
-        daerahuser = datauser[0]['daerahuser'];
-        passwordUser = datauser[0]['password'];
-        idUser = int.parse(datauser[0]['id']);
-        userLevel = datauser[0]['level'];
+        username = prefs.getString('username');
+        nama = prefs.getString('nama');
+        daerahuser = prefs.getString('daerahuser');
+        passwordUser = prefs.getString('passwordUser');
+        idUser = prefs.getInt('idUser');
+        userLevel = prefs.getString('userLevel');
         idLogin = int.parse(datauser[0]['id']);
       });
 
-      var session = FlutterSession();
-      await session.set("UserSesion", (datauser[0]['level']));
+      print(prefs.getString('nama'));
+      print(prefs.getString('username'));
+      print(username);
     }
     return datauser;
   }

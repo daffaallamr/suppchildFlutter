@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 /// Bar chart example
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:suppchild_ver_1/main.dart';
 
-class GroupedBarChart extends StatelessWidget {
+class GroupedBarChart extends StatefulWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
@@ -16,37 +19,29 @@ class GroupedBarChart extends StatelessWidget {
     );
   }
 
-
   @override
-  Widget build(BuildContext context) {
-    return new charts.BarChart(
-      seriesList,
-      animate: animate,
-      barGroupingType: charts.BarGroupingType.grouped,
-      behaviors: [new charts.SeriesLegend()],
-    );
-  }
+  _GroupedBarChartState createState() => _GroupedBarChartState();
 
   /// Create series list with multiple series
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     //Laki-laki
     final desktopSalesData = [
-      new OrdinalSales('GRK', 5),
-      new OrdinalSales('BKL', 8),
-      new OrdinalSales('MJK', 11),
-      new OrdinalSales('SBY', 10),
-      new OrdinalSales('SDA', 14),
-      new OrdinalSales('LMG', 6),
+      new OrdinalSales('GRK', gresikL),
+      new OrdinalSales('BKL', bangkalanL),
+      new OrdinalSales('MJK', mojokertoL),
+      new OrdinalSales('SBY', surabayaL),
+      new OrdinalSales('SDA', sidoarjoL),
+      new OrdinalSales('LMG', lamonganL),
     ];
 
     //Perempuan
     final tableSalesData = [
-      new OrdinalSales('GRK', 8),
-      new OrdinalSales('BKL', 12),
-      new OrdinalSales('MJK', 6),
-      new OrdinalSales('SBY', 14),
-      new OrdinalSales('SDA', 7),
-      new OrdinalSales('LMG', 15),
+      new OrdinalSales('GRK', gresikP),
+      new OrdinalSales('BKL', bangkalanP),
+      new OrdinalSales('MJK', mojokertoP),
+      new OrdinalSales('SBY', surabayaP),
+      new OrdinalSales('SDA', sidoarjoP),
+      new OrdinalSales('LMG', lamonganP),
     ];
 
     return [
@@ -65,6 +60,18 @@ class GroupedBarChart extends StatelessWidget {
         data: tableSalesData,
       ),
     ];
+  }
+}
+
+class _GroupedBarChartState extends State<GroupedBarChart> {
+  @override
+  Widget build(BuildContext context) {
+    return new charts.BarChart(
+      widget.seriesList,
+      animate: widget.animate,
+      barGroupingType: charts.BarGroupingType.grouped,
+      behaviors: [new charts.SeriesLegend()],
+    );
   }
 }
 

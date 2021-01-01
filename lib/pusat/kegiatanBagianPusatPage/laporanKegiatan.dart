@@ -59,6 +59,37 @@ class _LaporanKegiatanState extends State<LaporanKegiatan> {
   bool adaFoto = true;
   String namaFoto;
   String statusLokasiFoto = '-';
+  bool fileAda = true;
+  String msg = '';
+
+  Widget alertGagal() {
+    return Center(
+      child: Text(
+        msg,
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontSize: SizeConfig.safeBlockHorizontal * 4,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+
+  _checkFileLaporan() async {
+    String namaFileAda = widget.list[widget.index]['file_laporan'];
+    if (namaFileAda == null) {
+      setState(() {
+        msg = "File Laporan Belum Ada!";
+        fileAda = false;
+        print(msg);
+      });
+    } else {
+      msg = "";
+      fileAda = true;
+      print('berhasil download!');
+    }
+  }
 
   _ambilNamaFoto() async {
     String namaFotoDB = widget.list[widget.index]['foto_laporan'];
@@ -169,7 +200,11 @@ class _LaporanKegiatanState extends State<LaporanKegiatan> {
         height: SizeConfig.safeBlockVertical * 6.5,
         child: RaisedButton(
           onPressed: () {
-            _launchURL();
+            _checkFileLaporan();
+            if (fileAda == false) {
+            } else {
+              _launchURL();
+            }
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -250,7 +285,9 @@ class _LaporanKegiatanState extends State<LaporanKegiatan> {
                 ),
                 spasiBaris(2.0),
                 lokasiFoto('Lokasi Foto:'),
-                spasiBaris(8.0),
+                spasiBaris(2.0),
+                alertGagal(),
+                spasiBaris(6.0),
                 buttonUnduh(),
                 spasiBaris(4.0),
               ],

@@ -34,6 +34,7 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
   Future<List> getDataAnak() async {
     final response =
         await http.get("http://suppchild.xyz/API/pusat/getAnak_$daerah.php");
+    print(json.decode(response.body)[0]['id']);
     return json.decode(response.body);
   }
 

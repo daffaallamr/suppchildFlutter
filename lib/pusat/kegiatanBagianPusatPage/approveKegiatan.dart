@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;

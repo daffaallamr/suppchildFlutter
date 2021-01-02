@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'chatpage.dart';
 
@@ -24,13 +23,11 @@ class ListChat extends StatefulWidget {
 }
 
 class _HomeState extends State<ListChat> {
-  int userIdList;
   int idUser;
 
   @override
   void initState() {
     super.initState();
-    getUserId();
     _takePrefs();
   }
 
@@ -39,11 +36,6 @@ class _HomeState extends State<ListChat> {
     setState(() {
       idUser = prefs.getInt('idUser');
     });
-  }
-
-  getUserId() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    userIdList = sharedPreferences.getInt('id');
   }
 
   @override
@@ -87,7 +79,7 @@ class _HomeState extends State<ListChat> {
   }
 
   buildItem(doc) {
-    return (doc['id'] != idUser)
+    return (doc['id'] != idUser && doc['level'] != 'Admin')
         ? Container(
             height: SizeConfig.safeBlockVertical * 9,
             decoration: BoxDecoration(
@@ -98,7 +90,8 @@ class _HomeState extends State<ListChat> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChatPage(docs: doc)));
+                        builder: (context) =>
+                            ChatPage(docs: doc, idUser: idUser)));
               },
               child: Card(
                 elevation: 4.5,

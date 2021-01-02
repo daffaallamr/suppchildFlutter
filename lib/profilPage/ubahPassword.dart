@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
@@ -16,6 +17,7 @@ class _UbahPasswordState extends State<UbahPassword> {
   bool berhasil = true;
   int idUser;
   String passwordUser;
+  String level;
 
   //Controller
   TextEditingController controllerCurrentPass =
@@ -35,6 +37,7 @@ class _UbahPasswordState extends State<UbahPassword> {
     setState(() {
       idUser = prefs.getInt('idUser');
       passwordUser = prefs.getString('passwordUser');
+      level = prefs.getString('userLevel');
     });
   }
 
@@ -269,12 +272,21 @@ class _UbahPasswordState extends State<UbahPassword> {
               onPressed: () {
                 _ubahPass();
                 if (berhasil == true) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RootPusat(selectedScreen: 'profil'),
-                      ));
+                  if (level == 'pusat') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RootPusat(selectedScreen: 'profil'),
+                        ));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RootDaerah(selectedScreen: 'profil'),
+                        ));
+                  }
                 } else {
                   Navigator.pop(context);
                 }

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/main.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'chatpage.dart';
 
@@ -24,17 +23,19 @@ class ListChatDaerah extends StatefulWidget {
 }
 
 class _HomeState extends State<ListChatDaerah> {
-  int userIdList;
+  int idUser;
 
   @override
   void initState() {
-    getUserId();
     super.initState();
+    _takePrefs();
   }
 
-  getUserId() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    userIdList = sharedPreferences.getInt('id');
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idUser = prefs.getInt('idUser');
+    });
   }
 
   @override
@@ -89,7 +90,10 @@ class _HomeState extends State<ListChatDaerah> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChatPage(docs: doc)));
+                        builder: (context) => ChatPage(
+                              docs: doc,
+                              idUser: idUser,
+                            )));
               },
               child: Card(
                 elevation: 4.5,

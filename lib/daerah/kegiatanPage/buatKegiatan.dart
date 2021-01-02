@@ -107,7 +107,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
     response = await dio.post(uploadurl, data: formdata);
 
     if (response.statusCode == 200) {
-      print(response.toString());
+      print('Berhasil Up!');
       //print response from server
     } else {
       print("Error during connection to server.");
@@ -176,15 +176,17 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
             child: RaisedButton(
               onPressed: () {
                 _checkForm();
-                berhasil == true ? _unggahFile() : Navigator.pop(context);
-                berhasil == true
-                    ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootDaerah(selectedScreen: 'kegiatan'),
-                        ))
-                    : Text('');
+                if (berhasil == true) {
+                  _unggahFile();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootDaerah(selectedScreen: 'kegiatan'),
+                      ));
+                } else {
+                  Navigator.pop(context);
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

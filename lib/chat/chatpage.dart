@@ -1,22 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ChatPage extends StatefulWidget {
   final docs;
+  final int idUser;
 
-  const ChatPage({Key key, this.docs}) : super(key: key);
+  const ChatPage({Key key, this.docs, this.idUser}) : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatPageState createState() => _ChatPageState(idUser: idUser);
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final int idUser;
+  _ChatPageState({this.idUser});
   String groupChatId;
   String anotherUsername;
-  int idUser;
 
   TextEditingController textEditingController = TextEditingController();
 
@@ -25,14 +26,6 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     getGroupChatId();
-    _takePrefs();
-  }
-
-  _takePrefs() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      idUser = prefs.getInt('idUser');
-    });
   }
 
   getGroupChatId() async {

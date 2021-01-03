@@ -79,7 +79,7 @@ class _HomeState extends State<ListChat> {
   }
 
   buildItem(doc) {
-    return (doc['id'] != idUser && doc['level'] != 'Admin')
+    return (doc['id'] != idUser && doc['level'] != "Admin")
         ? Container(
             height: SizeConfig.safeBlockVertical * 9,
             decoration: BoxDecoration(

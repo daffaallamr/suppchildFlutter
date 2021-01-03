@@ -30,15 +30,6 @@ class _LoginPageState extends State<LoginPage> {
       "password": pass.text,
     });
     var datauser = json.decode(response.body);
-
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('username', datauser[0]['username']);
-    prefs.setString('nama', datauser[0]['nama']);
-    prefs.setString('daerahuser', datauser[0]['daerahuser']);
-    prefs.setString('passwordUser', datauser[0]['password']);
-    prefs.setInt('idUser', int.parse(datauser[0]['id']));
-    prefs.setString('userLevel', datauser[0]['level']);
-
     // String prefsUsername = prefs.getString('username');
     // String prefsNama = prefs.getString('nama');
     // String prefsDaerahuser = prefs.getString('daerahuser');
@@ -52,6 +43,14 @@ class _LoginPageState extends State<LoginPage> {
         msg = "Username atau Password anda salah!";
       });
     } else {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('username', datauser[0]['username']);
+      prefs.setString('nama', datauser[0]['nama']);
+      prefs.setString('daerahuser', datauser[0]['daerahuser']);
+      prefs.setString('passwordUser', datauser[0]['password']);
+      prefs.setInt('idUser', int.parse(datauser[0]['id']));
+      prefs.setString('userLevel', datauser[0]['level']);
+
       if (datauser[0]['level'] == 'pusat') {
         Navigator.pushReplacement(
             context,
@@ -78,10 +77,6 @@ class _LoginPageState extends State<LoginPage> {
         // userLevel = uprefsUserLevel;
         // idLogin = prefsIdLogin;
       });
-
-      print(prefs.getString('nama'));
-      print(prefs.getString('username'));
-      // print(username);
     }
     return datauser;
   }

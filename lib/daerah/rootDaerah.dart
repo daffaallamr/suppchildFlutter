@@ -205,7 +205,7 @@ class _RootPageState extends State<RootDaerah> {
           color: colorMainPurple,
           iconStyle: bmnav.IconStyle(
             size: SizeConfig.safeBlockVertical * 3.75,
-            onSelectSize: SizeConfig.safeBlockVertical * 3.75,
+            onSelectSize: SizeConfig.safeBlockVertical * 4.75,
             color: Colors.white,
             onSelectColor: Colors.white,
           ),

@@ -31,11 +31,12 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
   _ListAnakPercabangState({this.daerah});
 
   //Mengambil data anak dari db
-  Future<List> getDataAnak() async {
-    final response =
-        await http.get("http://suppchild.xyz/API/pusat/getAnak_$daerah.php");
-    print(json.decode(response.body)[0]['id']);
-    return json.decode(response.body);
+  Stream<List> getDataAnak() async* {
+    while (true) {
+      final response =
+          await http.get("http://suppchild.xyz/API/pusat/getAnak_$daerah.php");
+      yield json.decode(response.body);
+    }
   }
 
   @override
@@ -64,8 +65,8 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: FutureBuilder<List>(
-                          future: getDataAnak(),
+                        child: StreamBuilder<List>(
+                          stream: getDataAnak(),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) print("Error");
 

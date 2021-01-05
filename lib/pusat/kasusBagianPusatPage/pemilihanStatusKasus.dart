@@ -172,6 +172,7 @@ class _PemilihanStatusKasusState extends State<PemilihanStatusKasus> {
                 radioButton(),
                 spasiBaris(15.0),
                 buttonSimpan(),
+                spasiBaris(3.0),
               ],
             ),
           ),

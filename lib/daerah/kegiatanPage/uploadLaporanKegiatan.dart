@@ -40,6 +40,40 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
   TextEditingController controllerFoto;
   TextEditingController controllerLokasiFoto;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkUdahUpload();
+  }
+
+  _checkUdahUpload() {
+    if (widget.list[widget.index]['file_laporan'] != null) {
+      controllerFileLaporan = new TextEditingController(
+          text: widget.list[widget.index]['file_laporan']);
+      namaFotoDB = widget.list[widget.index]['foto_laporan'];
+    }
+  }
+
+  _checkForm() {
+    if (fileName == null) {
+      setState(() {
+        msg = "File Laporan Belum Diunggah!";
+        berhasil = false;
+        print(msg);
+      });
+    } else if (imageName == null) {
+      setState(() {
+        msg = "Belum Mengunggah Foto!";
+        berhasil = false;
+        print(msg);
+      });
+    } else {
+      msg = "";
+      berhasil = true;
+      print('berhasil Upload!');
+    }
+  }
+
   // FIle Picker
   Future _openFileExplorer() async {
     FilePickerResult selectedFile = await FilePicker.platform.pickFiles(
@@ -68,26 +102,6 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     });
   }
 
-  _checkForm() {
-    if (fileName == null) {
-      setState(() {
-        msg = "File Laporan Belum Diunggah!";
-        berhasil = false;
-        print(msg);
-      });
-    } else if (imageName == null) {
-      setState(() {
-        msg = "Belum Mengunggah Foto!";
-        berhasil = false;
-        print(msg);
-      });
-    } else {
-      msg = "";
-      berhasil = true;
-      print('berhasil Upload!');
-    }
-  }
-
   Widget alertGagal() {
     return Center(
       child: Text(
@@ -103,12 +117,7 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
   }
 
   Future uploadImage() async {
-    //show your own loading or progressing code here
-
     String uploadurl = "http://suppchild.xyz/API/daerah/uploadFotoLaporan.php";
-    //dont use http://localhost , because emulator don't get that address
-    //insted use your local IP address or use live URL
-    //hit "ipconfig" in windows or "ip a" in linux to get you local IP
 
     try {
       List<int> imageBytes = _image.readAsBytesSync();
@@ -193,20 +202,6 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     } else {
       print("Error during connection to server.");
     }
-  }
-
-  _checkUdahUpload() {
-    if (widget.list[widget.index]['file_laporan'] != null) {
-      controllerFileLaporan = new TextEditingController(
-          text: widget.list[widget.index]['file_laporan']);
-      namaFotoDB = widget.list[widget.index]['foto_laporan'];
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _checkUdahUpload();
   }
 
   @override

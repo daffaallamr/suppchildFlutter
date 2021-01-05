@@ -449,7 +449,7 @@ class _TambahAnakState extends State<TambahAnak> {
     Widget formDataKotaKelahiran(cont, hint, option) {
       return Container(
         height: SizeConfig.safeBlockVertical * 8,
-        width: SizeConfig.safeBlockHorizontal * 34,
+        width: SizeConfig.safeBlockHorizontal * 37,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -483,7 +483,7 @@ class _TambahAnakState extends State<TambahAnak> {
     Widget formDataTglLahir(cont, hint, option) {
       return Container(
         height: SizeConfig.safeBlockVertical * 8,
-        width: SizeConfig.safeBlockHorizontal * 43,
+        width: SizeConfig.safeBlockHorizontal * 40,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -855,8 +855,8 @@ class _TambahAnakState extends State<TambahAnak> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       formDataKotaKelahiran(
-                          controllerTempat, 'Kelahiran', TextInputType.text),
-                      formDataTglLahir(controllerTanggal, 'TTTT-BB-HH',
+                          controllerTempat, 'Tmpt Lahir', TextInputType.text),
+                      formDataTglLahir(controllerTanggal, 'Thn-Bln-Tgl',
                           TextInputType.datetime),
                     ],
                   ),

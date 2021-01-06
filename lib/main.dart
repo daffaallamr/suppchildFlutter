@@ -48,10 +48,10 @@ void main() async {
 }
 
 // data chart total
-int count2018;
-int count2019;
-int count2020;
-int count2021;
+double count2018;
+double count2019;
+double count2020;
+double count2021;
 
 // data chart laki perempuan
 int gresikL;

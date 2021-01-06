@@ -14,6 +14,7 @@ class ListAnak extends StatefulWidget {
 
 class _ListAnakState extends State<ListAnak> {
   String daerahuser;
+  int idDaerah;
 
   @override
   void initState() {
@@ -25,14 +26,15 @@ class _ListAnakState extends State<ListAnak> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       daerahuser = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
   //Mengambil data anak dari db
   Stream<List> getDataAnak() async* {
     while (true) {
-      final response =
-          await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+      final response = await http
+          .get("http://suppchild.xyz/API/daerah/gresik/getAnak_gresik.php");
       yield json.decode(response.body);
     }
   }
@@ -107,7 +109,7 @@ class _ListAnakState extends State<ListAnak> {
                     return snapshot.hasData
                         ? new ItemList(
                             allList: snapshot.data,
-                            daerahuser: daerahuser,
+                            idDaerah: idDaerah,
                           )
                         : new Center(
                             child: Padding(
@@ -130,14 +132,13 @@ class _ListAnakState extends State<ListAnak> {
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({this.allList, this.daerahuser});
+  ItemList({this.allList, this.idDaerah});
   final List allList;
-  final String daerahuser;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['daerah'] == daerahuser).toList();
+    List selectedList = allList.where((data) => data['id'] == '1').toList();
     Widget listAnak(i, nama) {
       return InkWell(
         onTap: () {

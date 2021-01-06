@@ -15,6 +15,8 @@ import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:suppchild_ver_1/searchPageDaerah.dart';
 
+String daerahuser;
+
 class RootDaerah extends StatefulWidget {
   final String selectedScreen;
   RootDaerah({this.selectedScreen});

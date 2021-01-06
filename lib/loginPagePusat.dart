@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPagePusat> {
                       ),
                       spasiBaris(4.0),
                       Text(
-                        'Selamat Datang',
+                        'SuppChild Pusat',
                         style: TextStyle(
                           color: colorMainPurple,
                           letterSpacing: 0.3,

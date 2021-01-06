@@ -33,10 +33,10 @@ class EndPointsAxisTimeSeriesChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
     final data = [
-      new TimeSeriesSales(new DateTime(2018), count2018),
-      new TimeSeriesSales(new DateTime(2019), count2019),
-      new TimeSeriesSales(new DateTime(2020), count2020),
-      new TimeSeriesSales(new DateTime(2021), count2021),
+      // new TimeSeriesSales(new DateTime(2018), count2018),
+      // new TimeSeriesSales(new DateTime(2019), count2019),
+      // new TimeSeriesSales(new DateTime(2020), count2020),
+      // new TimeSeriesSales(new DateTime(2021), count2021),
     ];
 
     return [

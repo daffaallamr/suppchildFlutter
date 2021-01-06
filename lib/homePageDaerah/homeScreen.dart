@@ -112,10 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
         await http.get("http://suppchild.xyz/API/getTabelTotal.php");
     mapTotal = new Map<String, dynamic>.from(json.decode(response.body));
     setState(() {
-      count2018 = mapTotal["2018"];
-      count2019 = mapTotal["2019"];
-      count2020 = mapTotal["2020"];
-      count2021 = mapTotal["2021"];
+      count2018 = mapTotal["2018"].toDouble();
+      count2019 = mapTotal["2019"].toDouble();
+      count2020 = mapTotal["2020"].toDouble();
+      count2021 = mapTotal["2021"].toDouble();
     });
   }
 
@@ -164,10 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: EndPointsAxisTimeSeriesChart.withSampleData(),
-                    )),
+                    child: LineChartSample1()),
               ),
             ],
           ),
@@ -178,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
               titleChart('Anak Binaan Cabang'),
               spasiBaris(2.0),
               Container(
-                height: SizeConfig.safeBlockVertical * 65,
+                height: SizeConfig.safeBlockVertical * 35,
                 width: SizeConfig.safeBlockHorizontal * 85,
                 child: Card(
                     color: Colors.grey[100],
@@ -186,10 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GroupedBarChart.withSampleData(),
-                    )),
+                    child: PieChartSample2()),
               ),
             ],
           ),

@@ -199,6 +199,7 @@ class _TambahAnakState extends State<TambahAnak> {
       r'^((?:(?:1[6-9]|2[0-9])\d{2})(-)(?:(?:(?:0[13578]|1[02])(-)31)|((0[1,3-9]|1[0-2])(-)(29|30))))$|^(?:(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(-)02(-)29)$|^(?:(?:1[6-9]|2[0-9])\d{2})(-)(?:(?:0[1-9])|(?:1[0-2]))(-)(?:0[1-9]|1\d|2[0-8])$');
 
   String daerahuser;
+  int idDaerah;
 
   @override
   void initState() {
@@ -209,7 +210,7 @@ class _TambahAnakState extends State<TambahAnak> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      daerahuser = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
@@ -349,7 +350,7 @@ class _TambahAnakState extends State<TambahAnak> {
   }
 
   void addDataAnak() {
-    var url = "http://suppchild.xyz/API/daerah/addAnak.php";
+    var url = "http://suppchild.xyz/API/daerah/addAnak_$idDaerah.php";
     DateFormat dateFormat = DateFormat("yyyy-MM-dd");
     String tglUpload = dateFormat.format(DateTime.now());
 
@@ -365,7 +366,7 @@ class _TambahAnakState extends State<TambahAnak> {
       "kesehatan": controllerKesehatan.text,
       "pendidikan": controllerPendidikan.text,
       "ekonomi": controllerEkonomi.text,
-      "daerah": daerahuser,
+      "id_daerah": idDaerah.toString(),
       "created_at": tglUpload,
     });
     print('berhasil!');

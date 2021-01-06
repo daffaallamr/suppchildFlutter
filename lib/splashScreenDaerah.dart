@@ -15,7 +15,7 @@ class _OpeningPageState extends State<OpeningPageDaerah> {
   @override
   void initState() {
     super.initState();
-    autoLogIn();
+    // autoLogIn();
   }
 
   void autoLogIn() async {
@@ -27,19 +27,16 @@ class _OpeningPageState extends State<OpeningPageDaerah> {
 
   @override
   Widget build(BuildContext context) {
-    toDaerah() async {
-      return Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RootDaerah(),
-          ));
-    }
-
     return SafeArea(
       child: SplashScreen(
         seconds: 3,
-        navigateAfterSeconds:
-            username != null ? toDaerah() : new LoginPageDaerah(),
+        navigateAfterSeconds: username != null
+            ? Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RootDaerah(),
+                ))
+            : new LoginPageDaerah(),
         image: new Image.asset('assets/image/logo.jpeg'),
         backgroundColor: Colors.white,
         photoSize: 120.0,

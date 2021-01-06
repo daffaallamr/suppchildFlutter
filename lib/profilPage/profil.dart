@@ -176,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/', (Route<dynamic> route) => false);
+                    '/d', (Route<dynamic> route) => false);
                 _prefClear();
               },
               shape: RoundedRectangleBorder(

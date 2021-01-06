@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/chat/listChat.dart';
 import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/detailAnak.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/loginPageDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
@@ -106,6 +107,7 @@ class MyApp extends StatelessWidget {
         '/listAnak': (context) => ListAnak(),
         '/tambahAnak': (context) => TambahAnak(),
         '/ubahDataAnak': (context) => UbahDataAnak(),
+        '/detailAnak': (context) => DetailAnak(),
 
         //Data Anak bagian pusat
         '/dataAnakCabang': (context) => DataAnakCabang(),

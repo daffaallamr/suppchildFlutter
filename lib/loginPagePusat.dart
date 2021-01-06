@@ -7,12 +7,12 @@ import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPagePusat extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPagePusat> {
   //Controller
   TextEditingController user = new TextEditingController();
   TextEditingController pass = new TextEditingController();
@@ -63,9 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => RootDaerah(
-                idPassing: int.parse(datauser[0]['id']),
-              ),
+              builder: (context) => RootDaerah(),
             ));
       }
       setState(() {

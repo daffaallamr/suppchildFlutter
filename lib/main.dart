@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/chat/listChat.dart';
 import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
+import 'package:suppchild_ver_1/loginPageDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 
-import 'package:suppchild_ver_1/loginPage.dart';
+import 'package:suppchild_ver_1/loginPagePusat.dart';
 import 'package:suppchild_ver_1/searchPageDaerah.dart';
 import 'package:suppchild_ver_1/searchPagePusat.dart';
 
@@ -37,7 +38,8 @@ import 'package:suppchild_ver_1/profilPage/profil.dart';
 import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:suppchild_ver_1/spashScreen.dart';
+import 'package:suppchild_ver_1/splashScreenDaerah.dart';
+import 'package:suppchild_ver_1/splashScreenPusat.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,11 +78,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SuppChild',
+      title: 'SuppChild - Daerah',
       theme: ThemeData(),
-      initialRoute: '/',
+      initialRoute: '/d',
       routes: <String, WidgetBuilder>{
-        '/': (context) => OpeningPage(),
+        '/p': (context) => OpeningPagePusat(),
+        '/d': (context) => OpeningPageDaerah(),
 
         '/rootPusat': (BuildContext context) => RootPusat(),
         '/rootDaerah': (context) => RootDaerah(),
@@ -89,7 +92,9 @@ class MyApp extends StatelessWidget {
         '/profil': (context) => ProfilePage(),
         '/ubahPassword': (context) => UbahPassword(),
 
-        '/login': (context) => LoginPage(),
+        '/loginPusat': (context) => LoginPagePusat(),
+        '/loginDaerah': (context) => LoginPageDaerah(),
+
         '/searchPusat': (context) => SearchPage(),
         '/searchDaerah': (context) => SearchPageDaerah(),
 

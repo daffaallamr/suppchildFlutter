@@ -3,15 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
-import 'package:suppchild_ver_1/loginPage.dart';
+import 'package:suppchild_ver_1/loginPagePusat.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 
-class OpeningPage extends StatefulWidget {
+class OpeningPagePusat extends StatefulWidget {
   @override
   _OpeningPageState createState() => _OpeningPageState();
 }
 
-class _OpeningPageState extends State<OpeningPage> {
+class _OpeningPageState extends State<OpeningPagePusat> {
   bool pusat = false;
   bool daerah = false;
   String userLevel;
@@ -62,9 +62,7 @@ class _OpeningPageState extends State<OpeningPage> {
       return Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => RootDaerah(
-              idPassing: prefs.getInt('idUser'),
-            ),
+            builder: (context) => RootDaerah(),
           ));
     }
 
@@ -75,7 +73,7 @@ class _OpeningPageState extends State<OpeningPage> {
             ? toPusat()
             : daerah == true
                 ? toDaerah()
-                : new LoginPage(),
+                : new LoginPagePusat(),
         image: new Image.asset('assets/image/logo.jpeg'),
         backgroundColor: Colors.white,
         photoSize: 120.0,

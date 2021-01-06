@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/daerah/kasusPage/listKasus.dart';
 import 'package:suppchild_ver_1/daerah/kegiatanPage/listKegiatan.dart';
-import 'package:suppchild_ver_1/homePage/homeScreen.dart';
+import 'package:suppchild_ver_1/homePageDaerah/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/profilPage/profil.dart';
@@ -17,9 +17,7 @@ import 'package:suppchild_ver_1/searchPageDaerah.dart';
 
 class RootDaerah extends StatefulWidget {
   final String selectedScreen;
-  final int idPassing;
-  final Future<List> dataAnakSearch;
-  RootDaerah({this.selectedScreen, this.dataAnakSearch, this.idPassing});
+  RootDaerah({this.selectedScreen});
 
   @override
   _RootPageState createState() =>
@@ -28,10 +26,9 @@ class RootDaerah extends StatefulWidget {
 
 class _RootPageState extends State<RootDaerah> {
   TextEditingController controllerSearch = new TextEditingController();
-  int idUser;
-  String userLevel;
-  String nama;
-  String daerahuser;
+  int idStaffDaerah;
+  String namaStaffDaerah;
+  int idDaerah;
 
   final String selectedScreen;
   _RootPageState({this.selectedScreen});
@@ -56,19 +53,19 @@ class _RootPageState extends State<RootDaerah> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      idUser = prefs.getInt('idUser');
-      userLevel = prefs.getString('userLevel');
-      nama = prefs.getString('nama');
-      daerahuser = prefs.getString('daerahuser');
+      idStaffDaerah = prefs.getInt('id_staffdaerah');
+      namaStaffDaerah = prefs.getString('nama_staffdaerah');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
   // Data user firebase
   Future handleUser() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    idStaffDaerah = prefs.getInt('id_staffdaerah');
     final result = (await FirebaseFirestore.instance
             .collection('users')
-            .where('id', isEqualTo: widget.idPassing)
+            .where('id', isEqualTo: idStaffDaerah)
             .get())
         .docs;
 
@@ -76,17 +73,12 @@ class _RootPageState extends State<RootDaerah> {
       ///new user
       FirebaseFirestore.instance
           .collection('users')
-          .doc(idUser.toString())
+          .doc(idStaffDaerah.toString())
           .set({
-        "id": idUser,
-        "level": userLevel,
-        "username": nama,
-        "name": daerahuser,
+        "id": idStaffDaerah,
+        "level": idDaerah,
+        "username": namaStaffDaerah,
       });
-    } else {
-      ///Old user
-      sharedPreferences.setInt("id", result[0]["id"]);
-      sharedPreferences.setString("name", result[0]["name"]);
     }
   }
 

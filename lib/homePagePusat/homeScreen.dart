@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/homePage/cabang_chart.dart';
-import 'package:suppchild_ver_1/homePage/total_chart.dart';
-import 'package:suppchild_ver_1/homePage/fotoSlideShow.dart';
+import 'package:suppchild_ver_1/homePagePusat/cabang_chart.dart';
+import 'package:suppchild_ver_1/homePagePusat/total_chart.dart';
+import 'package:suppchild_ver_1/homePagePusat/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:http/http.dart' as http;

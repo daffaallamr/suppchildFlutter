@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/chat/listChat.dart';
+import 'package:suppchild_ver_1/chat/listChatPusat.dart';
 import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/detailAnak.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
@@ -35,8 +35,11 @@ import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/listSemuaKegiatan.
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/approveKegiatan.dart';
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.dart';
 
-import 'package:suppchild_ver_1/profilPage/profil.dart';
-import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
+import 'package:suppchild_ver_1/profilPageDaerah/profil.dart';
+import 'package:suppchild_ver_1/profilPageDaerah/ubahPassword.dart';
+
+import 'package:suppchild_ver_1/profilPagePusat/profil.dart';
+import 'package:suppchild_ver_1/profilPagePusat/ubahPassword.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:suppchild_ver_1/splashScreenDaerah.dart';
@@ -90,8 +93,12 @@ class MyApp extends StatelessWidget {
         '/rootDaerah': (context) => RootDaerah(),
 
         //Profil
-        '/profil': (context) => ProfilePage(),
-        '/ubahPassword': (context) => UbahPassword(),
+        '/profilPusat': (context) => ProfilePagePusat(),
+        '/ubahPasswordPusat': (context) => UbahPasswordPusat(),
+
+        //Profil Daerah
+        '/profilDaerah': (context) => ProfilePageDaerah(),
+        '/ubahPasswordDaerah': (context) => UbahPasswordDaerah(),
 
         '/loginPusat': (context) => LoginPagePusat(),
         '/loginDaerah': (context) => LoginPageDaerah(),

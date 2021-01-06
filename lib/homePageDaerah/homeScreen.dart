@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _takePrefs() async {
+    if (!mounted) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int idDaerah;
     setState(() {
@@ -113,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, dynamic> myMap;
 //Mengambil data anak dari db
   void getDataTabel() async {
+    if (!mounted) return;
     final response =
         await http.get("http://suppchild.xyz/API/getTabelAnak.php");
     myMap = new Map<String, dynamic>.from(json.decode(response.body));
@@ -140,6 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, dynamic> mapTotal;
 //Mengambil data anak dari db
   void getTabelTotal() async {
+    if (!mounted) return;
     final response =
         await http.get("http://suppchild.xyz/API/getTabelTotal.php");
     mapTotal = new Map<String, dynamic>.from(json.decode(response.body));
@@ -193,26 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          spasiBaris(10.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleChart('Anak Binaan Cabang'),
-              spasiBaris(2.0),
-              Container(
-                height: SizeConfig.safeBlockVertical * 35,
-                width: SizeConfig.safeBlockHorizontal * 85,
-                child: Card(
-                    color: Colors.grey[100],
-                    elevation: 4.5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: PieChartSample2()),
-              ),
-            ],
-          ),
-          spasiBaris(6.0),
+          spasiBaris(4.0),
         ],
       ),
     );

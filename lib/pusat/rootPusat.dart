@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/homePagePusat/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
-import 'package:suppchild_ver_1/profilPage/profil.dart';
+import 'package:suppchild_ver_1/profilPagePusat/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
 import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
@@ -42,7 +42,7 @@ class _RootPageState extends State<RootPusat> {
     KegiatanCabang(),
     DataAnakCabang(),
     KasusCabang(),
-    ProfilePage()
+    ProfilePagePusat()
   ];
 
   Widget currentScreen;
@@ -245,7 +245,7 @@ class SelectedScreen extends StatelessWidget {
         break;
       case 'profil':
         {
-          return ProfilePage();
+          return ProfilePagePusat();
         }
         break;
       default:

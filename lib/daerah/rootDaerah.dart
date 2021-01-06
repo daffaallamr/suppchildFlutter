@@ -9,7 +9,7 @@ import 'package:suppchild_ver_1/daerah/kegiatanPage/listKegiatan.dart';
 import 'package:suppchild_ver_1/homePageDaerah/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
-import 'package:suppchild_ver_1/profilPage/profil.dart';
+import 'package:suppchild_ver_1/profilPageDaerah/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
@@ -41,7 +41,7 @@ class _RootPageState extends State<RootDaerah> {
     ListKegiatan(),
     ListAnak(),
     ListKasus(),
-    ProfilePage()
+    ProfilePageDaerah()
   ];
 
   Widget currentScreen;
@@ -53,6 +53,7 @@ class _RootPageState extends State<RootDaerah> {
   }
 
   _takePrefs() async {
+    if (!mounted) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       idStaffDaerah = prefs.getInt('id_staffdaerah');
@@ -63,6 +64,7 @@ class _RootPageState extends State<RootDaerah> {
 
   // Data user firebase
   Future handleUser() async {
+    if (!mounted) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     idStaffDaerah = prefs.getInt('id_staffdaerah');
     final result = (await FirebaseFirestore.instance
@@ -87,7 +89,7 @@ class _RootPageState extends State<RootDaerah> {
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
     final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+        await http.get("http://suppchild.xyz/API/daerah/getAnak_$idDaerah.php");
     return json.decode(response.body);
   }
 
@@ -240,7 +242,7 @@ class SelectedScreen extends StatelessWidget {
         break;
       case 'profil':
         {
-          return ProfilePage();
+          return ProfilePageDaerah();
         }
         break;
       default:

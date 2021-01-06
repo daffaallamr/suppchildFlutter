@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
-import 'chatpage.dart';
+import 'chatpagePusat.dart';
 
 Widget titleList() {
   return Text(
@@ -91,7 +91,7 @@ class _HomeState extends State<ListChat> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ChatPage(docs: doc, idUser: idUser)));
+                            ChatPagePusat(docs: doc, idUser: idUser)));
               },
               child: Card(
                 elevation: 4.5,

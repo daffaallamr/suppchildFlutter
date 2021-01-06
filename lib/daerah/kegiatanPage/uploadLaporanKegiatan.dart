@@ -185,12 +185,12 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
     String uploadurl = "http://suppchild.xyz/API/daerah/uploadLaporan.php";
 
     FormData formdata = FormData.fromMap({
-      "id": widget.list[widget.index]['id'],
+      "id_kegiatan": widget.list[widget.index]['id_kegiatan'],
       "file_laporan": await MultipartFile.fromFile(_selectedFile.path,
           filename: basename(_selectedFile.path)
           //show only filename from path
           ),
-      "nama_foto": controllerFoto.text,
+      "foto_laporan": controllerFoto.text,
       "lokasi": controllerLokasiFoto.text,
     });
 
@@ -550,8 +550,8 @@ class _UploadKegiatanState extends State<UploadKegiatan> {
                   ),
                 ),
                 spasiBaris(3.0),
-                dataLaporan(
-                    'Nama Kegiatan:', widget.list[widget.index]['nama']),
+                dataLaporan('Nama Kegiatan:',
+                    widget.list[widget.index]['nama_kegiatan']),
                 spasiBaris(2.0),
                 Container(
                   width: SizeConfig.safeBlockHorizontal * 80,

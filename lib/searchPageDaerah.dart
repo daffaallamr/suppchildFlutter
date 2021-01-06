@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:suppchild_ver_1/daerah/dataAnakPage/ubahDataAnak.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/detailAnak.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
@@ -21,12 +21,12 @@ class _SearchPageState extends State<SearchPageDaerah> {
   //Controller form
   TextEditingController controllerSearch;
   String currentKeyword;
-  String daerah;
+  int idDaerah;
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
     final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+        await http.get("http://suppchild.xyz/API/daerah/getAnak_$idDaerah.php");
     return json.decode(response.body);
   }
 
@@ -41,7 +41,7 @@ class _SearchPageState extends State<SearchPageDaerah> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      daerah = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
@@ -160,7 +160,6 @@ class _SearchPageState extends State<SearchPageDaerah> {
                                   ? new ItemList(
                                       allList: snapshot.data,
                                       keyword: widget.keyword,
-                                      daerah: daerah,
                                     )
                                   : new Center();
                             },
@@ -182,10 +181,9 @@ class _SearchPageState extends State<SearchPageDaerah> {
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({this.allList, this.keyword, this.daerah});
+  ItemList({this.allList, this.keyword});
   final List allList;
   final String keyword;
-  final String daerah;
 
   @override
   Widget build(BuildContext context) {
@@ -194,17 +192,14 @@ class ItemList extends StatelessWidget {
             data['nama'].toLowerCase().contains(keyword.toLowerCase()))
         .toList();
 
-    List selectedStatus =
-        selectedList.where((data) => data['daerah'] == daerah).toList();
-
     Widget listSearch(i, hasil) {
       return InkWell(
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => UbahDataAnak(
-                  selectedList: selectedStatus,
+                builder: (context) => DetailAnak(
+                  allList: selectedList,
                   index: i,
                 ),
               ));
@@ -242,9 +237,9 @@ class ItemList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: selectedStatus == null ? 0 : selectedStatus.length,
+      itemCount: selectedList == null ? 0 : selectedList.length,
       itemBuilder: (context, i) {
-        return listSearch(i, selectedStatus[i]['nama']);
+        return listSearch(i, selectedList[i]['nama']);
       },
     );
   }

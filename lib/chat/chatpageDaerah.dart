@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class ChatPage extends StatefulWidget {
+class ChatPageDaerah extends StatefulWidget {
   final docs;
-  final int idUser;
+  final int idStaffDaerah;
 
-  const ChatPage({Key key, this.docs, this.idUser}) : super(key: key);
+  const ChatPageDaerah({Key key, this.docs, this.idStaffDaerah})
+      : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState(idUser: idUser);
+  _ChatPageState createState() => _ChatPageState(idStaffDaerah: idStaffDaerah);
 }
 
-class _ChatPageState extends State<ChatPage> {
-  final int idUser;
-  _ChatPageState({this.idUser});
+class _ChatPageState extends State<ChatPageDaerah> {
+  final int idStaffDaerah;
+  _ChatPageState({this.idStaffDaerah});
   String groupChatId;
   String anotherUsername;
 
@@ -32,10 +33,10 @@ class _ChatPageState extends State<ChatPage> {
     int anotherUserId = widget.docs['id'];
     String _anotherUsername = widget.docs['username'];
 
-    if (idUser.compareTo(anotherUserId) > 0) {
-      groupChatId = '$idUser - $anotherUserId';
+    if (idStaffDaerah.compareTo(anotherUserId) > 0) {
+      groupChatId = '$idStaffDaerah - $anotherUserId';
     } else {
-      groupChatId = '$anotherUserId - $idUser';
+      groupChatId = '$anotherUserId - $idStaffDaerah';
     }
     setState(() {
       anotherUsername = _anotherUsername;
@@ -159,7 +160,7 @@ class _ChatPageState extends State<ChatPage> {
 
       FirebaseFirestore.instance.runTransaction((transaction) async {
         transaction.set(ref, {
-          "senderId": idUser,
+          "senderId": idStaffDaerah,
           "anotherUserId": widget.docs['id'],
           "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
           'content': msg,
@@ -180,17 +181,18 @@ class _ChatPageState extends State<ChatPage> {
       padding: const EdgeInsets.fromLTRB(12, 5, 12, 5),
       child: Container(
         padding: EdgeInsets.only(
-            left: (sendByMe == idUser ? 24 : 0),
-            right: (sendByMe == idUser ? 0 : 24)),
-        alignment:
-            (sendByMe == idUser ? Alignment.centerRight : Alignment.centerLeft),
+            left: (sendByMe == idStaffDaerah ? 24 : 0),
+            right: (sendByMe == idStaffDaerah ? 0 : 24)),
+        alignment: (sendByMe == idStaffDaerah
+            ? Alignment.centerRight
+            : Alignment.centerLeft),
         child: Container(
-          margin: sendByMe == idUser
+          margin: sendByMe == idStaffDaerah
               ? EdgeInsets.only(left: 30)
               : EdgeInsets.only(right: 30),
           padding: EdgeInsets.only(top: 12, bottom: 12, left: 20, right: 20),
           decoration: BoxDecoration(
-              borderRadius: sendByMe == idUser
+              borderRadius: sendByMe == idStaffDaerah
                   ? BorderRadius.only(
                       topLeft: Radius.circular(23),
                       topRight: Radius.circular(23),
@@ -199,7 +201,9 @@ class _ChatPageState extends State<ChatPage> {
                       bottomLeft: Radius.circular(23),
                       topRight: Radius.circular(23),
                       bottomRight: Radius.circular(23)),
-              color: sendByMe == idUser ? Colors.grey[200] : Colors.grey[300]),
+              color: sendByMe == idStaffDaerah
+                  ? Colors.grey[200]
+                  : Colors.grey[300]),
           child: (doc.data()['type'] == 'text')
               ? Text('${doc.data()['content']}',
                   style: TextStyle(

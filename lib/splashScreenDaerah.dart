@@ -51,9 +51,7 @@ class _OpeningPageState extends State<OpeningPageDaerah> {
       return Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => RootPusat(
-              idPassing: prefs.getInt('idUser'),
-            ),
+            builder: (context) => RootPusat(),
           ));
     }
 

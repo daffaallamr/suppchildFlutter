@@ -25,18 +25,11 @@ class _LoginPageState extends State<LoginPagePusat> {
   //Method login
   Future<List> _login() async {
     final response =
-        await http.post("http://suppchild.xyz/API/login.php", body: {
+        await http.post("http://suppchild.xyz/API/loginPusat.php", body: {
       "username": user.text,
       "password": pass.text,
     });
     var datauser = json.decode(response.body);
-    // String prefsUsername = prefs.getString('username');
-    // String prefsNama = prefs.getString('nama');
-    // String prefsDaerahuser = prefs.getString('daerahuser');
-    // String prefsPasswordUser = prefs.getString('passwordUser');
-    // int prefsIdUser = prefs.getInt('idUser');
-    // String uprefsUserLevel = prefs.getString('userLevel');
-    // int prefsIdLogin = int.parse(datauser[0]['id']);
 
     if (datauser.length == 0) {
       setState(() {
@@ -44,37 +37,21 @@ class _LoginPageState extends State<LoginPagePusat> {
       });
     } else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt('id_staffpusat', int.parse(datauser[0]['id_staffpusat']));
       prefs.setString('username', datauser[0]['username']);
-      prefs.setString('nama', datauser[0]['nama']);
-      prefs.setString('daerahuser', datauser[0]['daerahuser']);
-      prefs.setString('passwordUser', datauser[0]['password']);
-      prefs.setInt('idUser', int.parse(datauser[0]['id']));
-      prefs.setString('userLevel', datauser[0]['level']);
+      prefs.setString('password', datauser[0]['password']);
+      prefs.setString('nama_staffpusat', datauser[0]['nama_staffpusat']);
 
-      if (datauser[0]['level'] == 'pusat') {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RootPusat(
-                idPassing: int.parse(datauser[0]['id']),
-              ),
-            ));
-      } else {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RootDaerah(),
-            ));
-      }
-      setState(() {
-        // username = prefsUsername;
-        // nama = prefsNama;
-        // daerahuser = prefsDaerahuser;
-        // passwordUser = prefsPasswordUser;
-        // idUser = prefsIdUser;
-        // userLevel = uprefsUserLevel;
-        // idLogin = prefsIdLogin;
-      });
+      print(prefs.getInt('id_staffpusat'));
+      print(prefs.getString('username'));
+      print(prefs.getString('password'));
+      print(prefs.getString('nama_staffpusat'));
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RootPusat(),
+          ));
     }
     return datauser;
   }

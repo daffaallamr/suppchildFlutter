@@ -89,7 +89,7 @@ class _RootPageState extends State<RootDaerah> {
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
     final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_$idDaerah.php");
+        await http.get("http://suppchild.xyz/API/daerah/getAnak.php");
     return json.decode(response.body);
   }
 
@@ -242,7 +242,7 @@ class SelectedScreen extends StatelessWidget {
         break;
       case 'profil':
         {
-          return ProfilePageDaerah();
+          return ListAnak();
         }
         break;
       default:

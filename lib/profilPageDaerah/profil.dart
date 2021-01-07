@@ -285,4 +285,5 @@ class _ProfilePageState extends State<ProfilePageDaerah> {
 void _prefClear() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('username', null);
+  prefs.setString('password', null);
 }

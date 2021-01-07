@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/homePageDaerah/cabang_chart.dart';
 import 'package:suppchild_ver_1/homePageDaerah/total_chart.dart';
 import 'package:suppchild_ver_1/homePageDaerah/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getTabelTotal();
-    getDataTabel();
+    // getTabelTotal();
+    // getDataTabel();
     _takePrefs();
   }
 

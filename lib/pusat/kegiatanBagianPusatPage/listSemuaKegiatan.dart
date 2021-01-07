@@ -20,8 +20,8 @@ Widget titleList(title) {
 }
 
 class ListSemuaKegiatan extends StatefulWidget {
-  final String daerah;
-  ListSemuaKegiatan({this.daerah});
+  final int idDaerah;
+  ListSemuaKegiatan({this.idDaerah});
 
   @override
   _ListSemuaKegiatanState createState() => _ListSemuaKegiatanState();
@@ -70,7 +70,7 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
                             return snapshot.hasData
                                 ? new ListDiajukan(
                                     allList: snapshot.data,
-                                    daerah: widget.daerah,
+                                    idDaerah: widget.idDaerah,
                                   )
                                 : Center(
                                     child: Padding(
@@ -106,7 +106,7 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
                             return snapshot.hasData
                                 ? new ListDiterima(
                                     allList: snapshot.data,
-                                    daerah: widget.daerah,
+                                    idDaerah: widget.idDaerah,
                                   )
                                 : new Center(
                                     child: Padding(
@@ -132,17 +132,18 @@ class _ListSemuaKegiatanState extends State<ListSemuaKegiatan> {
 }
 
 class ListDiajukan extends StatelessWidget {
-  ListDiajukan({this.allList, this.daerah});
+  ListDiajukan({this.allList, this.idDaerah});
   final List allList;
-  final String daerah;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['pengaju'] == daerah).toList();
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
 
     List selectedStatus =
-        selectedList.where((data) => data['status'] == null).toList();
+        selectedList.where((data) => data['id_status'] == null).toList();
 
     Widget listData(i, hasil) {
       return InkWell(
@@ -191,24 +192,25 @@ class ListDiajukan extends StatelessWidget {
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listData(i, selectedStatus[i]['nama']);
+        return listData(i, selectedStatus[i]['nama_kegiatan']);
       },
     );
   }
 }
 
 class ListDiterima extends StatelessWidget {
-  ListDiterima({this.allList, this.daerah});
+  ListDiterima({this.allList, this.idDaerah});
   final List allList;
-  final String daerah;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['pengaju'] == daerah).toList();
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
 
     List selectedStatus =
-        selectedList.where((data) => data['status'] == 'diterima').toList();
+        selectedList.where((data) => data['id_status'] == '1').toList();
 
     Widget listData(i, hasil) {
       return InkWell(
@@ -257,7 +259,7 @@ class ListDiterima extends StatelessWidget {
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listData(i, selectedStatus[i]['nama']);
+        return listData(i, selectedStatus[i]['nama_kegiatan']);
       },
     );
   }

@@ -17,13 +17,13 @@ Widget titleList() {
   );
 }
 
-class ListChat extends StatefulWidget {
+class ListChatPusat extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<ListChat> {
-  int idUser;
+class _HomeState extends State<ListChatPusat> {
+  int idPusat;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _HomeState extends State<ListChat> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      idUser = prefs.getInt('idUser');
+      idPusat = prefs.getInt('id_staffpusat');
     });
   }
 
@@ -79,7 +79,7 @@ class _HomeState extends State<ListChat> {
   }
 
   buildItem(doc) {
-    return (doc['id'] != idUser && doc['level'] != "Admin")
+    return (doc['id'] != idPusat && doc['level'] != 0)
         ? Container(
             height: SizeConfig.safeBlockVertical * 9,
             decoration: BoxDecoration(
@@ -91,7 +91,7 @@ class _HomeState extends State<ListChat> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ChatPagePusat(docs: doc, idUser: idUser)));
+                            ChatPagePusat(docs: doc, idPusat: idPusat)));
               },
               child: Card(
                 elevation: 4.5,

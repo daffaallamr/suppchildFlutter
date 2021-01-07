@@ -26,7 +26,7 @@ class _SearchPageState extends State<SearchPageDaerah> {
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
     final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_$idDaerah.php");
+        await http.get("http://suppchild.xyz/API/daerah/getAnak.php");
     return json.decode(response.body);
   }
 
@@ -160,6 +160,7 @@ class _SearchPageState extends State<SearchPageDaerah> {
                                   ? new ItemList(
                                       allList: snapshot.data,
                                       keyword: widget.keyword,
+                                      idDaerah: idDaerah,
                                     )
                                   : new Center();
                             },
@@ -181,15 +182,20 @@ class _SearchPageState extends State<SearchPageDaerah> {
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({this.allList, this.keyword});
+  ItemList({this.allList, this.keyword, this.idDaerah});
   final List allList;
   final String keyword;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
     List selectedList = allList
         .where((data) =>
             data['nama'].toLowerCase().contains(keyword.toLowerCase()))
+        .toList();
+
+    List selectedStatus = selectedList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
         .toList();
 
     Widget listSearch(i, hasil) {
@@ -199,7 +205,7 @@ class ItemList extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => DetailAnak(
-                  allList: selectedList,
+                  allList: selectedStatus,
                   index: i,
                 ),
               ));
@@ -237,9 +243,9 @@ class ItemList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: selectedList == null ? 0 : selectedList.length,
+      itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listSearch(i, selectedList[i]['nama']);
+        return listSearch(i, selectedStatus[i]['nama']);
       },
     );
   }

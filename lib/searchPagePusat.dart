@@ -24,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
     final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+        await http.get("http://suppchild.xyz/API/daerah/getAnak.php");
     return json.decode(response.body);
   }
 

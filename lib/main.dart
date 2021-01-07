@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'SuppChild - Daerah',
       theme: ThemeData(),
-      initialRoute: '/d',
+      initialRoute: '/p',
       routes: <String, WidgetBuilder>{
         '/p': (context) => OpeningPagePusat(),
         '/d': (context) => OpeningPageDaerah(),
@@ -107,7 +107,7 @@ class MyApp extends StatelessWidget {
         '/searchDaerah': (context) => SearchPageDaerah(),
 
         //Pesan
-        '/listChat': (context) => ListChat(),
+        '/listChatPusat': (context) => ListChatPusat(),
         '/listChatDaerah': (context) => ListChatDaerah(),
 
         //Data Anak bagian cabang

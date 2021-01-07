@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePagePusat> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      nama = prefs.getString('nama_staffdaerah');
+      nama = prefs.getString('nama_staffpusat');
       username = prefs.getString('username');
     });
   }
@@ -176,7 +176,7 @@ class _ProfilePageState extends State<ProfilePagePusat> {
             child: RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/d', (Route<dynamic> route) => false);
+                    '/p', (Route<dynamic> route) => false);
                 _prefClear();
               },
               shape: RoundedRectangleBorder(
@@ -284,5 +284,6 @@ class _ProfilePageState extends State<ProfilePagePusat> {
 
 void _prefClear() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setInt('userLevel', null);
+  prefs.setString('username', null);
+  prefs.setString('password', null);
 }

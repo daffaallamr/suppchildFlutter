@@ -333,7 +333,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
   }
 
   void editDataAnak() {
-    var url = "http://suppchild.xyz/API/daerah/ubahAnak_$idDaerah.php";
+    var url = "http://suppchild.xyz/API/daerah/ubahAnak.php";
 
     http.post(url, body: {
       "id": widget.selectedList[widget.index]['id'],

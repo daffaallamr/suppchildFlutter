@@ -350,7 +350,7 @@ class _TambahAnakState extends State<TambahAnak> {
   }
 
   void addDataAnak() {
-    var url = "http://suppchild.xyz/API/daerah/addAnak_$idDaerah.php";
+    var url = "http://suppchild.xyz/API/daerah/addAnak.php";
     DateFormat dateFormat = DateFormat("yyyy-MM-dd");
     String tglUpload = dateFormat.format(DateTime.now());
 

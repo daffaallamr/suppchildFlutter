@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
@@ -15,9 +14,8 @@ class _UbahPasswordState extends State<UbahPasswordPusat> {
   //Mesaage gagal login
   String msg = '';
   bool berhasil = true;
-  int idUser;
-  String passwordUser;
-  String level;
+  int idPusat;
+  String passwordPusat;
 
   //Controller
   TextEditingController controllerCurrentPass =
@@ -35,14 +33,14 @@ class _UbahPasswordState extends State<UbahPasswordPusat> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      idUser = prefs.getInt('idUser');
-      passwordUser = prefs.getString('passwordUser');
-      level = prefs.getString('userLevel');
+      idPusat = prefs.getInt('id_staffpusat');
+      passwordPusat = prefs.getString('password');
     });
+    print(passwordPusat);
   }
 
   _ubahPass() async {
-    var url = "http://suppchild.xyz/API/ubahPassword.php";
+    var url = "http://suppchild.xyz/API/ubahPassword_pusat.php";
 
     if (controllerCurrentPass.text == '') {
       setState(() {
@@ -50,7 +48,7 @@ class _UbahPasswordState extends State<UbahPasswordPusat> {
         berhasil = false;
         print('pass kosong!');
       });
-    } else if (controllerCurrentPass.text != passwordUser) {
+    } else if (controllerCurrentPass.text != passwordPusat) {
       setState(() {
         msg = "Password lama anda salah!";
         berhasil = false;
@@ -78,7 +76,7 @@ class _UbahPasswordState extends State<UbahPasswordPusat> {
       berhasil = true;
       print(controllerNewPass.text);
       http.post(url, body: <String, String>{
-        "id": idUser.toString(),
+        "id": idPusat.toString(),
         "password": controllerNewPass.text,
       });
 
@@ -92,7 +90,7 @@ class _UbahPasswordState extends State<UbahPasswordPusat> {
 
   _changeCurrentPass() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('passwordUser', controllerNewPass.text);
+    prefs.setString('password', controllerNewPass.text);
   }
 
   Widget alertGagal() {
@@ -272,21 +270,12 @@ class _UbahPasswordState extends State<UbahPasswordPusat> {
               onPressed: () {
                 _ubahPass();
                 if (berhasil == true) {
-                  if (level == 'pusat') {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootPusat(selectedScreen: 'profil'),
-                        ));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootDaerah(selectedScreen: 'profil'),
-                        ));
-                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootPusat(selectedScreen: 'profil'),
+                      ));
                 } else {
                   Navigator.pop(context);
                 }

@@ -57,8 +57,8 @@ class ApproveKegiatan extends StatelessWidget {
     var url = "http://suppchild.xyz/API/pusat/approveKegiatan.php";
 
     http.post(url, body: {
-      "id": list[index]['id'],
-      "status": 'diterima',
+      "id_kegiatan": list[index]['id_kegiatan'],
+      "id_status": '1',
     });
     print('berhasil!');
   }
@@ -67,8 +67,8 @@ class ApproveKegiatan extends StatelessWidget {
     var url = "http://suppchild.xyz/API/pusat/approveKegiatan.php";
 
     http.post(url, body: {
-      "id": list[index]['id'],
-      "status": 'ditolak',
+      "id_kegiatan": list[index]['id_kegiatan'],
+      "id_status": '2',
     });
     print('berhasil!');
   }
@@ -364,8 +364,20 @@ class ApproveKegiatan extends StatelessWidget {
                     ),
                   ),
                   spasiBaris(5.0),
-                  dataKegiatan('Nama Kegiatan:', list[index]['nama']),
-                  dataKegiatan('Daerah Pengaju:', list[index]['pengaju']),
+                  dataKegiatan('Nama Kegiatan:', list[index]['nama_kegiatan']),
+                  dataKegiatan(
+                      'Daerah Pengaju:',
+                      list[index]['id_daerah'] == '1'
+                          ? 'Gresik'
+                          : list[index]['id_daerah'] == '2'
+                              ? 'Bangkalan'
+                              : list[index]['id_daerah'] == '3'
+                                  ? 'Mojokerto'
+                                  : list[index]['id_daerah'] == '4'
+                                      ? 'Surabaya'
+                                      : list[index]['id_daerah'] == '5'
+                                          ? 'Sidoarjo'
+                                          : 'Lamongan'),
                   spasiBaris(1.0),
                   buttonDownloadFile(),
                   spasiBaris(16.0),

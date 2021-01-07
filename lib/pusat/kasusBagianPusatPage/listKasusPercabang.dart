@@ -19,17 +19,17 @@ Widget titleList(title) {
 }
 
 class ListKasusPercabang extends StatefulWidget {
-  final String daerah;
-  ListKasusPercabang({this.daerah});
+  final int idDaerah;
+  ListKasusPercabang({this.idDaerah});
 
   @override
   _ListKasusPercabangState createState() =>
-      _ListKasusPercabangState(daerah: daerah);
+      _ListKasusPercabangState(idDaerah: idDaerah);
 }
 
 class _ListKasusPercabangState extends State<ListKasusPercabang> {
-  String daerah;
-  _ListKasusPercabangState({this.daerah});
+  int idDaerah;
+  _ListKasusPercabangState({this.idDaerah});
 
   //Mengambil data kegiatan dari db
   Stream<List> getDataKasus() async* {
@@ -53,7 +53,17 @@ class _ListKasusPercabangState extends State<ListKasusPercabang> {
             child: Center(
               child: Column(
                 children: <Widget>[
-                  titleList('$daerah'),
+                  titleList(idDaerah == 1
+                      ? 'Gresik'
+                      : idDaerah == 2
+                          ? 'Bangkalan'
+                          : idDaerah == 3
+                              ? 'Mojokerto'
+                              : idDaerah == 4
+                                  ? 'Surabaya'
+                                  : idDaerah == 5
+                                      ? 'Sidoarjo'
+                                      : 'Lamongan'),
                   spasiBaris(2.0),
                   Container(
                     width: SizeConfig.safeBlockHorizontal * 90,
@@ -73,7 +83,7 @@ class _ListKasusPercabangState extends State<ListKasusPercabang> {
                             return snapshot.hasData
                                 ? new SelectedList(
                                     allList: snapshot.data,
-                                    daerah: daerah,
+                                    idDaerah: idDaerah,
                                   )
                                 : new Center(
                                     child: Padding(
@@ -99,14 +109,15 @@ class _ListKasusPercabangState extends State<ListKasusPercabang> {
 }
 
 class SelectedList extends StatelessWidget {
-  SelectedList({this.allList, this.daerah});
+  SelectedList({this.allList, this.idDaerah});
   final List allList;
-  final String daerah;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['daerah'] == daerah).toList();
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
 
     Widget listData(i, hasil) {
       return InkWell(

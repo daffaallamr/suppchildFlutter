@@ -32,8 +32,8 @@ class _ListAnakState extends State<ListAnak> {
   //Mengambil data anak dari db
   Stream<List> getDataAnak() async* {
     while (true) {
-      final response = await http
-          .get("http://suppchild.xyz/API/daerah/getAnak_$idDaerah.php");
+      final response =
+          await http.get("http://suppchild.xyz/API/daerah/getAnak.php");
       yield json.decode(response.body);
     }
   }
@@ -108,6 +108,7 @@ class _ListAnakState extends State<ListAnak> {
                     return snapshot.hasData
                         ? new ItemList(
                             allList: snapshot.data,
+                            idDaerah: idDaerah,
                           )
                         : new Center(
                             child: Padding(
@@ -130,11 +131,16 @@ class _ListAnakState extends State<ListAnak> {
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({this.allList});
+  ItemList({this.allList, this.idDaerah});
   final List allList;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
+
     Widget listAnak(i, nama) {
       return InkWell(
         onTap: () async {
@@ -142,7 +148,7 @@ class ItemList extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => DetailAnak(
-                  allList: allList,
+                  allList: selectedList,
                   index: i,
                 ),
               ));
@@ -180,9 +186,9 @@ class ItemList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: allList == null ? 0 : allList.length,
+      itemCount: selectedList == null ? 0 : selectedList.length,
       itemBuilder: (context, i) {
-        return listAnak(i, allList[i]['nama']);
+        return listAnak(i, selectedList[i]['nama']);
       },
     );
   }

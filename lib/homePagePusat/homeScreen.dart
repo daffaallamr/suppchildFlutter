@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/homePagePusat/cabang_chart.dart';
-import 'package:suppchild_ver_1/homePagePusat/total_chart.dart';
+import 'package:suppchild_ver_1/homePageDaerah/cabang_chart.dart';
+import 'package:suppchild_ver_1/homePageDaerah/total_chart.dart';
 import 'package:suppchild_ver_1/homePagePusat/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
@@ -121,9 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getTabelTotal();
-    getDataTabel();
     super.initState();
+    // getTabelTotal();
+    // getDataTabel();
   }
 
   @override
@@ -156,19 +156,16 @@ class _HomeScreenState extends State<HomeScreen> {
               titleChart('Total Anak Binaan'),
               spasiBaris(2.0),
               Container(
-                height: SizeConfig.safeBlockVertical * 65,
-                width: SizeConfig.safeBlockHorizontal * 85,
-                child: Card(
+                  height: SizeConfig.safeBlockVertical * 65,
+                  width: SizeConfig.safeBlockHorizontal * 85,
+                  child: Card(
                     color: Colors.grey[100],
                     elevation: 4.5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: EndPointsAxisTimeSeriesChart.withSampleData(),
-                    )),
-              ),
+                    child: LineChartSample1(),
+                  )),
             ],
           ),
           spasiBaris(10.0),
@@ -178,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
               titleChart('Anak Binaan Cabang'),
               spasiBaris(2.0),
               Container(
-                height: SizeConfig.safeBlockVertical * 65,
+                height: SizeConfig.safeBlockVertical * 35,
                 width: SizeConfig.safeBlockHorizontal * 85,
                 child: Card(
                     color: Colors.grey[100],
@@ -186,10 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GroupedBarChart.withSampleData(),
-                    )),
+                    child: PieChartSample2()),
               ),
             ],
           ),

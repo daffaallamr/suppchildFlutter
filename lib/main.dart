@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'SuppChild - Daerah',
       theme: ThemeData(),
-      initialRoute: '/p',
+      initialRoute: '/d',
       routes: <String, WidgetBuilder>{
         '/p': (context) => OpeningPagePusat(),
         '/d': (context) => OpeningPageDaerah(),

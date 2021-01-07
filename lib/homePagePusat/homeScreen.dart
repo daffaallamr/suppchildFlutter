@@ -153,19 +153,24 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              titleChart('Total Anak Binaan'),
+              Padding(
+                padding :EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: titleChart('Total Anak Binaan')),
               spasiBaris(2.0),
-              Container(
-                  height: SizeConfig.safeBlockVertical * 65,
-                  width: SizeConfig.safeBlockHorizontal * 85,
-                  child: Card(
-                    color: Colors.grey[100],
-                    elevation: 4.5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: LineChartSample1(),
-                  )),
+              SafeArea(
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    height: SizeConfig.safeBlockVertical * 65,
+                    width: MediaQuery.of(context).size.width,
+                    child: Card(
+                      color: Colors.grey[100],
+                      elevation: 4.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: LineChartSample1(),
+                    )),
+              ),
             ],
           ),
           spasiBaris(10.0),

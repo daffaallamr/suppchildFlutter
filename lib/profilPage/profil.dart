@@ -1,204 +1,221 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ProfilePage extends StatefulWidget {
-
-  ProfilePage({this.username, this.nama});
-  
-  final String username;
-  final String nama;
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    _takePrefs();
+  }
 
+  String nama;
+  String username;
+
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nama = prefs.getString('nama');
+      username = prefs.getString('username');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
     Widget dataNama() {
       return Container(
-        height: 100,
-        alignment: Alignment.centerLeft,
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 10,
         decoration: BoxDecoration(
-          color: Colors.transparent,
-          // borderRadius: BorderRadius.circular(12),
-          // border: Border.all(
-          //     width: 2.0,
-          //     color: Color(0xFF7B417B)),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Nama:',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
-                  color: colorMainPurple,
+        child: Card(
+          elevation: 4.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Nama:',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorMainPurple,
+                  ),
                 ),
-              ),
-              spasiBaris(5.0),
-              Text(
-                '$nama',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.2,
-                  color: colorMainOrange,
+                spasiBaris(0.5),
+                Text(
+                  '$nama',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorSecondPurple,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
     }
+
     Widget dataUsername() {
       return Container(
-        height: 100,
-        alignment: Alignment.centerLeft,
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 10,
         decoration: BoxDecoration(
-          color: Colors.transparent,
-          // borderRadius: BorderRadius.circular(12),
-          // border: Border.all(
-          //     width: 2.0,
-          //     color: Color(0xFF7B417B)),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Username:',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
-                  color: colorMainPurple,
+        child: Card(
+          elevation: 4.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Username:',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorMainPurple,
+                  ),
                 ),
-              ),
-              spasiBaris(5.0),
-            Text(
-              '$username',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1.2,
-                color: colorMainOrange,
-              ),
+                spasiBaris(0.5),
+                Text(
+                  '$username',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorSecondPurple,
+                  ),
+                ),
+              ],
             ),
-            ],
           ),
         ),
       );
     }
 
     Widget buttonUbahPassword() {
-      return Center(
-        child: Container(
-          // width: 160,
-          child: RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/ubahPassword');
-            },
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Text(
-              'UBAH PASSWORD',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/ubahPassword');
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: colorMainPurple,
+          child: Text(
+            'Ubah Password',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
       );
     }
-    Widget buttonKeluar() {
 
+    Widget buttonKeluar() {
       Widget buttonbatal() {
-        return WillPopScope(
-          child: Center(
-            child: Container(
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                color: colorMainOrange,
-                child: Text(
-                  'BATAL',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                  ),
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
                 ),
               ),
             ),
           ),
         );
       }
+
       Widget buttonYakin() {
         return Center(
           child: Container(
             // width: 160,
             child: RaisedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
+                _prefClear();
               },
-              padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(20),
               ),
               color: colorMainPurple,
               child: Text(
-                'IYA',
+                'Ya',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 24,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  letterSpacing: 1,
                 ),
               ),
             ),
           ),
         );
       }
+
       Widget contModal() {
         return AlertDialog(
           content: Container(
-            width: double.infinity,
-            height: 140,
+            height: SizeConfig.safeBlockHorizontal * 25,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                spasiBaris(15.0),
+                spasiBaris(1.0),
                 Text(
-                    'Apakah Anda Ingin Keluar?',
+                  'Apakah Anda Ingin Keluar?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 22,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.8,
                   ),
                 ),
-                spasiBaris(20.0),
+                spasiBaris(2.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -214,6 +231,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
       return Center(
         child: Container(
+          width: SizeConfig.safeBlockHorizontal * 80,
+          height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
               showDialog(
@@ -221,18 +240,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (BuildContext context) => contModal(),
               );
             },
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(25),
             ),
-            color: colorMainOrange,
+            color: Colors.redAccent,
             child: Text(
-              'KELUAR APLIKASI',
+              'Keluar Aplikasi',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+                fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
               ),
             ),
           ),
@@ -240,21 +258,31 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    return Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              dataNama(),
-              dataUsername(),
-              spasiBaris(40.0),
-              spasiBaris(20.0),
-              buttonUbahPassword(),
-              spasiBaris(20.0),
-              buttonKeluar(),
-            ],
-          ),
-        ),
-      );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        spasiBaris(2.0),
+        Container(
+            decoration: BoxDecoration(
+              image: new DecorationImage(
+                  image: new AssetImage("assets/image/profile.png"),
+                  fit: BoxFit.fill),
+            ),
+            height: SizeConfig.safeBlockVertical * 25,
+            width: SizeConfig.safeBlockHorizontal * 60),
+        spasiBaris(2.0),
+        dataNama(),
+        dataUsername(),
+        spasiBaris(10.0),
+        buttonUbahPassword(),
+        spasiBaris(1.0),
+        buttonKeluar(),
+      ],
+    );
   }
+}
+
+void _prefClear() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt('userLevel', null);
 }

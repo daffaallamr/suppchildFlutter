@@ -1,67 +1,146 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:http/http.dart' as http;
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/pemilihanStatusKasus.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget titleList(title) {
-  return Container(
-    color: colorMainPurple,
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Center(
-        child: Text(
-          '$title',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ),
+  return Text(
+    'Kasus di $title',
+    style: TextStyle(
+      fontFamily: 'Rubik',
+      fontSize: SizeConfig.safeBlockHorizontal * 6,
+      fontWeight: FontWeight.w600,
+      color: colorMainPurple,
     ),
   );
 }
 
-class ListKasusPercabang extends StatelessWidget {
+class ListKasusPercabang extends StatefulWidget {
+  final String daerah;
+  ListKasusPercabang({this.daerah});
+
+  @override
+  _ListKasusPercabangState createState() =>
+      _ListKasusPercabangState(daerah: daerah);
+}
+
+class _ListKasusPercabangState extends State<ListKasusPercabang> {
+  String daerah;
+  _ListKasusPercabangState({this.daerah});
+
+  //Mengambil data kegiatan dari db
+  Stream<List> getDataKasus() async* {
+    while (true) {
+      final response =
+          await http.get("http://suppchild.xyz/API/pusat/getKasus.php");
+      yield json.decode(response.body);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBarTitle('Daftar Kasus'),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  titleList('$daerah'),
+                  spasiBaris(2.0),
+                  Container(
+                    width: SizeConfig.safeBlockHorizontal * 90,
+                    child: Card(
+                      color: Colors.grey[100],
+                      elevation: 4.5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: StreamBuilder<List>(
+                          stream: getDataKasus(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) print("Error");
 
-    Widget listKasus(kasus) {
-      return Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            right: BorderSide(
-              color: colorMainPurple,
-              width: 3,
-            ),
-            bottom: BorderSide(
-              color: colorMainPurple,
-              width: 3,
+                            return snapshot.hasData
+                                ? new SelectedList(
+                                    allList: snapshot.data,
+                                    daerah: daerah,
+                                  )
+                                : new Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: new CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.redAccent),
+                                    ),
+                                  ));
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-        width: double.infinity,
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/pemilihanStatusKasus');
-          },
-          padding: EdgeInsets.all(10),
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                '1. $kasus',
-                style: TextStyle(
+      ),
+    );
+  }
+}
 
+class SelectedList extends StatelessWidget {
+  SelectedList({this.allList, this.daerah});
+  final List allList;
+  final String daerah;
+
+  @override
+  Widget build(BuildContext context) {
+    List selectedList =
+        allList.where((data) => data['daerah'] == daerah).toList();
+
+    Widget listData(i, hasil) {
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PemilihanStatusKasus(
+                  list: selectedList,
+                  index: i,
+                ),
+              ));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              border: Border(
+                bottom: BorderSide(
+                  color: colorSecondPurple,
+                  width: 1.0,
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 7),
+              child: Text(
+                '$hasil',
+                style: TextStyle(
                   color: colorMainPurple,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1,
                 ),
               ),
             ),
@@ -70,28 +149,13 @@ class ListKasusPercabang extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBarTitle('Daftar Kasus'),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Column(
-                  children: <Widget>[
-                    titleList('Lamongan'),
-                    listKasus('Pelecehan Seksual'),
-                    listKasus('KDRT di Desa Sukaraya'),
-                    listKasus('Drop Out Sekolah'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    return new ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: selectedList == null ? 0 : selectedList.length,
+      itemBuilder: (context, i) {
+        return listData(i, selectedList[i]['nama']);
+      },
     );
   }
 }

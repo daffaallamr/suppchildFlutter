@@ -1,76 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 Widget dataKasus(judul, data) {
   return Container(
-    alignment: Alignment.centerLeft,
+    width: SizeConfig.safeBlockHorizontal * 80,
     decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 15, 12, 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$judul',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
+    child: Card(
+      elevation: 4.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 0, 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '$judul:',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorMainPurple,
+              ),
             ),
-          ),
-          spasiBaris(5.0),
-          Text(
-            '$data',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: colorMainOrange,
+            spasiBaris(0.5),
+            Text(
+              '$data',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorSecondPurple,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
 }
 
 class StatusKasus extends StatelessWidget {
+  final List list;
+  final int index;
+  StatusKasus({this.list, this.index});
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: appBarTitle('Status Laporan'),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  spasiBaris(40.0),
-                  Text(
-                    'Detail Kasus',
-                    style: TextStyle(
-                      fontFamily: 'Rubik',
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.6,
-                      color: colorMainPurple,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                spasiBaris(2.0),
+                Container(
+                    decoration: BoxDecoration(
+                      image: new DecorationImage(
+                          image: new AssetImage("assets/image/kasus.png"),
+                          fit: BoxFit.fill),
                     ),
+                    height: SizeConfig.safeBlockVertical * 25,
+                    width: SizeConfig.safeBlockHorizontal * 60),
+                // spasiBaris(1.0),
+                Text(
+                  'Detail Kasus',
+                  style: TextStyle(
+                    color: colorMainPurple,
+                    fontSize: SizeConfig.safeBlockHorizontal * 6.5,
+                    fontWeight: FontWeight.w700,
                   ),
-                  spasiBaris(40.0),
-                  dataKasus('Nama Anak:', 'Ananda Agustinus'),
-                  dataKasus('Tempat Kasus:', 'Lamongan Keluarahan Bandar Kidul Rt 08 Rw 05'),
-                  dataKasus('Detail Kasus:', 'Pelecehan seksual yang dilakukan oleh warga Kota Lamongan kepada anak dibawah umur.'),
-                  dataKasus('Status:', 'Selesai'),
-                ],
-              ),
+                ),
+                spasiBaris(2.0),
+                dataKasus('Nama Anak', list[index]['nama']),
+                dataKasus('Tempat Kasus', list[index]['tempat']),
+                dataKasus('Detail Kasus', list[index]['detail']),
+                dataKasus(
+                    'Status',
+                    list[index]['status'] == null
+                        ? 'Belum ada status'
+                        : list[index]['status']),
+                spasiBaris(3.0),
+              ],
             ),
           ),
         ),

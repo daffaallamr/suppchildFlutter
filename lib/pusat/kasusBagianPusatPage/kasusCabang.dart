@@ -1,32 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/listKasusPercabang.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class KasusCabang extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
-    Widget buttonDaerah(kota) {
-      return Center(
-        child: Container(
-          width: 170,
-          height: 55,
+    SizeConfig().init(context);
+    Widget buttonDaerah(kota, daerah) {
+      return Container(
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 40,
+        child: Card(
+          elevation: 4.5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/listKasusPercabang');
-            },
-            padding: EdgeInsets.all(12),
+            color: colorSecondPurple,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(20),
             ),
-            color: colorMainOrange,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListKasusPercabang(
+                      daerah: daerah,
+                    ),
+                  ));
+            },
             child: Text(
               '$kota',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+                fontSize: SizeConfig.safeBlockHorizontal * 4.25,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1,
               ),
             ),
           ),
@@ -35,56 +45,66 @@ class KasusCabang extends StatelessWidget {
     }
 
     return Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 40, 10, 50),
-            child: Center(
-              child: Container(
-                width: 380,
-                child: Center(
-                  child: Text(
-                    'Data Kasus',
-                    style: TextStyle(
-                      color: colorMainPurple,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                ),
-              ),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        spasiBaris(2.0),
+        Container(
+            decoration: BoxDecoration(
+              image: new DecorationImage(
+                  image: new AssetImage("assets/image/kasus.png"),
+                  fit: BoxFit.fill),
             ),
+            height: SizeConfig.safeBlockVertical * 25,
+            width: SizeConfig.safeBlockHorizontal * 60),
+        // spasiBaris(1.0),
+        Text(
+          'Data Kasus',
+          style: TextStyle(
+            color: colorMainPurple,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.5,
           ),
-          Container(
-            height: 250,
-            child: Column(
+        ),
+        Text(
+          'Cabang',
+          style: TextStyle(
+            color: colorMainPurple,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.5,
+          ),
+        ),
+        spasiBaris(6.0),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    buttonDaerah('GRESIK'),
-                    buttonDaerah('BANGKALAN'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    buttonDaerah('MOJOKERTO'),
-                    buttonDaerah('SURABAYA'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    buttonDaerah('SIDOARJO'),
-                    buttonDaerah('LAMONGAN'),
-                  ],
-                ),
+                buttonDaerah('GRESIK', 'Gresik'),
+                buttonDaerah('BANGKALAN', 'Bangkalan'),
               ],
             ),
-          ),
-        ],
-      );
+            spasiBaris(2.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                buttonDaerah('MOJOKERTO', 'Mojokerto'),
+                buttonDaerah('SURABAYA', 'Surabaya'),
+              ],
+            ),
+            spasiBaris(2.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                buttonDaerah('SIDOARJO', 'Sidoarjo'),
+                buttonDaerah('LAMONGAN', 'Lamongan'),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

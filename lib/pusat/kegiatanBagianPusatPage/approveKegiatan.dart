@@ -1,180 +1,382 @@
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
+import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 Widget dataKegiatan(judul, data) {
   return Container(
-    alignment: Alignment.centerLeft,
+    width: SizeConfig.safeBlockHorizontal * 80,
+    height: SizeConfig.safeBlockVertical * 10,
     decoration: BoxDecoration(
-      color: Colors.transparent,
-      // borderRadius: BorderRadius.circular(12),
-      // border: Border.all(
-      //     width: 2.0,
-      //     color: Color(0xFF7B417B)),
+      borderRadius: BorderRadius.circular(20),
     ),
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(12, 15, 12, 25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$judul',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-              color: colorMainPurple,
+    child: Card(
+      elevation: 4.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '$judul',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorMainPurple,
+              ),
             ),
-          ),
-          spasiBaris(5.0),
-          Text(
-            '$data',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.2,
-              color: colorMainOrange,
+            spasiBaris(0.5),
+            Text(
+              '$data',
+              style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+                color: colorSecondPurple,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
 }
 
 class ApproveKegiatan extends StatelessWidget {
+  final List list;
+  final int index;
+  ApproveKegiatan({this.list, this.index});
+
+  void statusDiterima() {
+    var url = "http://suppchild.xyz/API/pusat/approveKegiatan.php";
+
+    http.post(url, body: {
+      "id": list[index]['id'],
+      "status": 'diterima',
+    });
+    print('berhasil!');
+  }
+
+  void statusDitolak() {
+    var url = "http://suppchild.xyz/API/pusat/approveKegiatan.php";
+
+    http.post(url, body: {
+      "id": list[index]['id'],
+      "status": 'ditolak',
+    });
+    print('berhasil!');
+  }
+
   @override
   Widget build(BuildContext context) {
-
+    SizeConfig().init(context);
     Widget buttonTolak() {
-      return Center(
-        child: Container(
-          width: 160,
-          child: RaisedButton(
-            onPressed: () {
-              //Proses
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainOrange,
-            child: Text(
-              'TOLAK',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+      Widget buttonbatal() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
               ),
             ),
           ),
-        ),
-      );
-    }
-    Widget buttonTerima() {
-      return Center(
-        child: Container(
-          width: 160,
-          child: RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/search');
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            color: colorMainPurple,
-            child: Text(
-              'TERIMA',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
+        );
+      }
+
+      Widget buttonYakin() {
+        return Center(
+          child: Container(
+            // width: 160,
+            child: RaisedButton(
+              onPressed: () {
+                statusDitolak();
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Ya',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
               ),
             ),
           ),
-        ),
-      );
-    }
-    Widget buttonDownloadFile() {
-      return Center(
-        child: Container(
-          width: double.infinity,
-          child: RaisedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/search');
-            },
-            padding: EdgeInsets.all(10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+        );
+      }
+
+      Widget contModal() {
+        return AlertDialog(
+          content: Container(
+            height: SizeConfig.safeBlockHorizontal * 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(1.0),
+                Text(
+                  'Apakah Anda Yakin Menolak Kegiatan Ini?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                spasiBaris(2.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonYakin(),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
             ),
-            color: colorMainPurple,
-            child: Text(
-              'FILE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-              ),
+          ),
+        );
+      }
+
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 35,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => contModal(),
+            );
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: Colors.redAccent,
+          child: Text(
+            'Tolak',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
             ),
           ),
         ),
       );
     }
 
-    final size = MediaQuery.of(context);
+    Widget buttonTerima() {
+      Widget buttonbatal() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.red,
+              child: Text(
+                'Tidak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget buttonYakin() {
+        return Center(
+          child: Container(
+            child: RaisedButton(
+              onPressed: () {
+                statusDiterima();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: colorMainPurple,
+              child: Text(
+                'Ya',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      Widget contModal() {
+        return AlertDialog(
+          content: Container(
+            height: SizeConfig.safeBlockHorizontal * 30,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                spasiBaris(1.0),
+                Text(
+                  'Apakah Anda Yakin Menerima Kegiatan Ini?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+                spasiBaris(2.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonYakin(),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 35,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => contModal(),
+            );
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          color: colorMainPurple,
+          child: Text(
+            'Terima',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
+      );
+    }
+
+    _launchURL() async {
+      final namaFile = list[index]['file_ajuan'];
+      final url = 'http://suppchild.xyz/API/file_kegiatan/$namaFile';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    Widget buttonDownloadFile() {
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 6.5,
+        child: RaisedButton(
+          onPressed: () {
+            _launchURL();
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          color: colorSecondPurple,
+          child: Text(
+            'Unduh File',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 5.75,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ),
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
-        appBar: appBarTitle('Info Kegiatan'),
+        backgroundColor: Colors.white,
+        appBar: appBarTitle('Kegiatan Diajukan'),
         body: SingleChildScrollView(
           child: Center(
             child: Container(
-              width: size.size.width / 1.1,
-              // decoration: BoxDecoration(
-              //     // border: Border.all(color: colorMainPurple),
-              // ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 10, 20),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'Detail Kegiatan',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
-                        color: colorMainPurple,
-                      ),
-                    ),
-                    spasiBaris(50.0),
-                    Container(
-                      width: double.infinity,
+              child: Column(
+                children: <Widget>[
+                  spasiBaris(2.0),
+                  Container(
                       decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.redAccent)
+                        image: new DecorationImage(
+                            image: new AssetImage(
+                                "assets/image/approveKegiatan.png"),
+                            fit: BoxFit.fill),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          spasiBaris(20.0),
-                          dataKegiatan('Nama Kegiatan:', 'Agustusan di desa'),
-                          dataKegiatan('Daerah Pengaju:', 'Daerah Lamongan'),
-                          spasiBaris(10.0),
-                          buttonDownloadFile(),
-                          spasiBaris(50.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              buttonTolak(),
-                              buttonTerima(),
-                            ],
-                          ),
-                        ],
-                      ),
+                      height: SizeConfig.safeBlockVertical * 25,
+                      width: SizeConfig.safeBlockHorizontal * 60),
+                  spasiBaris(2.0),
+                  Text(
+                    'Data Kegiatan',
+                    style: TextStyle(
+                      color: colorMainPurple,
+                      fontSize: SizeConfig.safeBlockHorizontal * 7,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
                     ),
-                  ],
-                ),
+                  ),
+                  spasiBaris(5.0),
+                  dataKegiatan('Nama Kegiatan:', list[index]['nama']),
+                  dataKegiatan('Daerah Pengaju:', list[index]['pengaju']),
+                  spasiBaris(1.0),
+                  buttonDownloadFile(),
+                  spasiBaris(16.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      buttonTolak(),
+                      buttonTerima(),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

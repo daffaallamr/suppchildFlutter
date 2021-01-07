@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/kegiatanPage/uploadLaporanKegiatan.dart';
+import 'package:suppchild_ver_1/homePageDaerah/homeScreen.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListKegiatan extends StatefulWidget {
@@ -14,7 +15,7 @@ class ListKegiatan extends StatefulWidget {
 }
 
 class _ListKegiatanState extends State<ListKegiatan> {
-  String daerahuser;
+  int idDaerah;
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _ListKegiatanState extends State<ListKegiatan> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      daerahuser = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
@@ -107,7 +108,7 @@ class _ListKegiatanState extends State<ListKegiatan> {
                     return snapshot.hasData
                         ? new ListDiterima(
                             allList: snapshot.data,
-                            daerahuser: daerahuser,
+                            idDaerah: idDaerah,
                           )
                         : new Center(
                             child: Padding(
@@ -130,17 +131,18 @@ class _ListKegiatanState extends State<ListKegiatan> {
 }
 
 class ListDiterima extends StatelessWidget {
-  ListDiterima({this.allList, this.daerahuser});
+  ListDiterima({this.allList, this.idDaerah});
   final List allList;
-  final String daerahuser;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['pengaju'] == daerahuser).toList();
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
 
     List selectedStatus =
-        selectedList.where((data) => data['status'] == 'diterima').toList();
+        selectedList.where((data) => data['id_status'] == '1').toList();
 
     Widget listKegiatan(i, kegiatan) {
       return InkWell(
@@ -189,7 +191,7 @@ class ListDiterima extends StatelessWidget {
       shrinkWrap: true,
       itemCount: selectedStatus == null ? 0 : selectedStatus.length,
       itemBuilder: (context, i) {
-        return listKegiatan(i, selectedStatus[i]['nama']);
+        return listKegiatan(i, selectedStatus[i]['nama_kegiatan']);
       },
     );
   }

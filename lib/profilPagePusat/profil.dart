@@ -4,12 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePagePusat extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePagePusat> {
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      nama = prefs.getString('nama');
+      nama = prefs.getString('nama_staffpusat');
       username = prefs.getString('username');
     });
   }
@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
         height: SizeConfig.safeBlockVertical * 6.5,
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/ubahPassword');
+            Navigator.pushNamed(context, '/ubahPasswordPusat');
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
@@ -176,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: RaisedButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/', (Route<dynamic> route) => false);
+                    '/p', (Route<dynamic> route) => false);
                 _prefClear();
               },
               shape: RoundedRectangleBorder(
@@ -284,5 +284,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
 void _prefClear() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setInt('userLevel', null);
+  prefs.setString('username', null);
+  prefs.setString('password', null);
 }

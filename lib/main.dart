@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:suppchild_ver_1/chat/listChat.dart';
+import 'package:suppchild_ver_1/chat/listChatPusat.dart';
 import 'package:suppchild_ver_1/chat/listChatDaerah.dart';
+import 'package:suppchild_ver_1/daerah/dataAnakPage/detailAnak.dart';
 import 'package:suppchild_ver_1/daerah/dataAnakPage/listAnak.dart';
 import 'package:suppchild_ver_1/loginPageDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
@@ -34,8 +35,11 @@ import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/listSemuaKegiatan.
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/approveKegiatan.dart';
 import 'package:suppchild_ver_1/pusat/kegiatanBagianPusatPage/laporanKegiatan.dart';
 
-import 'package:suppchild_ver_1/profilPage/profil.dart';
-import 'package:suppchild_ver_1/profilPage/ubahPassword.dart';
+import 'package:suppchild_ver_1/profilPageDaerah/profil.dart';
+import 'package:suppchild_ver_1/profilPageDaerah/ubahPassword.dart';
+
+import 'package:suppchild_ver_1/profilPagePusat/profil.dart';
+import 'package:suppchild_ver_1/profilPagePusat/ubahPassword.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:suppchild_ver_1/splashScreenDaerah.dart';
@@ -48,10 +52,10 @@ void main() async {
 }
 
 // data chart total
-int count2018;
-int count2019;
-int count2020;
-int count2021;
+double count2018;
+double count2019;
+double count2020;
+double count2021;
 
 // data chart laki perempuan
 int gresikL;
@@ -89,8 +93,12 @@ class MyApp extends StatelessWidget {
         '/rootDaerah': (context) => RootDaerah(),
 
         //Profil
-        '/profil': (context) => ProfilePage(),
-        '/ubahPassword': (context) => UbahPassword(),
+        '/profilPusat': (context) => ProfilePagePusat(),
+        '/ubahPasswordPusat': (context) => UbahPasswordPusat(),
+
+        //Profil Daerah
+        '/profilDaerah': (context) => ProfilePageDaerah(),
+        '/ubahPasswordDaerah': (context) => UbahPasswordDaerah(),
 
         '/loginPusat': (context) => LoginPagePusat(),
         '/loginDaerah': (context) => LoginPageDaerah(),
@@ -99,13 +107,14 @@ class MyApp extends StatelessWidget {
         '/searchDaerah': (context) => SearchPageDaerah(),
 
         //Pesan
-        '/listChat': (context) => ListChat(),
+        '/listChatPusat': (context) => ListChatPusat(),
         '/listChatDaerah': (context) => ListChatDaerah(),
 
         //Data Anak bagian cabang
         '/listAnak': (context) => ListAnak(),
         '/tambahAnak': (context) => TambahAnak(),
         '/ubahDataAnak': (context) => UbahDataAnak(),
+        '/detailAnak': (context) => DetailAnak(),
 
         //Data Anak bagian pusat
         '/dataAnakCabang': (context) => DataAnakCabang(),

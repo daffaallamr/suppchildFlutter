@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/dataAnakPage/detailAnak.dart';
+import 'package:suppchild_ver_1/homePageDaerah/homeScreen.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListAnak extends StatefulWidget {
@@ -13,7 +14,7 @@ class ListAnak extends StatefulWidget {
 }
 
 class _ListAnakState extends State<ListAnak> {
-  String daerahuser;
+  int idDaerah;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _ListAnakState extends State<ListAnak> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      daerahuser = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
@@ -32,7 +33,7 @@ class _ListAnakState extends State<ListAnak> {
   Stream<List> getDataAnak() async* {
     while (true) {
       final response =
-          await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+          await http.get("http://suppchild.xyz/API/daerah/getAnak.php");
       yield json.decode(response.body);
     }
   }
@@ -107,7 +108,7 @@ class _ListAnakState extends State<ListAnak> {
                     return snapshot.hasData
                         ? new ItemList(
                             allList: snapshot.data,
-                            daerahuser: daerahuser,
+                            idDaerah: idDaerah,
                           )
                         : new Center(
                             child: Padding(
@@ -130,18 +131,20 @@ class _ListAnakState extends State<ListAnak> {
 }
 
 class ItemList extends StatelessWidget {
-  ItemList({this.allList, this.daerahuser});
+  ItemList({this.allList, this.idDaerah});
   final List allList;
-  final String daerahuser;
+  final int idDaerah;
 
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['daerah'] == daerahuser).toList();
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
+
     Widget listAnak(i, nama) {
       return InkWell(
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => DetailAnak(

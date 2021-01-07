@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
-import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
+import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class UnggahKasus extends StatefulWidget {
+class UbahPasswordPusat extends StatefulWidget {
   @override
-  _UnggahKasusState createState() => _UnggahKasusState();
+  _UbahPasswordState createState() => _UbahPasswordState();
 }
 
-class _UnggahKasusState extends State<UnggahKasus> {
-  bool berhasil = true;
+class _UbahPasswordState extends State<UbahPasswordPusat> {
+  //Mesaage gagal login
   String msg = '';
-  int idDaerah;
+  bool berhasil = true;
+  int idPusat;
+  String passwordPusat;
 
-  // Controller
-  TextEditingController controllerNama = new TextEditingController();
-  TextEditingController controllerTempat = new TextEditingController();
-  TextEditingController controllerDetail = new TextEditingController();
-
-  //RegExp alpha
-  RegExp _alpha = RegExp(r'^[a-zA-Z\s]+$');
-  RegExp _alphanumeric500 = RegExp(r'^[a-zA-Z0-9]{0,500}');
+  //Controller
+  TextEditingController controllerCurrentPass =
+      new TextEditingController(text: '');
+  TextEditingController controllerNewPass = new TextEditingController(text: '');
+  TextEditingController controllerConfirmPass =
+      new TextEditingController(text: '');
 
   @override
   void initState() {
@@ -34,66 +33,64 @@ class _UnggahKasusState extends State<UnggahKasus> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      idDaerah = prefs.getInt('id_daerah');
+      idPusat = prefs.getInt('id_staffpusat');
+      passwordPusat = prefs.getString('password');
     });
+    print(passwordPusat);
   }
 
-  /// check if string matches the pattern.
-  bool isAlpha(String str) {
-    return _alpha.hasMatch(str);
-  }
+  _ubahPass() async {
+    var url = "http://suppchild.xyz/API/ubahPassword_pusat.php";
 
-  bool isAlphanumeric500(String str) {
-    return _alphanumeric500.hasMatch(str);
-  }
-
-  Future addKasus() async {
-    var url = "http://suppchild.xyz/API/daerah/addKasus.php";
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-    String tglUpload = dateFormat.format(DateTime.now());
-
-    if (controllerNama.text.isEmpty) {
+    if (controllerCurrentPass.text == '') {
       setState(() {
-        msg = "Nama Korban Kosong!";
+        msg = "Password lama anda kosong!";
         berhasil = false;
-        print(msg);
+        print('pass kosong!');
       });
-    } else if (isAlpha(controllerNama.text) == false) {
+    } else if (controllerCurrentPass.text != passwordPusat) {
       setState(() {
-        msg = "Nama tidak boleh berisi Angka!";
+        msg = "Password lama anda salah!";
         berhasil = false;
-        print(msg);
+        print('pass baru salah!');
       });
-    } else if (controllerTempat.text.isEmpty) {
+    } else if (controllerNewPass.text == '') {
       setState(() {
-        msg = "Tempat Kejadian Masih Kosong!";
+        msg = "Password baru anda kosong!";
         berhasil = false;
-        print(msg);
+        print('konfirm pass salah!');
       });
-    } else if (controllerDetail.text.isEmpty) {
+    } else if (controllerConfirmPass.text == '') {
       setState(() {
-        msg = "Detail Singkat Kejadian Masih Kosong!";
+        msg = "Konfirmasi password baru anda kosong!";
         berhasil = false;
-        print(msg);
+        print('konfirm pass kosong!');
       });
-    } else if (controllerDetail.text.length > 501) {
+    } else if (controllerNewPass.text != controllerConfirmPass.text) {
       setState(() {
-        msg = "Detail maksimal 500 kata!";
+        msg = "Konfirmasi password anda salah!";
         berhasil = false;
-        print(msg);
+        print('konfirm pass salah!');
       });
     } else {
-      msg = '';
       berhasil = true;
-      http.post(url, body: {
-        "nama": controllerNama.text,
-        "tempat": controllerTempat.text,
-        "detail": controllerDetail.text,
-        "id_daerah": idDaerah.toString(),
-        "tgl_upload": tglUpload,
+      print(controllerNewPass.text);
+      http.post(url, body: <String, String>{
+        "id": idPusat.toString(),
+        "password": controllerNewPass.text,
       });
-      print('berhasil!');
+
+      setState(() {
+        _changeCurrentPass();
+        msg = '';
+      });
+      print('Berhasil');
     }
+  }
+
+  _changeCurrentPass() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('password', controllerNewPass.text);
   }
 
   Widget alertGagal() {
@@ -112,7 +109,8 @@ class _UnggahKasusState extends State<UnggahKasus> {
 
   @override
   Widget build(BuildContext context) {
-    Widget formNama() {
+    SizeConfig().init(context);
+    Widget formPasswordSekarang() {
       return Container(
         width: SizeConfig.safeBlockHorizontal * 80,
         height: SizeConfig.safeBlockVertical * 8,
@@ -123,18 +121,26 @@ class _UnggahKasusState extends State<UnggahKasus> {
           border: Border.all(width: 2, color: colorMainPurple),
         ),
         child: TextField(
-          controller: controllerNama,
+          controller: controllerCurrentPass,
           autofocus: false,
+          obscureText: true,
           cursorColor: colorMainPurple,
-          keyboardType: TextInputType.text,
           style: TextStyle(
             color: colorSecondPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(25, 0, 10, 0),
+            icon: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Icon(
+                Icons.vpn_key,
+                color: colorSecondPurple,
+                size: SizeConfig.safeBlockVertical * 4.5,
+              ),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             border: InputBorder.none,
-            hintText: 'Nama Korban',
+            hintText: 'Password Lama',
             hintStyle: TextStyle(
               fontSize: SizeConfig.safeBlockHorizontal * 5,
               letterSpacing: 1.0,
@@ -146,7 +152,7 @@ class _UnggahKasusState extends State<UnggahKasus> {
       );
     }
 
-    Widget formTempat() {
+    Widget formPasswordBaru() {
       return Container(
         width: SizeConfig.safeBlockHorizontal * 80,
         height: SizeConfig.safeBlockVertical * 8,
@@ -157,18 +163,26 @@ class _UnggahKasusState extends State<UnggahKasus> {
           border: Border.all(width: 2, color: colorMainPurple),
         ),
         child: TextField(
-          controller: controllerTempat,
+          controller: controllerNewPass,
           autofocus: false,
+          obscureText: true,
           cursorColor: colorMainPurple,
-          keyboardType: TextInputType.text,
           style: TextStyle(
             color: colorSecondPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(25, 0, 10, 0),
+            icon: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Icon(
+                Icons.vpn_key,
+                color: colorSecondPurple,
+                size: SizeConfig.safeBlockVertical * 4.5,
+              ),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             border: InputBorder.none,
-            hintText: 'Tempat Kejadian',
+            hintText: 'Password Baru',
             hintStyle: TextStyle(
               fontSize: SizeConfig.safeBlockHorizontal * 5,
               letterSpacing: 1.0,
@@ -180,30 +194,37 @@ class _UnggahKasusState extends State<UnggahKasus> {
       );
     }
 
-    Widget formKejadian() {
+    Widget formKonfirmasiPassword() {
       return Container(
         width: SizeConfig.safeBlockHorizontal * 80,
-        height: SizeConfig.safeBlockVertical * 20,
-        alignment: Alignment.topLeft,
+        height: SizeConfig.safeBlockVertical * 8,
+        alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(100),
           border: Border.all(width: 2, color: colorMainPurple),
         ),
         child: TextField(
-          maxLines: 5,
-          controller: controllerDetail,
+          controller: controllerConfirmPass,
           autofocus: false,
+          obscureText: true,
           cursorColor: colorMainPurple,
-          keyboardType: TextInputType.text,
           style: TextStyle(
             color: colorSecondPurple,
             fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(25, 15, 10, 15),
+            icon: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+              child: Icon(
+                Icons.vpn_key,
+                color: colorSecondPurple,
+                size: SizeConfig.safeBlockVertical * 4.5,
+              ),
+            ),
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             border: InputBorder.none,
-            hintText: 'Deskripsi Singkat',
+            hintText: 'Konfirmasi Password',
             hintStyle: TextStyle(
               fontSize: SizeConfig.safeBlockHorizontal * 5,
               letterSpacing: 1.0,
@@ -215,7 +236,7 @@ class _UnggahKasusState extends State<UnggahKasus> {
       );
     }
 
-    Widget buttonUnggah() {
+    Widget buttonUbah() {
       Widget buttonbatal() {
         return Center(
           child: Container(
@@ -244,17 +265,20 @@ class _UnggahKasusState extends State<UnggahKasus> {
       Widget buttonYakin() {
         return Center(
           child: Container(
+            // width: 160,
             child: RaisedButton(
               onPressed: () {
-                addKasus();
-                berhasil == true
-                    ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootDaerah(selectedScreen: 'kasus'),
-                        ))
-                    : Navigator.pop(context);
+                _ubahPass();
+                if (berhasil == true) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootPusat(selectedScreen: 'profil'),
+                      ));
+                } else {
+                  Navigator.pop(context);
+                }
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -283,7 +307,7 @@ class _UnggahKasusState extends State<UnggahKasus> {
               children: <Widget>[
                 spasiBaris(1.0),
                 Text(
-                  'Apakah Anda Yakin?',
+                  'Yakin Dengan Password Anda?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black87,
@@ -308,7 +332,7 @@ class _UnggahKasusState extends State<UnggahKasus> {
 
       return Center(
         child: Container(
-          width: SizeConfig.safeBlockHorizontal * 35,
+          width: SizeConfig.safeBlockHorizontal * 80,
           height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
@@ -322,7 +346,7 @@ class _UnggahKasusState extends State<UnggahKasus> {
             ),
             color: colorMainPurple,
             child: Text(
-              'Laporkan',
+              'Ubah',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: SizeConfig.safeBlockHorizontal * 5.75,
@@ -335,10 +359,10 @@ class _UnggahKasusState extends State<UnggahKasus> {
       );
     }
 
-    Widget buttonBatal() {
+    Widget buttonbatal() {
       return Center(
         child: Container(
-          width: SizeConfig.safeBlockHorizontal * 35,
+          width: SizeConfig.safeBlockHorizontal * 80,
           height: SizeConfig.safeBlockVertical * 6.5,
           child: RaisedButton(
             onPressed: () {
@@ -365,49 +389,39 @@ class _UnggahKasusState extends State<UnggahKasus> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: appBarTitle('Buat Laporan'),
+        appBar: appBarTitle('Ubah Password'),
         body: SingleChildScrollView(
           child: Center(
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  spasiBaris(2.0),
-                  Container(
-                      decoration: BoxDecoration(
-                        image: new DecorationImage(
-                            image: new AssetImage("assets/image/kasus.png"),
-                            fit: BoxFit.fill),
-                      ),
-                      height: SizeConfig.safeBlockVertical * 25,
-                      width: SizeConfig.safeBlockHorizontal * 60),
-                  // spasiBaris(1.0),
-                  Text(
-                    'Laporan Kasus',
-                    style: TextStyle(
-                      color: colorMainPurple,
-                      fontSize: SizeConfig.safeBlockHorizontal * 6.5,
-                      fontWeight: FontWeight.w700,
+            child: Column(
+              children: <Widget>[
+                spasiBaris(2.0),
+                Container(
+                    decoration: BoxDecoration(
+                      image: new DecorationImage(
+                          image:
+                              new AssetImage("assets/image/ubahPassword.png"),
+                          fit: BoxFit.fill),
                     ),
-                  ),
-                  spasiBaris(3.0),
-                  formNama(),
-                  spasiBaris(1.0),
-                  formTempat(),
-                  spasiBaris(1.0),
-                  formKejadian(),
-                  spasiBaris(1.0),
-                  alertGagal(),
-                  spasiBaris(4.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      buttonUnggah(),
-                      buttonBatal(),
-                    ],
-                  ),
-                  spasiBaris(1.0),
-                ],
-              ),
+                    height: SizeConfig.safeBlockVertical * 25,
+                    width: SizeConfig.safeBlockHorizontal * 60),
+                spasiBaris(4.0),
+                formPasswordSekarang(),
+                spasiBaris(1.5),
+                formPasswordBaru(),
+                spasiBaris(1.5),
+                formKonfirmasiPassword(),
+                spasiBaris(2.0),
+                alertGagal(),
+                spasiBaris(9.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonUbah(),
+                    spasiBaris(1.0),
+                    buttonbatal(),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

@@ -4,6 +4,7 @@ import 'package:splashscreen/splashscreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/loginPageDaerah.dart';
+import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 
 class OpeningPageDaerah extends StatefulWidget {
   @override
@@ -11,7 +12,10 @@ class OpeningPageDaerah extends StatefulWidget {
 }
 
 class _OpeningPageState extends State<OpeningPageDaerah> {
-  String username;
+  bool pusat = false;
+  bool daerah = false;
+  String userLevel;
+  String namaUser;
   @override
   void initState() {
     super.initState();
@@ -21,13 +25,38 @@ class _OpeningPageState extends State<OpeningPageDaerah> {
   void autoLogIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      username = prefs.getString('username');
+      userLevel = prefs.getString('userLevel');
+      namaUser = prefs.getString('username');
     });
+
+    if (userLevel == null) {
+      return;
+    } else if (userLevel == 'pusat') {
+      setState(() {
+        pusat = true;
+      });
+    } else if (namaUser != null) {
+      setState(() {
+        daerah = true;
+      });
+    }
+    print(userLevel);
+    print(namaUser);
   }
 
   @override
   Widget build(BuildContext context) {
+    toPusat() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RootPusat(),
+          ));
+    }
+
     toDaerah() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       return Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -39,7 +68,7 @@ class _OpeningPageState extends State<OpeningPageDaerah> {
       child: SplashScreen(
         seconds: 3,
         navigateAfterSeconds:
-            username != null ? toDaerah() : new LoginPageDaerah(),
+            namaUser != null ? toDaerah() : new LoginPageDaerah(),
         image: new Image.asset('assets/image/logo.jpeg'),
         backgroundColor: Colors.white,
         photoSize: 120.0,

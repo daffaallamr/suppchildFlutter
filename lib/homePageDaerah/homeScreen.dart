@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
-import 'package:suppchild_ver_1/homePageDaerah/cabang_chart.dart';
 import 'package:suppchild_ver_1/homePageDaerah/total_chart.dart';
 import 'package:suppchild_ver_1/homePageDaerah/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
+
+String daerahuser;
 
 Widget titleChart(title) {
   return Text(
@@ -28,6 +30,36 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // getTabelTotal();
+    // getDataTabel();
+    _takePrefs();
+  }
+
+  _takePrefs() async {
+    if (!mounted) return;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int idDaerah;
+    setState(() {
+      idDaerah = prefs.getInt('id_daerah');
+      if (idDaerah == 1) {
+        daerahuser = "Gresik";
+      } else if (idDaerah == 2) {
+        daerahuser = "Bangkalan";
+      } else if (idDaerah == 3) {
+        daerahuser = "Mojokerto";
+      } else if (idDaerah == 4) {
+        daerahuser = "Surabaya";
+      } else if (idDaerah == 5) {
+        daerahuser = "Sidoarjo";
+      } else {
+        daerahuser = "Lamongan";
+      }
+    });
+  }
+
   //List Foto
   int _currentIndex = 0;
   List cardList = [
@@ -81,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, dynamic> myMap;
 //Mengambil data anak dari db
   void getDataTabel() async {
+    if (!mounted) return;
     final response =
         await http.get("http://suppchild.xyz/API/getTabelAnak.php");
     myMap = new Map<String, dynamic>.from(json.decode(response.body));
@@ -108,22 +141,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<String, dynamic> mapTotal;
 //Mengambil data anak dari db
   void getTabelTotal() async {
+    if (!mounted) return;
     final response =
         await http.get("http://suppchild.xyz/API/getTabelTotal.php");
     mapTotal = new Map<String, dynamic>.from(json.decode(response.body));
     setState(() {
-      count2018 = mapTotal["2018"];
-      count2019 = mapTotal["2019"];
-      count2020 = mapTotal["2020"];
-      count2021 = mapTotal["2021"];
+      count2018 = mapTotal["2018"].toDouble();
+      count2019 = mapTotal["2019"].toDouble();
+      count2020 = mapTotal["2020"].toDouble();
+      count2021 = mapTotal["2021"].toDouble();
     });
-  }
-
-  @override
-  void initState() {
-    getTabelTotal();
-    getDataTabel();
-    super.initState();
   }
 
   @override
@@ -164,36 +191,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: EndPointsAxisTimeSeriesChart.withSampleData(),
-                    )),
+                    child: LineChartSample1()),
               ),
             ],
           ),
-          spasiBaris(10.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleChart('Anak Binaan Cabang'),
-              spasiBaris(2.0),
-              Container(
-                height: SizeConfig.safeBlockVertical * 65,
-                width: SizeConfig.safeBlockHorizontal * 85,
-                child: Card(
-                    color: Colors.grey[100],
-                    elevation: 4.5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GroupedBarChart.withSampleData(),
-                    )),
-              ),
-            ],
-          ),
-          spasiBaris(6.0),
+          spasiBaris(4.0),
         ],
       ),
     );

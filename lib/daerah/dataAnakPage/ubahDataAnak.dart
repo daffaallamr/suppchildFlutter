@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
@@ -173,8 +174,9 @@ class UbahDataAnak extends StatefulWidget {
 
 class _UbahAnakState extends State<UbahDataAnak> {
   var _currencies = ['-', '1', '2', '3', '4', '5'];
-
   var _jenisKelamin = ['-', 'L', 'P'];
+
+  int idDaerah;
 
   //Controller form
   TextEditingController controllerNama;
@@ -331,7 +333,7 @@ class _UbahAnakState extends State<UbahDataAnak> {
   }
 
   void editDataAnak() {
-    var url = "http://suppchild.xyz/API//daerah/ubahAnak.php";
+    var url = "http://suppchild.xyz/API/daerah/ubahAnak.php";
 
     http.post(url, body: {
       "id": widget.selectedList[widget.index]['id'],
@@ -350,8 +352,16 @@ class _UbahAnakState extends State<UbahDataAnak> {
     print('berhasil!');
   }
 
+  _takePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      idDaerah = prefs.getInt('id_daerah');
+    });
+  }
+
   @override
   void initState() {
+    _takePrefs();
     controllerNama = new TextEditingController(
         text: widget.selectedList[widget.index]['nama']);
     controllerNIK = new TextEditingController(

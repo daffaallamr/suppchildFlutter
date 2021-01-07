@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/daerah/kasusPage/statusKasus.dart';
+import 'package:suppchild_ver_1/homePageDaerah/homeScreen.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
 class ListKasus extends StatefulWidget {
@@ -13,7 +14,7 @@ class ListKasus extends StatefulWidget {
 }
 
 class _ListKasusState extends State<ListKasus> {
-  String daerahuser;
+  int idDaerah;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _ListKasusState extends State<ListKasus> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      daerahuser = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
@@ -107,7 +108,7 @@ class _ListKasusState extends State<ListKasus> {
                     return snapshot.hasData
                         ? new SelectedList(
                             allList: snapshot.data,
-                            daerahuser: daerahuser,
+                            idDaerah: idDaerah,
                           )
                         : new Center(
                             child: Padding(
@@ -130,13 +131,14 @@ class _ListKasusState extends State<ListKasus> {
 }
 
 class SelectedList extends StatelessWidget {
-  SelectedList({this.allList, this.daerahuser});
+  SelectedList({this.allList, this.idDaerah});
   final List allList;
-  final String daerahuser;
+  final int idDaerah;
   @override
   Widget build(BuildContext context) {
-    List selectedList =
-        allList.where((data) => data['daerah'] == daerahuser).toList();
+    List selectedList = allList
+        .where((data) => data['id_daerah'] == idDaerah.toString())
+        .toList();
 
     Widget listKasus(i, kasus) {
       return InkWell(

@@ -18,23 +18,23 @@ Widget titleList(title) {
 }
 
 class ListAnakPercabang extends StatefulWidget {
-  final String daerah;
-  ListAnakPercabang({this.daerah});
+  final int idDaerah;
+  ListAnakPercabang({this.idDaerah});
 
   @override
   _ListAnakPercabangState createState() =>
-      _ListAnakPercabangState(daerah: daerah);
+      _ListAnakPercabangState(idDaerah: idDaerah);
 }
 
 class _ListAnakPercabangState extends State<ListAnakPercabang> {
-  final String daerah;
-  _ListAnakPercabangState({this.daerah});
+  final int idDaerah;
+  _ListAnakPercabangState({this.idDaerah});
 
   //Mengambil data anak dari db
   Stream<List> getDataAnak() async* {
     while (true) {
-      final response =
-          await http.get("http://suppchild.xyz/API/pusat/getAnak_$daerah.php");
+      final response = await http
+          .get("http://suppchild.xyz/API/pusat/getAnak_$idDaerah.php");
       yield json.decode(response.body);
     }
   }
@@ -53,7 +53,17 @@ class _ListAnakPercabangState extends State<ListAnakPercabang> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  titleList(daerah),
+                  titleList(idDaerah == 1
+                      ? 'Gresik'
+                      : idDaerah == 2
+                          ? 'Bangkalan'
+                          : idDaerah == 3
+                              ? 'Mojokerto'
+                              : idDaerah == 4
+                                  ? 'Surabaya'
+                                  : idDaerah == 5
+                                      ? 'Sidoarjo'
+                                      : 'Lamongan'),
                   spasiBaris(2.0),
                   Container(
                     width: SizeConfig.safeBlockHorizontal * 85,

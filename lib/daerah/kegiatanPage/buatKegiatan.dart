@@ -23,11 +23,16 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   PlatformFile fileAkhirBanget;
   bool berhasil = true;
   String msg = '';
-  String daerahuser;
+  int idDaerah;
+
+  var _kategori = ['Umum', 'Internal'];
+  var _currentKategoriSelected = 'Umum';
 
   // Controller
   TextEditingController controllerFile;
   TextEditingController controllerNama = new TextEditingController();
+  TextEditingController controllerDeskripsi = new TextEditingController();
+  TextEditingController controllerKategori = new TextEditingController();
 
   @override
   void initState() {
@@ -38,7 +43,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      daerahuser = prefs.getString('daerahuser');
+      idDaerah = prefs.getInt('id_daerah');
     });
   }
 
@@ -95,14 +100,17 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
     String tglUpload = dateFormat.format(DateTime.now());
 
     FormData formdata = FormData.fromMap({
-      "nama": controllerNama.text,
-      "pengaju": daerahuser,
+      "nama_kegiatan": controllerNama.text,
+      "deskripsi": controllerDeskripsi.text,
+      "id_kategori": _currentKategoriSelected == 'Umum' ? '1' : '2',
+      "id_daerah": idDaerah.toString(),
       "file_ajuan": await MultipartFile.fromFile(fileAkhirBanget.path,
           filename: basename(fileAkhirBanget.name)
           //show only filename from path
           ),
       "tgl_upload": tglUpload,
     });
+    print(formdata);
 
     response = await dio.post(uploadurl, data: formdata);
 
@@ -327,6 +335,109 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
       );
     }
 
+    Widget formDeskripsi() {
+      return Container(
+        width: SizeConfig.safeBlockHorizontal * 80,
+        height: SizeConfig.safeBlockVertical * 20,
+        alignment: Alignment.topLeft,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 2, color: colorMainPurple),
+        ),
+        child: TextField(
+          maxLines: 5,
+          controller: controllerDeskripsi,
+          autofocus: false,
+          cursorColor: colorMainPurple,
+          keyboardType: TextInputType.text,
+          style: TextStyle(
+            color: colorSecondPurple,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(25, 15, 10, 15),
+            border: InputBorder.none,
+            hintText: 'Deskripsi Singkat',
+            hintStyle: TextStyle(
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.w500,
+              color: colorSecondPurple,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget formRead(hint) {
+      return Container(
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 37,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: colorSecondPurple,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: TextFormField(
+          readOnly: true,
+          autofocus: false,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
+          ),
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(25, 0, 10, 0),
+            border: InputBorder.none,
+            hintText: '$hint',
+            hintStyle: TextStyle(
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
+              letterSpacing: 1.0,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget dropDownKategori() {
+      return Container(
+        height: SizeConfig.safeBlockVertical * 8,
+        width: SizeConfig.safeBlockHorizontal * 37,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(100),
+          border: Border.all(width: 2, color: colorMainPurple),
+        ),
+        child: DropdownButton<String>(
+          items: _kategori.map((String dropDownStringItem) {
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(
+                dropDownStringItem,
+                style: TextStyle(
+                  fontSize: SizeConfig.safeBlockHorizontal * 5,
+                  letterSpacing: 1.0,
+                  fontWeight: FontWeight.w500,
+                  color: colorSecondPurple,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (String newValueSelected) {
+            setState(() {
+              this._currentKategoriSelected = newValueSelected;
+              controllerKategori.text = newValueSelected;
+            });
+          },
+          value: _currentKategoriSelected,
+        ),
+      );
+    }
+
     Widget formFile() {
       return Container(
         width: SizeConfig.safeBlockHorizontal * 80,
@@ -369,17 +480,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
           child: Center(
             child: Column(
               children: <Widget>[
-                spasiBaris(2.0),
-                Container(
-                    decoration: BoxDecoration(
-                      image: new DecorationImage(
-                          image: new AssetImage(
-                              "assets/image/approveKegiatan.png"),
-                          fit: BoxFit.fill),
-                    ),
-                    height: SizeConfig.safeBlockVertical * 25,
-                    width: SizeConfig.safeBlockHorizontal * 60),
-                // spasiBaris(1.0),
+                spasiBaris(4.0),
                 Text(
                   'Ajukan Kegiatan',
                   style: TextStyle(
@@ -388,8 +489,23 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                spasiBaris(8.0),
+                spasiBaris(4.0),
                 formNama(),
+                spasiBaris(2.0),
+                Center(
+                  child: Container(
+                    width: SizeConfig.safeBlockHorizontal * 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        formRead("Kategori:"),
+                        dropDownKategori(),
+                      ],
+                    ),
+                  ),
+                ),
+                spasiBaris(2.0),
+                formDeskripsi(),
                 spasiBaris(2.0),
                 Container(
                   width: SizeConfig.safeBlockHorizontal * 80,
@@ -416,7 +532,7 @@ class _BuatKegiatanState extends State<BuatKegiatan> {
                 formFile(),
                 spasiBaris(2.0),
                 alertGagal(),
-                spasiBaris(12.0),
+                spasiBaris(6.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[

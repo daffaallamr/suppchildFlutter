@@ -252,10 +252,22 @@ class _LaporanKegiatanState extends State<LaporanKegiatan> {
                   ),
                 ),
                 spasiBaris(3.0),
+                dataLaporan('Nama Kegiatan:',
+                    widget.list[widget.index]['nama_kegiatan']),
                 dataLaporan(
-                    'Nama Kegiatan:', widget.list[widget.index]['nama']),
-                dataLaporan(
-                    'Daerah Pengaju:', widget.list[widget.index]['pengaju']),
+                    'Daerah Pengaju:',
+                    widget.list[widget.index]['id_daerah'] == '1'
+                        ? 'Gresik'
+                        : widget.list[widget.index]['id_daerah'] == '2'
+                            ? 'Bangkalan'
+                            : widget.list[widget.index]['id_daerah'] == '3'
+                                ? 'Mojokerto'
+                                : widget.list[widget.index]['id_daerah'] == '4'
+                                    ? 'Surabaya'
+                                    : widget.list[widget.index]['id_daerah'] ==
+                                            '5'
+                                        ? 'Sidoarjo'
+                                        : 'Lamongan'),
                 spasiBaris(8.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -51,9 +51,7 @@ class _OpeningPageState extends State<OpeningPagePusat> {
       return Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => RootPusat(
-              idPassing: prefs.getInt('idUser'),
-            ),
+            builder: (context) => RootPusat(),
           ));
     }
 
@@ -69,11 +67,8 @@ class _OpeningPageState extends State<OpeningPagePusat> {
     return SafeArea(
       child: SplashScreen(
         seconds: 3,
-        navigateAfterSeconds: pusat == true
-            ? toPusat()
-            : daerah == true
-                ? toDaerah()
-                : new LoginPagePusat(),
+        navigateAfterSeconds:
+            namaUser != null ? toPusat() : new LoginPagePusat(),
         image: new Image.asset('assets/image/logo.jpeg'),
         backgroundColor: Colors.white,
         photoSize: 120.0,

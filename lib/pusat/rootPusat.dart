@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/homePagePusat/homeScreen.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/my_flutter_app_icons.dart';
-import 'package:suppchild_ver_1/profilPage/profil.dart';
+import 'package:suppchild_ver_1/profilPagePusat/profil.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:suppchild_ver_1/pusat/dataAnakBagianPusatPage/dataAnakCabang.dart';
 import 'package:suppchild_ver_1/pusat/kasusBagianPusatPage/kasusCabang.dart';
@@ -17,9 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RootPusat extends StatefulWidget {
   final String selectedScreen;
-  final int idPassing;
   final Future<List> dataAnakSearch;
-  RootPusat({this.selectedScreen, this.dataAnakSearch, this.idPassing});
+  RootPusat({this.selectedScreen, this.dataAnakSearch});
 
   @override
   _RootPageState createState() =>
@@ -28,10 +27,8 @@ class RootPusat extends StatefulWidget {
 
 class _RootPageState extends State<RootPusat> {
   TextEditingController controllerSearch = new TextEditingController();
-  int idUser;
-  String userLevel;
-  String nama;
-  String daerahuser;
+  int idStaffPusat;
+  String namaStaffPusat;
 
   final String selectedScreen;
   _RootPageState({this.selectedScreen});
@@ -42,7 +39,7 @@ class _RootPageState extends State<RootPusat> {
     KegiatanCabang(),
     DataAnakCabang(),
     KasusCabang(),
-    ProfilePage()
+    ProfilePagePusat()
   ];
 
   Widget currentScreen;
@@ -56,43 +53,39 @@ class _RootPageState extends State<RootPusat> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      idUser = prefs.getInt('idUser');
-      userLevel = prefs.getString('userLevel');
-      nama = prefs.getString('nama');
-      daerahuser = prefs.getString('daerahuser');
+      idStaffPusat = prefs.getInt('id_staffpusat');
+      namaStaffPusat = prefs.getString('nama_staffpusat');
     });
   }
 
   // Data user firebase
   Future handleUser() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    idStaffPusat = prefs.getInt('id_staffpusat');
     final result = (await FirebaseFirestore.instance
             .collection('users')
-            .where('id', isEqualTo: widget.idPassing)
+            .where('id', isEqualTo: idStaffPusat)
             .get())
         .docs;
+
     if (result.length == 0) {
       ///new user
       FirebaseFirestore.instance
           .collection('users')
-          .doc(idUser.toString())
+          .doc(idStaffPusat.toString())
           .set({
-        "id": idUser,
-        "level": userLevel,
-        "username": nama,
-        "name": daerahuser,
+        "id": idStaffPusat,
+        "level": 0,
+        "username": namaStaffPusat,
       });
-    } else {
-      ///Old user
-      sharedPreferences.setInt("id", result[0]["id"]);
-      sharedPreferences.setString("name", result[0]["name"]);
     }
   }
 
   //Mengambil data anak dari db
   Future<List> getDataAnak() async {
     final response =
-        await http.get("http://suppchild.xyz/API/daerah/getAnak_daerah.php");
+        await http.get("http://suppchild.xyz/API/daerah/getAnak.php");
     return json.decode(response.body);
   }
 
@@ -175,7 +168,7 @@ class _RootPageState extends State<RootPusat> {
                   onPressed: () {
                     handleUser();
                     setState(() {
-                      Navigator.pushNamed(context, '/listChat');
+                      Navigator.pushNamed(context, '/listChatPusat');
                     });
                   },
                 ),
@@ -245,7 +238,7 @@ class SelectedScreen extends StatelessWidget {
         break;
       case 'profil':
         {
-          return ProfilePage();
+          return ProfilePagePusat();
         }
         break;
       default:

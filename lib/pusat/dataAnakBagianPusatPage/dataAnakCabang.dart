@@ -7,7 +7,7 @@ class DataAnakCabang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    Widget buttonDaerah(kota, daerah) {
+    Widget buttonDaerah(kota, idDaerah) {
       return Container(
         height: SizeConfig.safeBlockVertical * 8,
         width: SizeConfig.safeBlockHorizontal * 40,
@@ -26,7 +26,7 @@ class DataAnakCabang extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ListAnakPercabang(
-                      daerah: daerah,
+                      idDaerah: idDaerah,
                     ),
                   ));
             },
@@ -82,24 +82,24 @@ class DataAnakCabang extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buttonDaerah('GRESIK', 'Gresik'),
-                buttonDaerah('BANGKALAN', 'Bangkalan'),
+                buttonDaerah('GRESIK', 1),
+                buttonDaerah('BANGKALAN', 2),
               ],
             ),
             spasiBaris(2.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buttonDaerah('MOJOKERTO', 'Mojokerto'),
-                buttonDaerah('SURABAYA', 'Surabaya'),
+                buttonDaerah('MOJOKERTO', 3),
+                buttonDaerah('SURABAYA', 4),
               ],
             ),
             spasiBaris(2.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buttonDaerah('SIDOARJO', 'Sidoarjo'),
-                buttonDaerah('LAMONGAN', 'Lamongan'),
+                buttonDaerah('SIDOARJO', 5),
+                buttonDaerah('LAMONGAN', 6),
               ],
             ),
           ],

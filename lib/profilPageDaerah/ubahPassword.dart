@@ -6,18 +6,17 @@ import 'package:suppchild_ver_1/daerah/rootDaerah.dart';
 import 'package:suppchild_ver_1/pusat/rootPusat.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 
-class UbahPassword extends StatefulWidget {
+class UbahPasswordDaerah extends StatefulWidget {
   @override
   _UbahPasswordState createState() => _UbahPasswordState();
 }
 
-class _UbahPasswordState extends State<UbahPassword> {
+class _UbahPasswordState extends State<UbahPasswordDaerah> {
   //Mesaage gagal login
   String msg = '';
   bool berhasil = true;
   int idUser;
   String passwordUser;
-  String level;
 
   //Controller
   TextEditingController controllerCurrentPass =
@@ -35,14 +34,13 @@ class _UbahPasswordState extends State<UbahPassword> {
   _takePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      idUser = prefs.getInt('idUser');
-      passwordUser = prefs.getString('passwordUser');
-      level = prefs.getString('userLevel');
+      idUser = prefs.getInt('id_staffdaerah');
+      passwordUser = prefs.getString('password');
     });
   }
 
   _ubahPass() async {
-    var url = "http://suppchild.xyz/API/ubahPassword.php";
+    var url = "http://suppchild.xyz/API/ubahPassword_daerah.php";
 
     if (controllerCurrentPass.text == '') {
       setState(() {
@@ -78,7 +76,7 @@ class _UbahPasswordState extends State<UbahPassword> {
       berhasil = true;
       print(controllerNewPass.text);
       http.post(url, body: <String, String>{
-        "id": idUser.toString(),
+        "id_staffdaerah": idUser.toString(),
         "password": controllerNewPass.text,
       });
 
@@ -92,7 +90,7 @@ class _UbahPasswordState extends State<UbahPassword> {
 
   _changeCurrentPass() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('passwordUser', controllerNewPass.text);
+    prefs.setString('password', controllerNewPass.text);
   }
 
   Widget alertGagal() {
@@ -272,21 +270,12 @@ class _UbahPasswordState extends State<UbahPassword> {
               onPressed: () {
                 _ubahPass();
                 if (berhasil == true) {
-                  if (level == 'pusat') {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootPusat(selectedScreen: 'profil'),
-                        ));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              RootDaerah(selectedScreen: 'profil'),
-                        ));
-                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RootDaerah(selectedScreen: 'profil'),
+                      ));
                 } else {
                   Navigator.pop(context);
                 }

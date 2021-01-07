@@ -58,23 +58,17 @@ double count2020;
 double count2021;
 
 // data chart laki perempuan
-int gresikL;
-int gresikP;
+int gresik;
 
-int bangkalanL;
-int bangkalanP;
+int bangkalan;
 
-int mojokertoL;
-int mojokertoP;
+int mojokerto;
 
-int surabayaL;
-int surabayaP;
+int surabaya;
 
-int sidoarjoL;
-int sidoarjoP;
+int sidoarjo;
 
-int lamonganL;
-int lamonganP;
+int lamongan;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -82,7 +76,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'SuppChild - Daerah',
+      title: 'SuppChild - Pusat',
       theme: ThemeData(),
       initialRoute: '/p',
       routes: <String, WidgetBuilder>{

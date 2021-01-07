@@ -30,18 +30,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int idDaerah;
+
   @override
   void initState() {
     super.initState();
-    // getTabelTotal();
-    // getDataTabel();
     _takePrefs();
+    getTabelTotal();
   }
 
   _takePrefs() async {
     if (!mounted) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    int idDaerah;
     setState(() {
       idDaerah = prefs.getInt('id_daerah');
       if (idDaerah == 1) {
@@ -110,40 +110,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Map<String, dynamic> myMap;
-//Mengambil data anak dari db
-  void getDataTabel() async {
-    if (!mounted) return;
-    final response =
-        await http.get("http://suppchild.xyz/API/getTabelAnak.php");
-    myMap = new Map<String, dynamic>.from(json.decode(response.body));
-    setState(() {
-      gresikL = myMap["GresikL"];
-      gresikP = myMap["GresikP"];
-
-      bangkalanL = myMap["BangkalanL"];
-      bangkalanP = myMap["BangkalanP"];
-
-      mojokertoL = myMap["MojokertoL"];
-      mojokertoP = myMap["MojokertoP"];
-
-      surabayaL = myMap["SurabayaL"];
-      surabayaP = myMap["SurabayaP"];
-
-      sidoarjoL = myMap["SidoarjoL"];
-      sidoarjoP = myMap["SidoarjoP"];
-
-      lamonganL = myMap["LamonganL"];
-      lamonganP = myMap["LamonganP"];
-    });
-  }
-
   Map<String, dynamic> mapTotal;
 //Mengambil data anak dari db
   void getTabelTotal() async {
     if (!mounted) return;
     final response =
-        await http.get("http://suppchild.xyz/API/getTabelTotal.php");
+        await http.get("http://suppchild.xyz/API/tabel/getTotal_$idDaerah.php");
     mapTotal = new Map<String, dynamic>.from(json.decode(response.body));
     setState(() {
       count2018 = mapTotal["2018"].toDouble();
@@ -151,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
       count2020 = mapTotal["2020"].toDouble();
       count2021 = mapTotal["2021"].toDouble();
     });
+    print(mapTotal);
   }
 
   @override

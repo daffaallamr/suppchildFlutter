@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 Widget dataKegiatan(judul, data) {
   return Container(
     width: SizeConfig.safeBlockHorizontal * 80,
-    height: SizeConfig.safeBlockVertical * 10,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
     ),
@@ -17,7 +16,7 @@ Widget dataKegiatan(judul, data) {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +43,67 @@ Widget dataKegiatan(judul, data) {
           ],
         ),
       ),
+    ),
+  );
+}
+
+Widget dataKategori(data) {
+  return Container(
+    width: SizeConfig.safeBlockHorizontal * 80,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: SizeConfig.safeBlockHorizontal * 37,
+          height: SizeConfig.safeBlockVertical * 8,
+          alignment: Alignment.center,
+          child: Card(
+            elevation: 4.5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Kategori:',
+                  style: TextStyle(
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: colorMainPurple,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          width: SizeConfig.safeBlockHorizontal * 35,
+          height: SizeConfig.safeBlockVertical * 8,
+          child: Card(
+            color: colorMainPurple,
+            elevation: 4.5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Center(
+              child: Text(
+                '$data',
+                style: TextStyle(
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -378,6 +438,9 @@ class ApproveKegiatan extends StatelessWidget {
                                       : list[index]['id_daerah'] == '5'
                                           ? 'Sidoarjo'
                                           : 'Lamongan'),
+                  dataKategori(
+                      list[index]['id_kategori'] == '1' ? 'Umum' : 'Internal'),
+                  dataKegiatan('Deskripsi:', list[index]['deskripsi']),
                   spasiBaris(1.0),
                   buttonDownloadFile(),
                   spasiBaris(16.0),
@@ -388,6 +451,7 @@ class ApproveKegiatan extends StatelessWidget {
                       buttonTerima(),
                     ],
                   ),
+                  spasiBaris(4.0),
                 ],
               ),
             ),

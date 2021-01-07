@@ -115,13 +115,13 @@ class LineChartSample1State extends State<LineChartSample1> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 2:
-                return '2019';
+                return '2018';
               case 7:
-                return '2020';
+                return '2019';
               case 12:
-                return '2021';
+                return '2020';
               case 17:
-                return '2022';
+                return '2021';
             }
             return '';
           },

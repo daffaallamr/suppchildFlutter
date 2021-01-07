@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:suppchild_ver_1/constant.dart';
 import 'package:suppchild_ver_1/homePageDaerah/cabang_chart.dart';
-import 'package:suppchild_ver_1/homePageDaerah/total_chart.dart';
+import 'package:suppchild_ver_1/homePagePusat/cabang_chart.dart';
 import 'package:suppchild_ver_1/homePagePusat/fotoSlideShow.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:suppchild_ver_1/homePagePusat/total_chart.dart';
 import 'package:suppchild_ver_1/pusat/sizeConfig.dart';
 import 'package:http/http.dart' as http;
 import 'package:suppchild_ver_1/main.dart';
@@ -82,48 +83,43 @@ class _HomeScreenState extends State<HomeScreen> {
 //Mengambil data anak dari db
   void getDataTabel() async {
     final response =
-        await http.get("http://suppchild.xyz/API/getTabelAnak.php");
+        await http.get("http://suppchild.xyz/API/tabel/getPerdaerah_pusat.php");
     myMap = new Map<String, dynamic>.from(json.decode(response.body));
     setState(() {
-      gresikL = myMap["GresikL"];
-      gresikP = myMap["GresikP"];
+      gresik = myMap["gresik"];
 
-      bangkalanL = myMap["BangkalanL"];
-      bangkalanP = myMap["BangkalanP"];
+      bangkalan = myMap["bangkalan"];
 
-      mojokertoL = myMap["MojokertoL"];
-      mojokertoP = myMap["MojokertoP"];
+      mojokerto = myMap["mojokerto"];
 
-      surabayaL = myMap["SurabayaL"];
-      surabayaP = myMap["SurabayaP"];
+      surabaya = myMap["surabaya"];
 
-      sidoarjoL = myMap["SidoarjoL"];
-      sidoarjoP = myMap["SidoarjoP"];
+      sidoarjo = myMap["sidoarjo"];
 
-      lamonganL = myMap["LamonganL"];
-      lamonganP = myMap["LamonganP"];
+      lamongan = myMap["lamongan"];
     });
+    print(myMap['gresik']);
   }
 
   Map<String, dynamic> mapTotal;
 //Mengambil data anak dari db
   void getTabelTotal() async {
     final response =
-        await http.get("http://suppchild.xyz/API/getTabelTotal.php");
+        await http.get("http://suppchild.xyz/API/tabel/getTotal_pusat.php");
     mapTotal = new Map<String, dynamic>.from(json.decode(response.body));
     setState(() {
-      count2018 = mapTotal["2018"];
-      count2019 = mapTotal["2019"];
-      count2020 = mapTotal["2020"];
-      count2021 = mapTotal["2021"];
+      count2018 = mapTotal["2018"].toDouble();
+      count2019 = mapTotal["2019"].toDouble();
+      count2020 = mapTotal["2020"].toDouble();
+      count2021 = mapTotal["2021"].toDouble();
     });
   }
 
   @override
   void initState() {
     super.initState();
-    // getTabelTotal();
-    // getDataTabel();
+    getTabelTotal();
+    getDataTabel();
   }
 
   @override
@@ -164,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: LineChartSample1(),
+                    child: TotalChartPusat(),
                   )),
             ],
           ),
@@ -183,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: PieChartSample2()),
+                    child: PieChartPusat()),
               ),
             ],
           ),
